@@ -4,6 +4,7 @@ description = "FB回復裡發圖片教學文"
 date = 2013-12-07T19:04:00.003Z
 updated = 2013-12-07T19:04:00.003Z
 aliases = [ ]
+draft = true
 
 [taxonomies]
 tags = [ ]
