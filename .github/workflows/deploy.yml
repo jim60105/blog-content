@@ -15,6 +15,9 @@ jobs:
           ref: master
           submodules: true
 
+      - name: Checkout `content` submodule to master
+        run: git -C content checkout origin/master
+
       - name: Install asdf & tools
         uses: asdf-vm/actions/install@v4
         with:
