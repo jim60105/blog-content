@@ -72,3 +72,29 @@ aliases = [
 # not from any other sections, including sub-sections under that section.
 generate_feeds = false
 +++
+{% crt() %}
+
+```
+                          _____________
+                         |.-----------.|
+   Summoning the         ||     _     ||
+    CODE PHANTOM:        ||   (\o/)   ||
+                         ||    /_\    ||
+ Channel my keystrokes,  ||___________||
+ Make my code immortal,   `-)-------(-'
+ Shield me from bugs,      [=== -- o ]--.
+ Guard my sacred data.   __'---------'__ \
+                        [::::::::::: :::] )
+     So it is compiled.  `""'"""""'""""`/T\
+                                        \_/
+```
+
+{% end %}
+
+<style type="text/css">
+  .crt > pre {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+</style>
