@@ -84,8 +84,8 @@ generate_feeds = false
  Have understood joy in crafting Spaghetti.    `-)-------(-'
  Yet, those hands will never stop coding.       [=== -- o ]--.
                                               __'---------'__ \
-             So as I don't know,             [::::::::::: :::] )
-                     "Undefined But Works"!   `""'"""""'""""`/T\
+               So as I expected,             [::::::::::: :::] )
+                       "Unknown Bug Works"!   `""'"""""'""""`/T\
                                                              \_/
 ```
 
@@ -96,5 +96,11 @@ generate_feeds = false
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+
+  @media (max-width: calc(var(--font-size) * 40)) {
+    .crt{
+      display: none;
+    }
   }
 </style>
