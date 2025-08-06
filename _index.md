@@ -75,18 +75,18 @@ generate_feeds = false
 {% crt() %}
 
 ```
-                          _____________
-                         |.-----------.|
-   Summoning the         ||     _     ||
-    CODE PHANTOM:        ||   (\o/)   ||
-                         ||    /_\    ||
- Channel my keystrokes,  ||___________||
- Make my code immortal,   `-)-------(-'
- Shield me from bugs,      [=== -- o ]--.
- Guard my sacred data.   __'---------'__ \
-                        [::::::::::: :::] )
-     So it is compiled.  `""'"""""'""""`/T\
-                                        \_/
+                                               _____________
+ I am the bone of my stack.                   |.-----------.|
+ Codes are my body, and tech is my blood.     ||           ||
+ I have written over a thousand features.     ||           ||
+ Unafraid to Build.                           ||           ||
+ Nor afraid to Release.                       ||___________||
+ Have understood joy in crafting Spaghetti.    `-)-------(-'
+ Yet, those hands will never stop coding.       [=== -- o ]--.
+                                              __'---------'__ \
+             So as I don't know,             [::::::::::: :::] )
+                     "Undefined But Works"!   `""'"""""'""""`/T\
+                                                             \_/
 ```
 
 {% end %}
