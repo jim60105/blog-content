@@ -12,11 +12,15 @@ licenses = [ "GFDL 1.3" ]
 [extra]
 withAI = "使用 GitHub Copilot 搭配 Claude Sonnet 4 寫作"
 card = "preview.png"
+iscn = "iscn://likecoin-chain/f7u28sHqkwKf3SxY-5Nszts-TFy2dtUjrRqr0hreryA/1"
 
   [extra.preview]
   withAI = true
   url = "https://chatgpt.com/share/68c6faf4-d018-8005-8915-6b2d01ac413a"
   description = "Made with ChatGPT GPT5"
+
+  [extra.comments]
+  id = "115204015483763994"
 +++
 
 我日常使用自由大新倉頡碼表，搭配 RIME 中州韻輸入法。
