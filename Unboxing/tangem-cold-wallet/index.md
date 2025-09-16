@@ -11,6 +11,7 @@ licenses = [ "All Rights Reserved" ]
 [extra]
 card = "IMG_20250206_222649.jpg"
 iscn = "iscn://likecoin-chain/CimnIWTuV4YB9Us_J1Tzzsv9CzvTUvG_5Z4VUP_W9bE/1"
+hot = true
 
   [extra.comments]
   id = "114043362690361731"
