@@ -7,7 +7,7 @@ draft = true
 aliases = [ "null" ]
 
 [taxonomies]
-tags = [ "System Admin" ]
+tags = [ "System Admin", "Windows" ]
 licenses = [ "GFDL 1.3" ]
 
 [extra]

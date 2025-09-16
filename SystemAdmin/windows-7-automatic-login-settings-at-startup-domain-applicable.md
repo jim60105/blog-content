@@ -7,7 +7,7 @@ draft = false
 aliases = [ "/2017/10/windows-7.html" ]
 
 [taxonomies]
-tags = [ "System Admin" ]
+tags = [ "System Admin", "Windows" ]
 licenses = [ "GFDL 1.3" ]
 +++
 Win+R: Regedit  
