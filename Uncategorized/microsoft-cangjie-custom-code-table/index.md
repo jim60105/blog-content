@@ -2,11 +2,11 @@
 title = "微軟倉頡輸入法自訂碼表教學"
 description = "在無法安裝第三方輸入法的企業環境中，教你如何將微軟內建倉頡替換為自訂碼表，從碼表格式、轉換工具到系統檔案替換與設定調整的完整步驟。"
 date = "2025-09-14T15:23:19.922Z"
-updated = "2025-09-14T17:26:30.282Z"
+updated = "2025-09-16T12:17:41.220Z"
 aliases = [ ]
 
 [taxonomies]
-tags = [ ]
+tags = [ "Windows" ]
 licenses = [ "GFDL 1.3" ]
 
 [extra]
@@ -23,11 +23,11 @@ iscn = "iscn://likecoin-chain/f7u28sHqkwKf3SxY-5Nszts-TFy2dtUjrRqr0hreryA/1"
   id = "115204015483763994"
 +++
 
-我日常使用自由大新倉頡碼表，搭配 RIME 中州韻輸入法。
+我日常使用的是[自由大新倉頡碼表](https://github.com/jim60105/Newcj_rime)，搭配 [RIME 中州韻輸入法](https://rime.im/)，是較小眾的輸入法。
 
 八月初換新工作，來到一間大公司，嚴格的資安規範禁止在公務筆電中自行安裝軟體。不誇張，這可能是新工作中最痛苦的部份 —— 突然被逼著回頭面對垃圾微軟內建輸入法，那種挫折感真的難以言喻，我打不出中文字！
 
-不過山不轉路轉，路不轉人轉，既然不能安裝軟體，那就想辦法*調整*內建工具吧！經過一番研究，真的讓我找到了將內建倉頡輸入法替換碼表的方法。現在就讓我來分享這個解決方案，讓遇到同樣困擾的讀者也能繼續使用熟悉的輸入碼表。
+不過山不轉路轉，既然不能安裝軟體，那就想辦法*調整*內建工具吧！經過一番研究，真的讓我找到了將內建倉頡輸入法替換碼表的方法。現在就讓我來分享這個解決方案，讓遇到同樣困擾的讀者也能繼續使用熟悉的輸入碼表。
 
 <!-- more -->
 
@@ -48,7 +48,7 @@ iscn = "iscn://likecoin-chain/f7u28sHqkwKf3SxY-5Nszts-TFy2dtUjrRqr0hreryA/1"
 - **編碼格式**：UTF-8 無 BOM 表頭
 - **檔案結構**：一行一個字，左邊是倉頡編碼、右邊是中文字
 - **分隔符號**：使用製表符 <kbd>tab</kbd> 或半型空格 <kbd> </kbd> 分開
-- **內容限制**：中文字不能是詞組（一次只能出一個字）
+- **內容限制**：中文字不能是詞組（意即一次只能出一個字）
 - **編碼限制**：倉頡編碼僅能包含 `a-z`，長度六碼以下
 
 如果不確定格式是否正確，請參考這份範本碼表：[MicrosoftCangjieTool/cj5_sample.txt](https://github.com/Arthurmcarthur/MicrosoftCangjieTool/blob/master/cj5_sample.txt)
@@ -131,13 +131,13 @@ iscn = "iscn://likecoin-chain/f7u28sHqkwKf3SxY-5Nszts-TFy2dtUjrRqr0hreryA/1"
 如果你不想自己製作碼表，這裡提供三個社群維護的優質碼表選擇。這些專案的 `MSCJData` 資料夾中都有已經轉換好的 lex 格式檔案，可以直接下載使用：
 
 1. **倉頡三代** - [Arthurmcarthur/Cangjie3-Plus](https://github.com/Arthurmcarthur/Cangjie3-Plus)  
-   倉頡三代補完計畫實作
+   倉頡三代補完計畫
 
 2. **倉頡五代** - [Jackchows/Cangjie5](https://github.com/Jackchows/Cangjie5)  
-   倉頡五代補完計畫實作
+   倉頡五代補完計畫
 
 3. **自由大新倉頡** - [jim60105/Newcj_rime](https://github.com/jim60105/Newcj_rime/blob/master/ChtCangjieExt.lex)  
-   將自由大新倉頡轉換為微軟倉頡可讀格式:
+   我自己調整的自由大新倉頡，轉換為微軟倉頡可讀格式時有做一些修改：
 
    - 由於微軟倉頡只支援 a-z
      - 將候選字用的 `;` 轉換為 `x`(難)
@@ -148,9 +148,9 @@ iscn = "iscn://likecoin-chain/f7u28sHqkwKf3SxY-5Nszts-TFy2dtUjrRqr0hreryA/1"
 
 ## 總結
 
-透過這個方法，即使在嚴格的企業環境中也能繼續使用特製的倉頡輸入碼表。雖然步驟看起來複雜，但實際操作並不困難，而且一次設定就能長期使用。
+透過這個方法，即使在嚴格的企業環境中也能繼續使用特製的倉頡輸入碼表。雖然步驟看起來有點複雜，但實際操作並不困難，而且一次設定就能長期使用。
 
-對於同樣面臨限制安裝輸入法軟體困擾的讀者，希望這篇教學能夠幫助大家找回熟悉的打字手感，不要被微軟新倉頡給綁架！😡
+對於同樣面臨限制安裝輸入法軟體困擾的讀者，希望這篇教學能夠幫助大家找回熟悉的打字手感，不再被微軟垃圾輸入法給綁架！😡
 
 ---
 
