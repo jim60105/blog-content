@@ -1,0 +1,91 @@
+<svg width="900" height="300"
+    xmlns="http://www.w3.org/2000/svg" font-family="Arial, sans-serif">
+    <!-- Background -->
+    <rect x="0" y="0" width="100%" height="100%" fill="white"/>
+
+    <!-- SVG 定義區: 箭頭樣式 -->
+    <defs>
+        <marker id="arrowhead-green" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="#2e7d32" />
+        </marker>
+        <marker id="arrowhead-orange" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="#ef6c00" />
+        </marker>
+        <marker id="arrowhead-blue" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="#0277bd" />
+        </marker>
+    </defs>
+
+    <!-- 節點: B 電腦 (第三層) -->
+    <g transform="translate(30, 100)">
+        <rect x="0" y="0" width="200" height="100" rx="15" ry="15" fill="#e1f5fe" stroke="#0277bd" stroke-width="3"/>
+        <text x="100" y="35" font-size="15" text-anchor="middle" fill="#333">
+            <tspan>🖥️ B 電腦</tspan>
+        </text>
+        <text x="100" y="60" font-size="14" text-anchor="middle" fill="#555">
+            <tspan>（內網中介機）</tspan>
+            <tspan x="100" dy="1.3em" font-size="12">檢視、驗證變更</tspan>
+        </text>
+    </g>
+
+    <!-- 節點: USB (第二層) -->
+    <g transform="translate(310, 100)">
+        <rect x="0" y="0" width="240" height="100" rx="15" ry="15" fill="#fff3e0" stroke="#ef6c00" stroke-width="3"/>
+        <text x="120" y="35" font-size="15" text-anchor="middle" fill="#333">
+            <tspan>💾 USB 隨身碟</tspan>
+        </text>
+        <text x="120" y="60" font-size="14" text-anchor="middle" fill="#555">
+            <tspan>（裸儲存庫/Bare Repo）</tspan>
+            <tspan x="120" dy="1.3em" font-size="12">物理隔離橋樑</tspan>
+        </text>
+    </g>
+
+    <!-- 節點: Git Remote (第四層) -->
+    <g transform="translate(630, 100)">
+        <rect x="0" y="0" width="200" height="100" rx="15" ry="15" fill="#e8f5e8" stroke="#2e7d32" stroke-width="3"/>
+        <text x="100" y="35" font-size="15" text-anchor="middle" fill="#333">
+            <tspan>🌐 Git Remote</tspan>
+        </text>
+        <text x="100" y="60" font-size="14" text-anchor="middle" fill="#555">
+            <tspan>（內網遠端儲存庫）</tspan>
+            <tspan x="100" dy="1.3em" font-size="12">團隊協作中心</tspan>
+        </text>
+    </g>
+
+    <!-- Physical Connection -->
+    <g>
+        <line x1="230" y1="150" x2="310" y2="150" stroke="#555" stroke-width="2" stroke-dasharray="5,5"/>
+        <text x="270" y="175" font-size="13" text-anchor="middle" fill="#555">📌 物理連接</text>
+    </g>
+
+    <!-- 箭頭 1: git clone mirror (虛線，首次設定) -->
+    <g>
+        <path d="M 630,125 C 610,65 570,65 550,125" stroke="#2e7d32" stroke-width="1.5" stroke-dasharray="4,4" fill="none" marker-end="url(#arrowhead-green)"/>
+        <text x="590" y="55" font-size="13" text-anchor="middle" fill="#2e7d32" style="paint-order: stroke; stroke: white; stroke-width: 3px;">
+            <tspan>git clone --mirror</tspan>
+            <tspan x="590" dy="1.2em" font-size="11">（首次設定）</tspan>
+        </text>
+    </g>
+
+    <!-- 箭頭 2: git pull (日常更新) -->
+    <g>
+        <path d="M 630,140 C 600,95 580,95 550,140" stroke="#2e7d32" stroke-width="2" fill="none" marker-end="url(#arrowhead-green)"/>
+        <text x="590" y="95" font-size="13" text-anchor="middle" fill="#2e7d32" style="paint-order: stroke; stroke: white; stroke-width: 3px;">1️⃣ git pull</text>
+    </g>
+
+    <!-- 箭頭 3: git fetch usb -->
+    <g>
+        <path d="M 310,140 C 280,95 260,95 230,140" stroke="#0277bd" stroke-width="2" fill="none" marker-end="url(#arrowhead-blue)"/>
+        <text x="270" y="95" font-size="13" text-anchor="middle" fill="#0277bd" style="paint-order: stroke; stroke: white; stroke-width: 3px;">2️⃣ git fetch usb</text>
+    </g>
+
+    <!-- 箭頭 4: git push origin (從 B 電腦到 Git Remote) -->
+    <g>
+        <path d="M 230,165 C 330,235 530,235 630,165" stroke="#ef6c00" stroke-width="2.5" fill="none" marker-end="url(#arrowhead-orange)"/>
+        <text x="430" y="245" font-size="13" text-anchor="middle" fill="#ef6c00" style="paint-order: stroke; stroke: white; stroke-width: 3px;">
+            <tspan>3️⃣ git push origin</tspan>
+            <tspan x="430" dy="1.2em" font-size="11">（推送到遠端）</tspan>
+        </text>
+    </g>
+</svg>
+
