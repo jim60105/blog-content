@@ -2,7 +2,7 @@
 title = "企業級 Git 裸儲存庫實戰：氣隙環境的四層架構開發流程"
 description = "深入探討企業氣隙環境下，如何使用 Git 裸儲存庫與 USB 隨身碟建立安全的四層架構。外網開發機透過 USB 與內網中介機同步，最終推送到內網 Git 伺服器。包含完整 PowerShell 自動化腳本與實戰經驗。"
 date = "2025-11-07T06:09:59.000Z"
-updated = "2025-11-10T09:12:58.828Z"
+updated = "2025-11-10T12:28:47.456Z"
 draft = false
 
 [extra]
@@ -49,7 +49,7 @@ licenses = [ "GFDL 1.3" ]
 
 ## 架構設計與資料流向
 
-讓我們先理解整個系統的架構。在這個四層設計中，每一層都扮演著特定的角色：
+讓我們先理解整個系統的架構。
 
 <figure>
 {{ image(url="external-network-flow.svg", alt="外網環境：開發機與 USB 同步流程圖", no_hover=true) }}
@@ -63,7 +63,7 @@ licenses = [ "GFDL 1.3" ]
 
 ### 四層架構說明
 
-這個工作流程包含四個獨立的層級，每一層都有其特定的角色和安全考量：
+這個工作流程包含四個獨立的層級：
 
 1. **外網開發機（A 電腦）**：這是主要的開發環境，包含完整的 Git 工作目錄。開發者在這裡編寫程式碼、提交變更、建立分支。由於需要安裝各種開發工具，這台機器被視為相對危險，嚴格禁止連接內網。
 
@@ -159,7 +159,7 @@ Git 的分散式架構中，裸儲存庫扮演著「中央集散地」的角色�
 
 這是整個流程的起點。我們需要在有內網權限的機器上，同時建立本地完整儲存庫和 USB 裸儲存庫。
 
-**1.1 準備 PowerShell 環境**
+#### 1.1 準備 PowerShell 環境
 
 在 Windows 企業環境中，PowerShell 的執行政策可能會阻止腳本執行。首先需要調整執行政策：
 
@@ -171,7 +171,7 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 
 `RemoteSigned` 政策允許執行本地建立的腳本，但要求從網路下載的腳本必須經過數位簽章。這在企業環境中是常見且合理的設定。
 
-**1.2 建立本地完整儲存庫**
+#### 1.2 建立本地完整儲存庫
 
 ```powershell
 # 假設你的工作目錄在 C:\Development
@@ -184,7 +184,7 @@ git clone https://git.internal.company.com/team/project.git
 
 這個本地儲存庫將成為你的「檢查站」。所有從外網開發機來的變更，都會先在這裡進行檢視和驗證。
 
-**1.3 建立 USB 裸儲存庫**
+#### 1.3 建立 USB 裸儲存庫
 
 將 USB 隨身碟連接到內網中介機。假設磁碟機代號為 `D:`。
 
@@ -211,7 +211,7 @@ git clone --mirror https://git.internal.company.com/team/project.git
 在這個場景中使用 `--mirror` 的好處是，它能確保 USB 上的儲存庫是內網遠端的完整鏡像。雖然在本文的流程中我們不會直接從 USB 推送到內網（而是透過中介層），但保持完整的鏡像狀態能讓同步腳本的邏輯更簡單。
 {% end %}
 
-**1.4 設定雙向遠端連結**
+#### 1.4 設定雙向遠端連結
 
 現在我們要讓本地完整儲存庫能同時與 USB 和內網伺服器溝通：
 
@@ -244,7 +244,7 @@ usb     D:\project.git (push)
 
 將 USB 隨身碟從內網中介機拔除，連接到外網開發機。
 
-**2.1 設定檔案協定權限**
+#### 2.1 設定檔案協定權限
 
 Git 預設會限制透過檔案協定（file protocol）存取儲存庫，這是基於安全考量。在受控的企業環境中，我們需要明確允許這個行為：
 
@@ -255,7 +255,7 @@ git config --global protocol.file.allow always
 
 這個設定只需要執行一次，會永久儲存在全域 Git 設定中。
 
-**2.2 從 USB 複製儲存庫**
+#### 2.2 從 USB 複製儲存庫
 
 ```powershell
 # 假設 USB 在外網開發機上的磁碟機代號為 E:
@@ -268,7 +268,7 @@ git clone E:\project.git
 
 Git 會自動將 USB 設定為名為 `origin` 的遠端來源。這樣的設定很直覺：對外網開發機來說，USB 就是它的「遠端儲存庫」。
 
-**2.3 開始開發工作**
+#### 2.3 開始開發工作
 
 現在你可以在外網環境中正常使用 Git 的所有功能：
 
@@ -297,7 +297,7 @@ git commit -m "fix: handle edge case in awesome feature"
 另外要特別注意：絕對不要在外網環境將程式碼推送到外部的 Git 平台（如 GitHub.com、GitLab.com）。程式碼只能存在於：外網開發機、USB、內網中介機、內網 Git 伺服器這四個地方。
 {% end %}
 
-**2.4 推送變更到 USB**
+#### 2.4 推送變更到 USB
 
 完成一個階段的開發後，將變更推送到 USB：
 
@@ -315,7 +315,7 @@ git push origin HEAD
 
 將 USB 隨身碟帶回內網中介機。這是整個流程中最關鍵的環節，我們要透過本地完整儲存庫，安全地將變更推送到內網。
 
-**3.1 從 USB 獲取變更**
+#### 3.1 從 USB 獲取變更
 
 ```powershell
 # 進入內網中介機的本地完整儲存庫
@@ -330,7 +330,7 @@ git branch -r | Select-String "usb/"
 
 這時候你會看到從 USB 獲取到的所有分支，例如 `usb/feature/new-awesome-feature`。
 
-**3.2 檢視並建立本地分支**
+#### 3.2 檢視並建立本地分支
 
 在推送到內網之前，先檢視變更內容：
 
@@ -353,7 +353,7 @@ git checkout -b feature/new-awesome-feature usb/feature/new-awesome-feature
 - 沒有意外的檔案變更
 - 沒有違反企業資安政策的內容
 
-**3.3 推送到內網 Git 伺服器**
+#### 3.3 推送到內網 Git 伺服器
 
 確認無誤後，推送到內網：
 
@@ -573,18 +573,14 @@ finally {
 
 </details>
 
-**腳本使用說明：**
-
-這個腳本設計來在內網中介機上使用，用於將內網 Git 伺服器的最新狀態同步到 USB。
-
-**基本使用：**
+#### 基本使用
 
 ```powershell
 # 同步單一儲存庫
 .\Sync-From-Remote.ps1 'D:\your-project.git'
 ```
 
-**腳本特色：**
+#### 腳本特色
 
 1. **自動偵測儲存庫類型**：腳本會檢查 `refs/remotes` 目錄是否存在，自動判斷是鏡像儲存庫還是標準裸儲存庫，並採用對應的同步策略。
 
@@ -723,9 +719,7 @@ Write-Host "所有儲存庫已成功同步！`n" -ForegroundColor Green
 
 </details>
 
-**腳本使用說明：**
-
-**基本使用：**
+#### 基本使用
 
 ```powershell
 # 在當前目錄下尋找並同步所有 .git 儲存庫
@@ -735,7 +729,7 @@ Write-Host "所有儲存庫已成功同步！`n" -ForegroundColor Green
 .\Sync-All-From-Remote.ps1 'D:\'
 ```
 
-**腳本特色：**
+#### 腳本特色
 
 1. **自動掃描**：會自動找出指定目錄下所有以 `.git` 結尾的資料夾，不需要手動指定每個儲存庫。
 
