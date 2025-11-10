@@ -2,11 +2,21 @@
 title = "企業級 Git 裸儲存庫實戰：氣隙環境的四層架構開發流程"
 description = "深入探討企業氣隙環境下，如何使用 Git 裸儲存庫與 USB 隨身碟建立安全的四層架構。外網開發機透過 USB 與內網中介機同步，最終推送到內網 Git 伺服器。包含完整 PowerShell 自動化腳本與實戰經驗。"
 date = "2025-11-07T06:09:59.000Z"
-updated = "2025-11-10T07:05:27.963Z"
+updated = "2025-11-10T09:12:58.828Z"
 draft = false
 
 [extra]
 withAI = "使用 GitHub Copilot 搭配 Claude Sonnet 4.5 寫作"
+card = "preview.png"
+featured = true
+
+  [extra.preview]
+  url = "https://gemini.google.com/share/f70d088f8fc3"
+  withAI = true
+  description = "Made with Gemini 2.5 Flash Image (Nano Banana)"
+
+  [extra.comments]
+  id = "115524629015951412"
 
 [taxonomies]
 tags = [ "DevOps", "Git" ]
