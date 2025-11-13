@@ -71,6 +71,7 @@ graph LR
     B --> C[test<br/>執行測試]
     C --> D[report<br/>提取測試結果]
     B --> E[final<br/>生產環境映像檔]
+    A --> E
 </pre>
 
 **各階段職責**：
@@ -79,7 +80,7 @@ graph LR
 - **build**：安裝專案相依套件或編譯，準備應用程式
 - **test**：在 build 基礎上安裝開發相依套件並執行測試
 - **report**：從 test 階段複製測試結果到空映像檔，供 Pipeline 提取
-- **final**：從 base 重新開始，僅包含生產環境需要的檔案
+- **final**：從 base 重新開始，再從 build 提取執行檔產出，僅包含生產環境需要的檔案
 
 {% chat(speaker="jim") %}
 重點來了！test 和 final 雖然都從前面的階段延伸出來，但彼此完全獨立。test 階段會有完整的測試工具和結果檔案，final 階段則乾乾淨淨，只留下執行程式需要的東西。
