@@ -2,8 +2,7 @@
 title = "擺脫 CI/CD 廠商鎖定 (Vendor Lock-in) —— 以 Containerfile 實現跨平台流程"
 description = "用 Dockerfile 多階段建構封裝測試邏輯，讓 Azure DevOps、GitLab CI、GitHub Actions 共用同一套流程。詳解 test、report、final 三階段設計，實現本地與雲端環境完全一致，解決平台遷移痛點。"
 date = "2025-11-12T08:52:20.157Z"
-updated = "2025-11-12T10:07:47.520Z"
-draft = true
+updated = "2025-11-13T14:25:33.139Z"
 
 [taxonomies]
 tags = [ "Container", "DevOps", "Docker" ]
@@ -12,6 +11,10 @@ licenses = [ "GFDL 1.3" ]
 [extra]
 featured = true
 withAI = "使用 GitHub Copilot 搭配 Claude Sonnet 4.5 寫作"
+banner = "banner.png"
+
+  [extra.preview]
+  withAI = true
 +++
 
 在軟體開發的日常中，團隊常常會遇到這樣的狀況：專案 A 用 Azure DevOps 建好了 CI/CD Pipeline，到了專案 B 客戶指定要用 GitLab CI，結果發現測試腳本、環境設定、報告產生邏輯幾乎要全部重寫。每個平台的 YAML 語法不同，維護多套類似功能的腳本既費時又容易出錯。更棘手的是，本機測試通過的程式碼，推上 Pipeline 卻可能因為環境差異而失敗，除錯時很難精確重現雲端的建構環境。
