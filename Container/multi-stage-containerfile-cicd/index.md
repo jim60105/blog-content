@@ -15,6 +15,7 @@ banner = "banner.png"
 
   [extra.preview]
   withAI = true
+  description = "Made with Gemini 2.5 Flash Image (Nano Banana) and rework with Flux.1-dev<br>🤖 AI 參考文章簡介做的圖，我也不曉得它想表達什麼 🙃"
 +++
 
 在軟體開發的日常中，團隊常常會遇到這樣的狀況：專案 A 用 Azure DevOps 建好了 CI/CD Pipeline，到了專案 B 客戶指定要用 GitLab CI，結果發現測試腳本、環境設定、報告產生邏輯幾乎要全部重寫。每個平台的 YAML 語法不同，維護多套類似功能的腳本既費時又容易出錯。更棘手的是，本機測試通過的程式碼，推上 Pipeline 卻可能因為環境差異而失敗，除錯時很難精確重現雲端的建構環境。
