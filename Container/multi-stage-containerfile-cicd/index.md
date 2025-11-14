@@ -11,7 +11,7 @@ licenses = [ "GFDL 1.3" ]
 [extra]
 featured = true
 withAI = "使用 GitHub Copilot 搭配 Claude Sonnet 4.5 寫作"
-banner = "banner.png"
+card = "banner.png"
 
   [extra.preview]
   withAI = true
