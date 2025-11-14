@@ -299,7 +299,7 @@ COPY --from=test /app/coverage.xml /
 #### 步驟 1：建構並執行測試階段
 
 ```bash
-podman build --target test --tag my-app:test .
+podman build --target test --tag my-app:test --jobs 0 .
 ```
 
 這個指令會：
@@ -315,7 +315,7 @@ podman build --target test --tag my-app:test .
 現代容器建構工具都支援 `--output` flag，可以直接提取測試結果：
 
 ```bash
-podman build --target report --output type=local,dest=. .
+podman build --target report --output type=local,dest=. --jobs 0 .
 ```
 
 這個指令會直接將 report stage 的所有檔案提取到本機目錄。因為 report stage 從 `scratch` 開始，只包含測試結果檔案，所以輸出內容非常乾淨。
@@ -328,7 +328,7 @@ podman build --target report --output type=local,dest=. .
 #### 步驟 3：建構生產環境映像檔
 
 ```bash
-podman build --target final --tag my-app:latest .
+podman build --target final --tag my-app:latest --jobs 0 .
 ```
 
 final stage 建構出的映像檔不包含任何測試工具或測試結果，只有執行應用程式所需的最小化內容。這個映像檔可以直接部署到生產環境。
@@ -369,13 +369,13 @@ buildah bud --layers --target report --tag my-app:report .
 
 ```bash
 # 使用 Podman
-podman build --target report --output type=local,dest=. .
+podman build --target report --output type=local,dest=. --jobs 0 .
 
 # 使用 Docker buildx
 docker build --target report --output type=local,dest=. .
 
 # 使用 Buildah
-buildah bud --target report --output type=local,dest=. .
+buildah bud --target report --output type=local,dest=. --jobs 0 .
 ```
 
 `--output` 功能會將指定階段的所有檔案直接輸出到主機檔案系統。因為我們的 report stage 從 `scratch` 開始，只包含從 test stage 複製的測試結果檔案，所以輸出的內容非常乾淨，不會有任何多餘檔案。這也是為什麼要特別設計一個獨立的 report stage 的原因，它讓我們能夠精確控制要提取哪些檔案。
@@ -386,7 +386,7 @@ buildah bud --target report --output type=local,dest=. .
 
 ```bash
 # 建構 report stage
-podman build --target report --tag my-app:report .
+podman build --target report --tag my-app:report --jobs 0 .
 
 # 建立容器實例（不啟動）
 CONTAINER_ID=$(podman create my-app:report)
@@ -407,7 +407,7 @@ Buildah 提供了 `unshare` 功能，可以直接掛載容器檔案系統：
 
 ```bash
 # 建構 report stage
-buildah bud --layers --target report --tag my-app:report .
+buildah bud --layers --target report --tag my-app:report --jobs 0 .
 
 # 建立容器實例
 CONTAINER_ID=$(buildah from my-app:report)
@@ -506,10 +506,10 @@ steps:
 steps:
   - bash: |
       # 建構並執行測試
-      podman build --layers --target test --tag my-app:test .
+      podman build --layers --target test --tag my-app:test --jobs 0 .
       
       # 提取測試結果
-      podman build --layers --target report --output type=local,dest=. .
+      podman build --layers --target report --output type=local,dest=. --jobs 0 .
     displayName: 'Run tests in container'
   
   - task: PublishTestResults@2
@@ -538,11 +538,11 @@ steps:
   - name: Run tests in container
     run: |
       # 建構並執行測試
-      podman build --layers --target test --tag my-app:test .
+      podman build --layers --target test --tag my-app:test --jobs 0 .
       
       # 提取測試結果
-      podman build --layers --target report --output type=local,dest=. .
-  
+      podman build --layers --target report --output type=local,dest=. --jobs 0 .
+
   - name: Publish test results
     uses: EnricoMi/publish-unit-test-result-action@v2
     with:
