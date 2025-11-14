@@ -2,7 +2,7 @@
 title = "擺脫 CI/CD 廠商鎖定 (Vendor Lock-in) —— 以 Containerfile 實現跨平台流程"
 description = "用 Dockerfile 多階段建構封裝測試邏輯，讓 Azure DevOps、GitLab CI、GitHub Actions 共用同一套流程。詳解 test、report、final 三階段設計，實現本地與雲端環境完全一致，解決平台遷移痛點。"
 date = "2025-11-12T08:52:20.157Z"
-updated = "2025-11-13T14:25:33.139Z"
+updated = "2025-11-14T02:55:19.075Z"
 
 [taxonomies]
 tags = [ "Container", "DevOps", "Docker" ]
@@ -380,6 +380,10 @@ buildah bud --target report --output type=local,dest=. --jobs 0 .
 
 `--output` 功能會將指定階段的所有檔案直接輸出到主機檔案系統。因為我們的 report stage 從 `scratch` 開始，只包含從 test stage 複製的測試結果檔案，所以輸出的內容非常乾淨，不會有任何多餘檔案。這也是為什麼要特別設計一個獨立的 report stage 的原因，它讓我們能夠精確控制要提取哪些檔案。
 
+> [!TIP]
+> `--jobs 0` 參數在 Podman 和 Buildah 中啟用多執行緒平行建構，加速建構過程。  
+> Docker buildx 預設已經支援平行建構，不需要額外參數。
+
 #### 方法 B：使用容器實例複製檔案
 
 透過建立容器實例，使用 `cp` 指令提取檔案：
@@ -421,7 +425,9 @@ buildah unshare --mount mnt=$CONTAINER_ID sh -c \
 buildah rm $CONTAINER_ID
 ```
 
-`buildah unshare` 在 rootless 模式下建立使用者命名空間，允許掛載容器檔案系統。這適用在需要更細緻控制的情況下。
+`buildah unshare` 在 rootless 模式下建立使用者命名空間，允許掛載容器檔案系統。
+
+`sh` 中可以做 `cp` 之外的事，以滿足更複雜的需求。
 
 ## 簡化 Pipeline 配置
 
