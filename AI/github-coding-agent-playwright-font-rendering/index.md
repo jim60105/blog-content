@@ -2,7 +2,6 @@
 title = "GitHub Coding Agent 搭配 Playwright 的截圖正確顯示網頁字型指南"
 description = "當 GitHub Coding Agent 使用 Playwright MCP 截圖時，中文字會變成方塊？這篇文章解析 Playwright 網路限制和防火牆設定的差異，提供兩種解決方案：修改 MCP 設定或預裝本地字型，讓你的 AI 代理正確渲染多語言文字。"
 date = "2025-12-03T08:18:08.711Z"
-draft = true
 updated = "2025-12-03T08:18:09.103Z"
 
 [taxonomies]
@@ -10,7 +9,12 @@ tags = [ "DevOps", "GitHub", "AI" ]
 licenses = [ "GFDL 1.3" ]
 
 [extra]
+banner = "cover.png"
 withAI = "使用 GitHub Copilot 搭配 Claude Opus 4.5 寫作"
+
+  [extra.preview]
+  withAI = true
+  url = "https://gemini.google.com/share/d08bf91bb1b5"
 +++
 
 最近我頻繁使用 GitHub Copilot Coding Agent 進行 Side project 開發工作。在處理前端專案時，我注意到 Playwright 截圖中的中文字全部變成方塊。直覺反應是網路被擋住了，於是我試著先關閉 Coding Agent 的防火牆設定，結果問題依舊存在。
