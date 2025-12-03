@@ -1,8 +1,8 @@
 +++
-title = "GitHub Coding Agent 搭配 Playwright 的截圖正確顯示網頁字型指南"
-description = "當 GitHub Coding Agent 使用 Playwright MCP 截圖時，中文字會變成方塊？這篇文章解析 Playwright 網路限制和防火牆設定的差異，提供兩種解決方案：修改 MCP 設定或預裝本地字型，讓你的 AI 代理正確渲染多語言文字。"
+title = "Coding Agent 中文字變方塊？Playwright MCP 字型渲染解決方案"
+description = "Playwright MCP 截圖中文字顯示為方塊亂碼？本文深入解析 GitHub Coding Agent 防火牆與 Playwright 網路限制的差異，提供 --allowed-hosts 設定與 action-install-google-fonts 兩種解法，徹底解決 AI 代理的多語言字型渲染問題。"
 date = "2025-12-03T08:18:08.711Z"
-updated = "2025-12-03T08:18:09.103Z"
+updated = "2025-12-03T10:28:22.069Z"
 
 [taxonomies]
 tags = [ "DevOps", "GitHub", "AI" ]
@@ -16,6 +16,9 @@ withAI = "使用 GitHub Copilot 搭配 Claude Opus 4.5 寫作"
   withAI = true
   url = "https://gemini.google.com/share/d08bf91bb1b5"
   description = "Gemini 3 Nano Banana Pro 一次就產出了這張圖!"
+
+  [extra.comments]
+  id = "115655159961134116"
 +++
 
 最近我頻繁使用 GitHub Copilot Coding Agent 進行 Side project 開發工作。在處理前端專案時，我注意到 Playwright 截圖中的中文字全部變成方塊。直覺反應是網路被擋住了，於是我試著先關閉 Coding Agent 的防火牆設定，結果問題依舊存在。
@@ -64,6 +67,10 @@ withAI = "使用 GitHub Copilot 搭配 Claude Opus 4.5 寫作"
 - **PR #3 的結果最具說明性**：即使防火牆設定為關閉（網路暢通），Playwright 的預設設定仍會阻擋外部資源存取。這證實了 Playwright 的網路限制是獨立運作的機制。
 
 - **PR #2 和 PR #4 則展示了兩種可行的解決路徑**：透過 `--allowed-hosts *` 參數開放 Playwright 的網路存取，或透過預先安裝本地字型來繞過網路需求。
+
+| 字體未載入（方塊字） | 字體成功載入 |
+|:---:|:---:|
+| {{ image(url="failed.png", alt="字體未載入的截圖，中文字顯示為方塊") }} | {{ image(url="successed.png", alt="字體成功載入的截圖，中文字正確顯示") }} |
 
 ## 解決方案一：修改 Playwright MCP Server 設定
 
