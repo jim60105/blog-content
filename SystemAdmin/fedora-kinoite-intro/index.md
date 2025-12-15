@@ -1,13 +1,21 @@
 +++
 title = "Fedora Kinoite 開發者快速上手指南"
-description = "從傳統 Linux 轉移到 Fedora Kinoite？本指南教你使用 Toolbx 建立獨立開發環境、透過 Flatpak 安裝桌面應用程式、用 rpm-ostree 管理系統套件。包含常見問題解答與快速對照表,讓你快速上手原子化系統。"
+description = "從傳統 Linux 轉移到 Fedora Kinoite？本指南教你使用 Toolbx 建立獨立開發環境、透過 Flatpak 安裝桌面應用程式、用 rpm-ostree 管理系統套件。包含常見問題解答與快速對照表，讓你快速上手原子化系統。"
 date = "2025-12-15T09:42:16.460Z"
-updated = "2025-12-15T09:42:16.795Z"
+updated = "2025-12-15T14:40:31.332Z"
 draft = false
 aliases = [ ]
 
 [extra]
 banner = "preview.png"
+
+  [extra.comments]
+  id = "115724135349399371"
+
+  [extra.preview]
+  withAI = true
+  url = "https://gemini.google.com/share/f8284c73367d"
+  description = "Made with Nano Banana Pro by Gemini 3"
 
 [taxonomies]
 tags = [ "Linux", "RHEL/Fedora", "System Admin" ]
@@ -16,16 +24,18 @@ licenses = [ "All Rights Reserved" ]
 {% alert(edit=true) %}
 這篇文章是我寫給同事的指南，放在公司電腦的桌面上，目的是讓下一位接手這台電腦的人能夠順利使用 Fedora Kinoite，而不是把它重灌成 Ubuntu 或 Windows 🙏
 
-在這裡也分享給大家參考。
+也在這裡分享給大家參考。
 {% end %}
 
 Hi, 我是 Jim。
 
 歡迎使用 Fedora Kinoite！這是一套基於 KDE Plasma 桌面的「原子化」(Atomic) 作業系統。如果你第一次使用它，這份指南會幫助你快速上手。
 
+為了不要讓它變成長長的沒人看的文件，本篇指南僅重點說明最實務面的使用方式和指令，只有淺淺的摸了一下表面而已。我希望你在上手之後能再多花點時間閱讀其它教學，更深入的了解它們的設計理念。
+
 ---
 
-## 為什麼不要把機器重灌成 Ubuntu 或 Windows？
+## 為什麼不要把它重灌成 Ubuntu 或 Windows？
 
 Fedora Kinoite 帶來幾個傳統系統做不到的好處：
 
@@ -38,6 +48,8 @@ Fedora Kinoite 帶來幾個傳統系統做不到的好處：
 {{ cg(body="由 Red Hat 贊助") }}：Fedora 是 RHEL 的上游，這裡學到的東西可以直接套用到企業環境。
 
 {{ cg(body="它是 Linux") }}：Linux 是自由的。我喜歡自由，我希望你也喜歡。😉
+
+<!-- more -->
 
 ---
 
