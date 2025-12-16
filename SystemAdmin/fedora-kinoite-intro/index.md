@@ -76,10 +76,9 @@ flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flat
 # 安裝應用程式
 flatpak install flathub org.mozilla.firefox
 flatpak install flathub com.spotify.Client
-flatpak install flathub com.visualstudio.code
 
 # 執行應用程式
-flatpak run com.visualstudio.code
+flatpak run org.mozilla.firefox
 
 # 更新所有 Flatpak 應用程式
 flatpak update
@@ -159,11 +158,11 @@ toolbox enter
 - **團隊協作**：整個團隊使用相同的開發環境，減少「在我電腦上可以跑」的問題
 - **快速復原**：環境壞了就刪掉重建，幾分鐘內完全復原
 
-我自己維護了一組 Toolbx Containerfiles，涵蓋常見的開發環境配置：
+我自己維護了一組 Toolbx Containerfiles，涵蓋我自己的日常使用需求：
 
 👉 **推薦使用我的 Toolbx**：<https://github.com/jim60105/toolbx>
 
-裡面包含了 .NET、Java、Node.js 等開發工具，以及 VSCode、JetBrains IDE 等完整配置。你可以直接使用預建的映像檔，或是參考 GitHub 上的 Containerfile 來撰寫自己的配置。
+你可以直接使用預建的映像檔，或是參考我的並撰寫你自己的配置。
 
 基本用法（以 base toolbox 為例）：
 
@@ -186,7 +185,7 @@ toolbox enter fedora-toolbox-43
 
 這是與傳統 dnf 最不同的地方。在 Kinoite 上，系統根目錄是唯讀的，你不能直接用 dnf 安裝套件。取而代之的是 rpm-ostree，它會將套件「疊加」(layer) 到系統映像上。
 
-**重要**：儘量少用這個功能，優先使用 Flatpak 和 Toolbx。
+**重要**：儘量少用這個方式安裝套件，優先使用 Flatpak 和 Toolbx。
 
 ```bash
 # 檢查系統狀態
@@ -210,7 +209,7 @@ rpm-ostree upgrade --check
 # 查看系統安裝的套件
 rpm-ostree status
 
-# 固定一個穩定的版本，以防它被洗掉
+# 固定某一個穩定的版本，以防它被洗掉
 ostree admin pin <序號>
 ```
 
@@ -233,13 +232,7 @@ rpm-ostree rollback
 
 ### VS Code 怎麼安裝？
 
-**強烈建議使用 Toolbx 而非 Flatpak**。原因是：
-
-開發工作需要大量依賴：編譯器、程式語言執行環境（Python、Node.js、Go 等）、除錯工具、版本控制、資料庫客戶端⋯⋯這些依賴：
-
-1. **需要高度客製化** - 每個專案可能需要不同版本的 Node.js 或 Python
-2. **需要記錄安裝過程** - 半年後你會忘記當初裝了什麼
-3. **Flatpak 的沙盒限制** - 會讓 VSCode 難以存取其它的工具
+**強烈建議使用 Toolbx 而非 Flatpak**。由於開發工作需要大量依賴編譯器、程式語言執行環境（Python、Node.js、Go 等）、除錯工具、版本控制、資料庫客戶端等依賴，**Flatpak 的沙盒限制** 會讓 VSCode 難以存取其它的工具。
 
 我的建議是：把 VSCode 裝在 Toolbx 容器內，並用 Containerfile 記錄整個環境。你可以直接使用我的配置：
 
@@ -262,11 +255,9 @@ toolbox enter vscode
 
 **重要設定**：VSCode 需要設定 OS keyring 來同步設定，請參考[官方文件](https://code.visualstudio.com/docs/editor/settings-sync#_recommended-configure-the-keyring-to-use-with-vs-code)配置 `gnome-libsecret`。
 
-這樣做的好處是，整個開發環境（包括 VSCode、擴充套件、程式語言）都被 Containerfile 版本控管，任何人都能一鍵重建相同環境。我的 Toolbx 映像檔已經預先建置並發布到 quay.io，你可以直接拉取使用，不需要自己編譯。
-
 ### Docker 怎麼用？
 
-Kinoite 預裝 Podman，它與 Docker 完全相容且不需要 daemon：
+Fedora Kinoite 預裝 Podman，它與 Docker 完全相容且不需要 daemon：
 
 ```bash
 podman pull nginx
@@ -296,10 +287,10 @@ rpm-ostree rebase fedora:fedora/43/x86_64/kinoite
 | 你想做的事 | 傳統 Linux | Fedora Kinoite |
 |-----------|-----------|----------------|
 | 安裝桌面應用程式 | apt/dnf install | flatpak install |
-| 安裝開發工具 | apt/dnf install | toolbox enter → dnf install |
+| 安裝開發工具 | apt/dnf install | toolbox enter → dnf install <br> 或推薦在 Toolbx Containerfile 內維護安裝步驟 |
 | 安裝驅動程式 | apt/dnf install | rpm-ostree install |
-| 更新系統 | apt/dnf upgrade | rpm-ostree upgrade |
-| 修復壞掉的系統 | 重灌 | rpm-ostree rollback |
+| 更新系統 | apt/dnf upgrade | rpm-ostree upgrade && flatpak update |
+| 回復壞掉的系統 | 重灌 | rpm-ostree rollback |
 
 ---
 
