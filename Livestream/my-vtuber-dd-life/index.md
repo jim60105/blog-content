@@ -9,7 +9,7 @@ draft = false
 aliases = [ "/2022/12/my-vtuber-dd-life.html" ]
 
 [taxonomies]
-tags = [ "Livestream", "Youtube", "yt-dlp" ]
+tags = [ "Livestream", "Youtube", "yt-dlp", "VTuber" ]
 licenses = [ "GFDL 1.3" ]
 
 [extra]
