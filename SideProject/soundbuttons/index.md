@@ -15,7 +15,8 @@ tags = [
   "Cloudflare",
   "JavaScript",
   "Livestream",
-  "Youtube"
+  "Youtube",
+  "VTuber"
 ]
 licenses = [ "GFDL 1.3" ]
 
