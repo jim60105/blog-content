@@ -2,12 +2,17 @@
 title = "Fedora Kinoite 開發者快速上手指南"
 description = "從傳統 Linux 轉移到 Fedora Kinoite？本指南教你使用 Toolbx 建立獨立開發環境、透過 Flatpak 安裝桌面應用程式、用 rpm-ostree 管理系統套件。包含常見問題解答與快速對照表，讓你快速上手原子化系統。"
 date = "2025-12-15T09:42:16.460Z"
-updated = "2025-12-15T14:40:31.332Z"
+updated = "2025-12-18T15:45:46.436Z"
 draft = false
 aliases = [ ]
 
+[taxonomies]
+tags = [ "Linux", "RHEL/Fedora", "System Admin" ]
+licenses = [ "All Rights Reserved" ]
+
 [extra]
 banner = "preview.png"
+withAI = "使用 GitHub Copilot 搭配 Claude Opus 4.5 寫作"
 
   [extra.comments]
   id = "115724135349399371"
@@ -16,10 +21,6 @@ banner = "preview.png"
   withAI = true
   url = "https://gemini.google.com/share/f8284c73367d"
   description = "Made with Nano Banana Pro by Gemini 3"
-
-[taxonomies]
-tags = [ "Linux", "RHEL/Fedora", "System Admin" ]
-licenses = [ "All Rights Reserved" ]
 +++
 {% alert(edit=true) %}
 這篇文章是我寫給同事的指南，放在公司電腦的桌面上，目的是讓下一位接手這台電腦的人能夠順利使用 Fedora Kinoite，而不是把它重灌成 Ubuntu 或 Windows 🙏
