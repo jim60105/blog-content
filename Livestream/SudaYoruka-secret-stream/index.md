@@ -11,6 +11,7 @@ licenses = [ "GFDL 1.3" ]
 
 [extra]
 banner = "preview.png"
+withAI = "使用 GitHub Copilot 搭配 Claude Opus 4.5 寫作"
 +++
 2025 年 12 月初，VTuber 須多夜花的[神秘倒數網站](https://countdown.sudayoruka.com) 悄悄上線，而她的 YouTube 頻道預定了 12 月 21 日的直播活動。這是須多夜花自 2024 年 10 月 31 日停止活動以來，超過一年的沉寂之後，首次出現的公開動靜。
 
