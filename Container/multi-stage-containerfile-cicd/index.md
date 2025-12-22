@@ -15,7 +15,7 @@ card = "banner.png"
 
   [extra.preview]
   withAI = true
-  description = "Made with Gemini 2.5 Flash Image (Nano Banana) and rework with Flux.1-dev<br>🤖 AI 參考文章簡介做的圖，我也不曉得它想表達什麼 🙃"
+  description = "Made with Gemini 2.5 Flash Image (Nano Banana) and rework with Flux.1-dev 🤖 AI 參考文章簡介做的圖，我也不曉得它想表達什麼 🙃"
 
   [extra.comments]
   id = "115545837892371362"
