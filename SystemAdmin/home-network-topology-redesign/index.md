@@ -39,8 +39,6 @@ card = "preview.jpg"
 
 之所以要一台內部交換器而不是把所有設備都接在 FG-60F，是因為我有一台 [SeaweedFS](https://github.com/seaweedfs/seaweedfs) 跑在 NAS 上，而另一台 K8s 設備會經常存取這個 S3 站台。如果所有流量都經過 FG-60F，NAS 和 K8s 之間的流量會經過防火牆，導致防火牆的負載增加。把 Mikrotik 放在內部交換器的位置可以讓 NAS 和 K8s 之間的流量直接在交換器內轉發，就不用經過防火牆了。
 
-我拿 FG-60F 來做為家用那是相當兇猛了 😆
-
 ### Mikrotik 的角色轉換
 
 在新架構中，Mikrotik hEX S 的設定大幅簡化。改為純 Bridge 模式，將 `ether1`（上行至 FortiGate）、`ether2~5` 全部橋接成 `Bridge-Lan`，並設定靜態 IP 方便管理和監控。所有 bridge port 都啟用 L2 HW Offloading 以提升效能。
@@ -234,6 +232,7 @@ FortiGate 使用 `Policy-Based Routing` 來決定流量走向（內部 IP → �
 
 ## 結語
 
-這次的網路調整花了我好幾天時間研究 FortiGate 的設定和功能。尤其是 `Policy-Based Routing` 和 `Virtual IP` 的部分，我原本不曉得是用這兩個功能來達成我的需求。
+這次的網路調整花了我好幾天時間研究 FortiGate 的設定和功能。尤其是 `Policy-Based Routing` 和 `Virtual IP` 的部分，我原本不曉得是用這兩個功能來達成我的需求。幸好 2025 年是 AI 的時代 —— 問 ChatGPT 搞定一切！
 
-幸好 2025 年是 AI 的時代 —— 問 ChatGPT 搞定一切！😆
+我現在都笑稱我家大概比一般中小企業的防護還要強！  
+拿 FG-60F 來做為家用是相當兇猛了 😀
