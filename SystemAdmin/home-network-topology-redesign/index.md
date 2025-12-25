@@ -43,7 +43,7 @@ card = "preview.jpg"
 
 ### Mikrotik 的角色轉換
 
-在新架構中，Mikrotik hEX S 的設定大幅簡化。改為純 Bridge 模式，將 `ether1`（上行至 FortiGate）、`ether2~5` 全部橋接成 `Bridge-Lan`，並設定靜態 IP 方便管理和監控。所有 bridge port 都啟用硬體 offload（`hw-offload=yes`），確保線速轉發。
+在新架構中，Mikrotik hEX S 的設定大幅簡化。改為純 Bridge 模式，將 `ether1`（上行至 FortiGate）、`ether2~5` 全部橋接成 `Bridge-Lan`，並設定靜態 IP 方便管理和監控。所有 bridge port 都啟用 L2 HW Offloading 以提升效能。
 
 Mikrotik RouterOS 的設定介面真的是非常複雜，當年花了我很多時間摸索。現在只用到最基本的橋接功能，設定起來倒是簡單不少。
 
