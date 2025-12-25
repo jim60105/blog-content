@@ -27,6 +27,7 @@ containerd
 cuda
 DALL
 datetime
+DDNS
 Deepl
 demuxer
 Diarization
@@ -48,6 +49,7 @@ googlevideo
 Gradio
 grayscale
 happydog
+Hinet
 HNSD
 HSTS
 Iansui
@@ -71,6 +73,7 @@ Livestream
 LZMA
 maki
 Matroska
+Mikrotik
 minio
 MITM
 MobaXterm
