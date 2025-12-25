@@ -11,6 +11,9 @@ licenses = [ "All Rights Reserved" ]
 [extra]
 withAI = "使用 GitHub Copilot 搭配 Claude Opus 4.5 整理筆記"
 card = "preview.jpg"
+
+  [extra.comments]
+  id = "115782224583996492"
 +++
 
 ## 背景
