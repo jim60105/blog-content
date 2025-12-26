@@ -1,6 +1,6 @@
 +++
-title = "用 Cloudflare DDNS 讓家中伺服器永遠連得上：完整設定指南"
-description = "家裡伺服器 IP 老是變？本文帶你從頭理解 DDNS 原理，手把手教你設定 Cloudflare API Token、取得 Zone ID 和 Record ID，並用我的開源專案 simple-cloudflare-ddns 輕鬆實現自動化 DNS 更新。"
+title = "Cloudflare DDNS 完整教學：自動更新浮動 IP 的 DNS 記錄"
+description = "Home Lab 伺服器遇到浮動 IP？這篇教學從 DDNS 原理開始，教你建立 API Token、取得 Zone ID 與 Record ID，並用容器搭配 Cron 實現自動化 DNS 更新。"
 date = "2025-12-26T08:55:48.741Z"
 draft = true
 updated = "2025-12-26T09:19:03.915Z"
@@ -18,7 +18,7 @@ withAI = "使用 GitHub Copilot 搭配 Claude Opus 4.5 寫作"
 {% end %}
 
 {% chat(speaker="jim") %}
-這是架設 Home Lab 或自架服務常遇到的問題。你需要的是 DDNS (Dynamic DNS) 解決方案。簡單來說，DDNS 會定期檢查你目前的對外 IP，發現變動時就自動更新 DNS 記錄，讓你的網域始終指向正確的 IP 位址。
+這是架設 Home Lab 或自架服務常遇到的問題。你需要的是 **DDNS (Dynamic DNS)** 解決方案。簡單來說，DDNS 會定期檢查你目前的對外 IP，發現變動時就自動更新 DNS 記錄，讓你的網域始終指向正確的 IP 位址。
 
 既然你的網域已經託管在 Cloudflare，我們就可以利用 Cloudflare API 來實現這件事。我做了一個簡單的開源專案叫 [simple-cloudflare-ddns](https://github.com/jim60105/simple-cloudflare-ddns)，跑在容器裡面，設定好環境變數就能使用了喔！
 {% end %}
@@ -54,11 +54,11 @@ sequenceDiagram
 {% end %}
 
 {% chat(speaker="jim") %}
-你需要準備三樣東西：Cloudflare API Token、Zone ID、以及 DNS Record ID。
+你需要準備三樣東西：`API Token`、`Zone ID`、以及 `Record ID`。
 
-API Token 用來授權存取 Cloudflare API；  
-Zone ID 代表你的網域在 Cloudflare 的識別碼；  
-Record ID 則是你想更新的那筆 DNS 記錄的識別碼。
+`API Token` 用來授權存取 Cloudflare API；  
+`Zone ID` 代表你的網域在 Cloudflare 的識別碼；  
+`Record ID` 則是你想更新的那筆 DNS 記錄的識別碼。
 
 接下來我一步步帶你取得這些資訊。
 {% end %}
@@ -82,7 +82,7 @@ Cloudflare API 使用 Token 進行身份驗證。為了遵循最小權限原則�
 {% end %}
 
 {% chat(speaker="jim") %}
-Global API Key 擁有你 Cloudflare 帳號的完整存取權限，風險太高了！若這個金鑰外洩，攻擊者可以修改你所有的設定、刪除網域，做任何他想做的事。使用 API Token 可以精確控制權限範圍，這筆 Token 只能編輯 DNS 記錄，就算不小心洩漏，影響範圍也有限。
+`Global API Key` 擁有你 Cloudflare 帳號的**完整存取權限**，{% cr() %}風險太高了{% end %}！若這個金鑰外洩，攻擊者可以修改你所有的設定、刪除網域，做任何他想做的事。使用 `API Token` 可以精確控制權限範圍，這筆 Token 只能編輯 DNS 記錄，{% cg() %}就算不小心洩漏，影響範圍也有限{% end %}。
 {% end %}
 
 前往 Cloudflare Dashboard 的 [API Tokens 頁面](https://dash.cloudflare.com/profile/api-tokens)，依照以下步驟建立 Token：
@@ -123,7 +123,7 @@ curl -X GET "https://api.cloudflare.com/client/v4/zones/YOUR_ZONE_ID/dns_records
 {% end %}
 
 {% chat(speaker="jim") %}
-那你需要分別記下 A 記錄和 AAAA 記錄的 Record ID。A 記錄對應 IPv4，AAAA 記錄對應 IPv6。simple-cloudflare-ddns 支援同時更新這兩種記錄，只要在環境變數裡分別設定就可以囉！
+那你需要分別記下 **A 記錄**和 **AAAA 記錄**的 `Record ID`。A 記錄對應 IPv4，AAAA 記錄對應 IPv6。simple-cloudflare-ddns 支援同時更新這兩種記錄，只要在環境變數裡分別設定就可以囉！
 {% end %}
 
 ## 選擇 IP 偵測服務
@@ -141,7 +141,7 @@ simple-cloudflare-ddns 預設使用 [ipify](https://www.ipify.org/) 服務：
 
 ### 部署自己的 IP 偵測服務
 
-依賴第三方服務有一定風險：服務可能停機、可能有速率限制，甚至有可能未來被惡意控制，回傳了駭客指定的其它內容。若你追求更高的可靠性，我建議部署自己的 IP 偵測服務。
+依賴第三方服務有一定風險：{% cr() %}服務可能停機{% end %}、{% cr() %}可能有速率限制{% end %}，甚至{% cr() %}有可能未來被惡意控制，回傳了駭客指定的其它內容{% end %}。若你追求更高的可靠性，我建議部署自己的 IP 偵測服務。
 
 我做了另一個開源專案 [worker-your-ip](https://github.com/jim60105/worker-your-ip)，這是一個跑在 Cloudflare Workers 上的 IP 偵測服務。除了回傳 IP 位址，還能提供地理位置、時區、ASN 等額外資訊。
 
@@ -159,10 +159,10 @@ simple-cloudflare-ddns 預設使用 [ipify](https://www.ipify.org/) 服務：
 {% end %}
 
 {% chat(speaker="jim") %}
-首先是安全，你不會因為第三方服務遭駭而被影響；  
-其次是效能，Cloudflare Workers 跑在全球邊緣網路，回應速度超快；  
-第三是成本，Cloudflare Workers 的免費額度足夠個人使用；  
-最後是隱私，你的 IP 查詢紀錄不會經過不受控的第三方。
+首先是{% cg() %}安全{% end %}，你不會因為第三方服務遭駭而被影響；  
+其次是{% cg() %}效能{% end %}，Cloudflare Workers 跑在全球邊緣網路，回應速度超快；  
+第三是{% cg() %}成本{% end %}，Cloudflare Workers 的免費額度足夠個人使用；  
+最後是{% cg() %}隱私{% end %}，你的 IP 查詢紀錄不會經過不受控的第三方。
 {% end %}
 
 ## 執行 DDNS 更新
