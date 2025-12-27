@@ -2,8 +2,7 @@
 title = "Cloudflare DDNS 完整教學：自動更新浮動 IP 的 DNS 記錄"
 description = "Home Lab 伺服器遇到浮動 IP？這篇教學從 DDNS 原理開始，教你建立 API Token、取得 Zone ID 與 Record ID，並用容器搭配 Cron 實現自動化 DNS 更新。"
 date = "2025-12-26T08:55:48.741Z"
-draft = true
-updated = "2025-12-26T09:19:03.915Z"
+updated = "2025-12-27T20:06:19.282Z"
 
 [taxonomies]
 tags = [ "Cloudflare", "Container", "Linux", "System Admin" ]
@@ -11,16 +10,22 @@ licenses = [ "GFDL 1.3" ]
 
 [extra]
 withAI = "使用 GitHub Copilot 搭配 Claude Opus 4.5 寫作"
+card = "preview.png"
+
+  [extra.preview]
+  withAI = true
+  description = "Made with Nano Banana Pro by Gemini 3"
+  url = "https://gemini.google.com/share/387cea83adfc"
 +++
 
 {% chat(speaker="user") %}
-@jim 我家裡架了一台伺服器，想用自己的網域連回去。但問題是我家的對外 IP 會變動，每次 IP 一換，DNS 設定就失效了，有沒有辦法自動處理這件事？
+@jim 我家裡架了一台伺服器，想用自己的網域連回去。但問題是我家是浮動 IP，對外 IP 會變動，每次 IP 一換 DNS 設定就不對了，該怎麼辦呢？
 {% end %}
 
 {% chat(speaker="jim") %}
 這是架設 Home Lab 或自架服務常遇到的問題。你需要的是 **DDNS (Dynamic DNS)** 解決方案。簡單來說，DDNS 會定期檢查你目前的對外 IP，發現變動時就自動更新 DNS 記錄，讓你的網域始終指向正確的 IP 位址。
 
-既然你的網域已經託管在 Cloudflare，我們就可以利用 Cloudflare API 來實現這件事。我做了一個簡單的開源專案叫 [simple-cloudflare-ddns](https://github.com/jim60105/simple-cloudflare-ddns)，跑在容器裡面，設定好環境變數就能使用了喔！
+既然你的網域已經託管在 Cloudflare，我們就可以利用 Cloudflare API 來實現這件事。我有一個開源專案 [simple-cloudflare-ddns](https://github.com/jim60105/simple-cloudflare-ddns)，設定好環境變數就能使用了喔！
 {% end %}
 
 <!-- more -->
@@ -60,7 +65,7 @@ sequenceDiagram
 `Zone ID` 代表你的網域在 Cloudflare 的識別碼；  
 `Record ID` 則是你想更新的那筆 DNS 記錄的識別碼。
 
-接下來我一步步帶你取得這些資訊。
+接下來讓我帶你取得這些資訊吧！
 {% end %}
 
 ## 前置需求
@@ -78,11 +83,13 @@ sequenceDiagram
 Cloudflare API 使用 Token 進行身份驗證。為了遵循最小權限原則，我們要建立一個只有 DNS 編輯權限的專用 Token。
 
 {% chat(speaker="user") %}
-為什麼不直接用 Global API Key？網路上有些教學是用那個。
+為什麼不直接用 `Global API Key`？用這個好像簡單多了。
 {% end %}
 
 {% chat(speaker="jim") %}
-`Global API Key` 擁有你 Cloudflare 帳號的**完整存取權限**，{% cr() %}風險太高了{% end %}！若這個金鑰外洩，攻擊者可以修改你所有的設定、刪除網域，做任何他想做的事。使用 `API Token` 可以精確控制權限範圍，這筆 Token 只能編輯 DNS 記錄，{% cg() %}就算不小心洩漏，影響範圍也有限{% end %}。
+`Global API Key` 擁有你 Cloudflare 帳號的完整存取權限，{% cr() %}風險太高了{% end %}！若這個金鑰外洩，攻擊者可以修改你所有的設定、刪除網域，做任何他想做的事。
+
+使用 `API Token` 可以精確控制權限範圍，這筆 Token 只能編輯 DNS 記錄，{% cg() %}就算不小心洩漏，影響範圍也有限{% end %}。
 {% end %}
 
 前往 Cloudflare Dashboard 的 [API Tokens 頁面](https://dash.cloudflare.com/profile/api-tokens)，依照以下步驟建立 Token：
@@ -145,7 +152,7 @@ simple-cloudflare-ddns 預設使用 [ipify](https://www.ipify.org/) 服務：
 
 我做了另一個開源專案 [worker-your-ip](https://github.com/jim60105/worker-your-ip)，這是一個跑在 Cloudflare Workers 上的 IP 偵測服務。除了回傳 IP 位址，還能提供地理位置、時區、ASN 等額外資訊。
 
-[![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/jim60105/worker-your-ip)
+[![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button#transparent#no-hover)](https://deploy.workers.cloudflare.com/?url=https://github.com/jim60105/worker-your-ip)
 
 點擊上面的按鈕可以一鍵部署到你的 Cloudflare 帳號。部署完成後，你的 IP 偵測服務就會有以下端點：
 
@@ -167,7 +174,13 @@ simple-cloudflare-ddns 預設使用 [ipify](https://www.ipify.org/) 服務：
 
 ## 執行 DDNS 更新
 
-準備好所有資訊後，就可以執行 simple-cloudflare-ddns 了。這個專案打包成容器映像檔，用 Podman 或 Docker 都能跑。
+準備好所有資訊後，就可以執行 simple-cloudflare-ddns 了。
+
+{% chat(speaker="jim") %}
+這個專案為了能在 K8s 上執行，我特地打包成了容器映像檔。
+
+若是你不熟容器，直接下載其中的 [bash script](https://github.com/jim60105/simple-cloudflare-ddns/blob/master/updateDNS.sh) 執行也是可以的喔！
+{% end %}
 
 ### 僅更新 IPv4
 
@@ -237,8 +250,7 @@ crontab -e
 
 如果你的伺服器跑 Kubernetes，可以用 CronJob 來排程。按照最佳實踐，請將敏感資訊存在 Secret 裡：
 
-```yaml
-# secret.yaml
+```yaml,name=secret.yaml
 apiVersion: v1
 kind: Secret
 metadata:
@@ -251,8 +263,7 @@ stringData:
   A_RECORD_NAME: "home.example.com"
 ```
 
-```yaml
-# cronjob.yaml
+```yaml,name=cronjob.yaml
 apiVersion: batch/v1
 kind: CronJob
 metadata:
@@ -295,22 +306,18 @@ spec:
 
 `A_RECORD_ID` 和 `AAAA_RECORD_ID` 至少要設定其中一個，否則腳本沒有目標可更新。
 
-{% chat(speaker="user") %}
-設定完之後怎麼確認有沒有正常運作？
-{% end %}
-
-{% chat(speaker="jim") %}
-手動跑一次容器看輸出訊息，成功的話會顯示目前偵測到的 IP 和更新結果。你也可以到 Cloudflare Dashboard 的 DNS 頁面確認記錄內容是否正確。如果使用 cron，可以檢查系統日誌或將 cron 輸出導向檔案來追蹤執行狀況。
-{% end %}
-
 ## 結語
 
-DDNS 的原理和實作都不複雜，核心就是「偵測 IP」加上「呼叫 API 更新記錄」這兩件事。simple-cloudflare-ddns 把這些邏輯包裝成一個輕量的容器，只需要設定幾個環境變數就能使用。如果你也在經營 Home Lab 或自架服務，希望這個工具能幫上忙。
+DDNS 的原理和實作都不複雜，核心就是「偵測 IP」加上「呼叫 API 更新記錄」這兩件事。simple-cloudflare-ddns 把這些邏輯包裝成一個輕量的容器，只需要設定幾個環境變數就能使用。
 
 專案原始碼在 GitHub 上開源，歡迎提出問題或參與貢獻：
 
 - [jim60105/simple-cloudflare-ddns](https://github.com/jim60105/simple-cloudflare-ddns)
 - [jim60105/worker-your-ip](https://github.com/jim60105/worker-your-ip)
+
+{% chat(speaker="jim") %}
+如果你也在經營 Home Lab 或自架服務，希望這個工具能幫上忙 😉
+{% end %}
 
 <script type="module">
   import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
