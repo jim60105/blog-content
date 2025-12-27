@@ -16,6 +16,9 @@ card = "preview.png"
   withAI = true
   description = "Made with Nano Banana Pro by Gemini 3"
   url = "https://gemini.google.com/share/387cea83adfc"
+
+  [extra.comments]
+  id = "115793538379004669"
 +++
 
 {% chat(speaker="user") %}
