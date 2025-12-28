@@ -1,8 +1,8 @@
 +++
 title = "[Chrome Extension] Youtube影片截選播放清單 (Youtube Clip Playlist)"
-description = "這是截選播放清單擴充功能，在 Youtube/Onedrive/GoogleDrive/TwitCasting 上直接播放「起始~結束時間」影片片段。此工具專門設計來聽 Vtuber 的歌枠。 (Chrome extension)"
+description = "這是截選播放清單擴充功能，在 Youtube/GoogleDrive/TwitCasting 上直接播放「起始~結束時間」影片片段。此工具專門設計來聽 Vtuber 的歌枠。 (Chrome extension)"
 date = 2022-06-29T16:50:00.018Z
-updated = 2024-04-08T14:52:45.753Z
+updated = "2025-12-28T08:52:38.958Z"
 draft = false
 aliases = [ "/2022/06/chrome-extension-youtube-clip-playlist.html" ]
 
@@ -23,11 +23,11 @@ featured = true
 
 ![GitHub tag](https://img.shields.io/github/tag/jim60105/YoutubeClipPlaylist?style=for-the-badge#badge) ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/jim60105/YoutubeClipPlaylist?style=for-the-badge#badge) ![LICENSE](https://img.shields.io/github/license/jim60105/YoutubeClipPlaylist?style=for-the-badge#badge)  
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/v/kdlhjpdoaabhpolkaghkjklfcdfjapkh?style=for-the-badge#badge)](https://chrome.google.com/webstore/detail/youtube-clip-playlist/kdlhjpdoaabhpolkaghkjklfcdfjapkh#badge) ![Chrome Web Store](https://img.shields.io/chrome-web-store/users/kdlhjpdoaabhpolkaghkjklfcdfjapkh?style=for-the-badge#badge) ![Bootstrap](https://img.shields.io/static/v1?style=for-the-badge\&message=Bootstrap\&color=7952B3\&logo=Bootstrap\&logoColor=FFFFFF\&label=#badge) ![TypeScript](https://img.shields.io/static/v1?style=for-the-badge\&message=TypeScript\&color=3178C6\&logo=TypeScript\&logoColor=FFFFFF\&label=#badge) ![Webpack](https://img.shields.io/static/v1?style=for-the-badge\&message=Webpack\&color=222222\&logo=Webpack\&logoColor=8DD6F9\&label=#badge)  
-![Google Chrome](https://img.shields.io/static/v1?style=for-the-badge\&message=Google+Chrome\&color=4285F4\&logo=Google+Chrome\&logoColor=FFFFFF\&label=#badge) ![YouTube](https://img.shields.io/static/v1?style=for-the-badge\&message=YouTube\&color=FF0000\&logo=YouTube\&logoColor=FFFFFF\&label=#badge) ![Microsoft OneDrive](https://img.shields.io/static/v1?style=for-the-badge\&message=Microsoft+OneDrive\&color=0078D4\&logo=Microsoft+OneDrive\&logoColor=FFFFFF\&label=#badge) ![Google Drive](https://img.shields.io/static/v1?style=for-the-badge\&message=Google+Drive\&color=4285F4\&logo=Google+Drive\&logoColor=FFFFFF\&label=#badge)
+![Google Chrome](https://img.shields.io/static/v1?style=for-the-badge\&message=Google+Chrome\&color=4285F4\&logo=Google+Chrome\&logoColor=FFFFFF\&label=#badge) ![YouTube](https://img.shields.io/static/v1?style=for-the-badge\&message=YouTube\&color=FF0000\&logo=YouTube\&logoColor=FFFFFF\&label=#badge) ![Google Drive](https://img.shields.io/static/v1?style=for-the-badge\&message=Google+Drive\&color=4285F4\&logo=Google+Drive\&logoColor=FFFFFF\&label=#badge)
 
 ## 前言
 
-這是截選播放清單擴充功能，在 Youtube/OneDrive/GoogleDrive/TwitCasting 上直接播放「起始\~ 結束時間」影片片段。  
+這是截選播放清單擴充功能，在 Youtube/GoogleDrive/TwitCasting 上直接播放「起始\~ 結束時間」影片片段。  
 此工具專門設計來聽 Vtuber 的歌枠，這是我對於歌回烤肉的程式解
 
 和看烤肉或剪片相比的優點為
@@ -45,8 +45,6 @@ featured = true
 * 參照[這篇文章](@/Frontend/media-autoplay-on-browser/index.md)，設定下方網域的{{cg(body="允許自動播放")}}
 
   * `https://www.youtube.com:443`
-  * `https://onedrive.live.com:443`
-  * `https://gothuedutw-my.sharepoint.com:443`
   * `https://twitcasting.tv:443`
   * `https://drive.google.com:443`
 
@@ -79,9 +77,9 @@ featured = true
 
 ## 歌單 (Playlist)
 
-目前內建[久遠たま](https://www.youtube.com/channel/UCBC7vYFNQoGPupe5NxPG4Bw)、[間取かける](https://www.youtube.com/channel/UCiLt4FLjMXszLOh5ISi1oqw)、[薬袋アルマ](https://www.youtube.com/channel/UCD1QOCJIAPsMKMvRSXjLahw)、[須多夜花](https://www.youtube.com/channel/UCuy-kZJ7HWwUU-eKv0zUZFQ)、[伊冬ユナ](https://www.youtube.com/channel/UCYbzeYnRZuw7fZKrgu2bgtw)、[YOSHIKA⁂Ch.](https://www.youtube.com/c/YOSHIKA-Ch) 的歌單
+目前內建久遠たま、須多夜花、薬袋アルマ、浠 Mizuki、神月天、町田ちま、YOSHIKA⁂Ch.、炭酸ちゃん、名雪薇薇、苺咲べりぃ、HACHI、獅子神レオナ、松永依織、石狩あかり、凛々咲 Ririsya 等歌單
 
-如果想要編寫歌單，請參考[此 repo](https://github.com/jim60105/Playlists)  
+如果想要編寫歌單，請參考[此 repo](https://github.com/YoutubeClipPlaylist/Playlists)  
 你也可以 fork 此 repo，從頭寫你自己的！
 
 ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=for-the-badge#badge)
@@ -89,7 +87,7 @@ featured = true
 ### 歌單格式
 
 歌單的格式是 JSON with comment  
-這裡有[總表](https://github.com/jim60105/Playlists/blob/master/Playlists.jsonc)，標示清單名稱、標籤、位置，並載入[個別歌單](https://github.com/jim60105/Playlists/blob/master/QuonTama/QuonTamaSongList.jsonc)
+這裡有[總表](https://github.com/YoutubeClipPlaylist/Playlists/blob/master/Playlists.jsonc)，標示清單名稱、標籤、位置，並載入[個別歌單](https://github.com/YoutubeClipPlaylist/Playlists/blob/master/QuonTama/QuonTamaSongList.jsonc)
 
 每個陣列中儲存以下項目: \[VideoID, StartTime, EndTime, Title?, SubSrc?]
 
@@ -99,19 +97,19 @@ featured = true
 * Title?: 必須用雙引號包住，為字串型態，可選
 * SubSrc?: 必須用雙引號包住，為字串型態，可選
 
-<script src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Fjim60105%2FPlaylists%2Fblob%2FDemo%2FDemo%2FDemoSongList.jsonc&amp;style=base16%2Ftomorrow-night&amp;type=code&amp;showBorder=on&amp;showLineNumbers=on&amp;showFileMeta=on&amp;showFullPath=on&amp;showCopy=on"></script>
+<script src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2FYoutubeClipPlaylist%2FPlaylists%2Fblob%2FBasePlaylist%2FTemplate%2FTemplateSongList.jsonc&style=github-dark&type=code&showBorder=on&showLineNumbers=on&showFileMeta=on&showFullPath=on&showCopy=on"></script>
 
 ## 歌詞、字幕
 
 ### 自動歌詞功能
 
 此專案有一支排程程式，自動從網路上蒐集歌詞，請在 UI 的 Settings 頁啟用。  
-歌詞來源為 [網易雲音樂](https://music.163.com/)，以 GitHub Workflow 定時將播放清單使用的歌詞[轉存至 GitHub](https://github.com/jim60105/Lyrics/tree/lyrics)，然後再讓客戶端存取 GitHub。  
+歌詞來源為 [網易雲音樂](https://music.163.com/)，以 GitHub Workflow 定時將播放清單使用的歌詞[轉存至 GitHub](https://github.com/YoutubeClipPlaylist/Lyrics/tree/lyrics)，然後再讓客戶端存取 GitHub。  
 經過這層轉存，{{cg(body="你不會直接存取網易雲音樂站台")}}，請安心使用。
 
 > 注意，這是附加功能！  
 > 由於歌詞皆為自動化搜尋匹配，能預期會有大量的錯誤情況發生。  
-> 若發現歌詞有錯誤，請在[這裡](https://github.com/jim60105/Lyrics/issues/new/choose)回報。  
+> 若發現歌詞有錯誤，請在[這裡](https://github.com/YoutubeClipPlaylist/Lyrics/issues/new/choose)回報。  
 > 請務必提供該歌曲的 Share 連結，以便我能夠快速修正錯誤歌曲
 
 [![](lyric.png)](lyric.png)
@@ -159,9 +157,9 @@ featured = true
   &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #e06666;">playlistexclude=member</span>
 </pre>
 
-### 其它網址格式 (目前支援 OneDrive、twitcasting)
+### TwitCasting 網址格式
 
-其它格式是以原網址直接當做 VideoID 傳入
+以原網址直接當做 VideoID 傳入
 
 <pre style="text-align: left; width: 100%;">
   <span style="color: #9fc5e8;">https://twitcasting.tv/quon01tama/movie/688324697</span><br />
