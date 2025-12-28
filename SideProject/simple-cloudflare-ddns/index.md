@@ -3,6 +3,7 @@ title = "Cloudflare DDNS 完整教學：自動更新浮動 IP 的 DNS 記錄"
 description = "Home Lab 伺服器遇到浮動 IP？這篇教學從 DDNS 原理開始，教你建立 API Token、取得 Zone ID 與 Record ID，並用容器搭配 Cron 實現自動化 DNS 更新。"
 date = "2025-12-26T08:55:48.741Z"
 updated = "2025-12-27T20:06:19.282Z"
+aliases = [ "/Cloudflare/simple-cloudflare-ddns/" ]
 
 [taxonomies]
 tags = [ "Cloudflare", "Container", "Linux", "System Admin" ]
