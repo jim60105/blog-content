@@ -149,7 +149,7 @@ banner = "preview.png"
 須多夜花（Suda Yoruka）是來自「盟龍世界」的清楚偶像台灣 VTuber，官網介紹她以歌回、遊戲實況與聊天直播為主，且於 2025 年 12 月 21 日在官網公告正式恢復 VTuber 活動並轉為個人勢體制。
 {% end %}
 
-## 開源與版權
+## 閉源與版權
 
 我特地建了一個 [GitHub 組織](https://github.com/Suda-Yoruka)用來存放夜花的專案。
 
