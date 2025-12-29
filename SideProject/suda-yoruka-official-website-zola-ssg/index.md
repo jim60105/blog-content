@@ -39,7 +39,7 @@ banner = "preview.png"
 
 更重要的是，{{cg(body="Zola 允許使用 Markdown 撰寫內容")}}。
 
-這意味著未來的編輯者 —— 大家最愛的夜花 —— 不需要懂 HTML 或 CSS 就能發佈文章。
+這意味著未來的編輯者 —— 大家最愛的{{ color(body="夜花花", color="#e34565ff") }} —— 不需要懂 HTML 和 CSS 就能發佈文章。
 
 {% chat(speaker="jim") %}
 妳什麼時候要來學怎麼發文
@@ -49,7 +49,7 @@ banner = "preview.png"
 好麻煩喔，我發 twitter 你幫我發一發就行了吧
 {% end %}
 
-當然，都聽妳的。
+當然好，全都聽妳的。
 
 ## 版型遷移：從 Panini 到 Tera
 
@@ -59,7 +59,10 @@ banner = "preview.png"
 
 這是很大的工作量，不過沒關係，反正不是我要做 😉
 
+<figure>
 {{ image(url="1.png", alt="網站首頁截圖", full=true) }}
+<figcaption>網站首頁截圖</figcaption>
+</figure>
 
 ## 讓 AI 來寫程式碼
 
@@ -93,7 +96,7 @@ banner = "preview.png"
 
 最後的成品中，{{cg(body="由我手寫的程式碼其實非常少")}}。
 
-{{cr(body="Zola 和 Tera 並不是常見的技術堆疊，一般通用 AI 不太能成功撰寫相關程式碼。")}}這個專案能夠成功，仰賴的是我對這些工具的熟悉程度。我在開發過程中提供了足夠的知識脈絡，才使得 AI 有辦法完成任務。我並不推薦其他人貿然走這條路。
+{{cr(body="Zola 和 Tera 並不是常見的技術堆疊，一般通用 AI 不太能成功撰寫相關程式碼。")}}這個專案能夠成功，仰賴的是我對這些工具的熟悉程度，我在開發過程中提供了足夠的知識脈絡，才使得 AI 有辦法完成任務。我並不推薦其他人貿然走這條路。
 
 當你問我說：
 
@@ -105,9 +108,11 @@ banner = "preview.png"
 其實我是用 AI 做的啦www
 {% end %}
 
-的時候，我指的是像上面描述的那樣。事實上，別說外行人，我想很多工程師都不一定能駕馭這種開發流程。SDD 和 Context Engineering 脈絡工程可算是 2025 年最前沿的開發方法論。
+的時候，我指的是像上面描述的那樣。
 
-若你對 SDD 有興趣，可以參考我的另一篇文章，其中有更詳細的講解： [規格驅動開發 (Spec-Driven Development) 與 AI 協作全流程實戰](https://聆.tw/AI/sdd-ai-copilot-codex-devops-workflow/)
+事實上，別說外行人，我想很多工程師都不一定能駕馭這種開發流程。SDD 和 Context Engineering 脈絡工程可算是 2025 年最前沿的開發方法論。用這個方法，我只用了三週的業餘時間就完成了九成的程式碼開發。
+
+若你對 SDD 有興趣，可以參考我的另一篇文章，這裡有更詳細的講解： [規格驅動開發 (Spec-Driven Development) 與 AI 協作全流程實戰](https://聆.tw/AI/sdd-ai-copilot-codex-devops-workflow/)
 
 ## 讓 AI 替 VTuber 寫文章
 
