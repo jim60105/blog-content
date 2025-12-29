@@ -16,7 +16,7 @@ banner = "preview.png"
 > {{ color(body="須多夜花", color="#e34565ff") }}官方網站  
 > <https://SudaYoruka.com>
 
-這篇文章記錄了我為 VTuber [{{ color(body="須多夜花", color="#e34565ff") }}](https://www.youtube.com/@sudayoruka) 打造官方網站的開發歷程。我是琳，是須多夜花的 IP 持有者及營運負責人，同時也是這個官方網站的獨立開發者。
+這篇文章記錄了我為 VTuber [{{ color(body="須多夜花", color="#e34565ff") }}](https://www.youtube.com/@sudayoruka) 打造官方網站的開發歷程。我是琳，是須多夜花的 IP 營運負責人，同時也是這個官方網站的獨立開發者。
 
 <!-- more -->
 
@@ -55,7 +55,7 @@ banner = "preview.png"
 
 版型我在 themeforest 上挑了很久，最後選定 [FriendKit](https://cssninja.io/product/friendkit) 這個社群網站版型，打造出像社群平台的官方網站。這個版型其實很豐富，一個標準社群網站該有的頁面它全都有設計，但我們只用到了其中幾頁。
 
-原始的 HTML 版型使用 Panini 模版系統，這並不是我要的。在實作時我把它改成了 Tera 模版。Sass 基本上是直接遷移過來，然後砍掉多餘的部份。
+原始的 HTML 版型使用 [Panini](https://github.com/foundation/panini) 模版系統，說實話這是我第一次知道它。這並不是我要的，在實作時我把它改成了 Tera 模版。至於 Sass 基本上是直接遷移過來，然後砍掉多餘的部份。
 
 這是很大的工作量，不過沒關係，反正不是我要做 😉
 
