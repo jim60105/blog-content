@@ -2,7 +2,7 @@
 title = "打造 VTuber 須多夜花官方網站：Zola SSG 與 AI 協作開發實錄"
 description = "分享使用 Zola 靜態網站生成器打造 VTuber 須多夜花官方網站的開發心得。採用 SDD 規格驅動開發，讓 AI 自動實作 Tera 模版遷移、Sass 樣式整合，並透過 GitHub CI/CD 部署至 Cloudflare Pages。"
 date = "2025-12-29T09:27:20.808Z"
-updated = "2025-12-29T17:12:44.963Z"
+updated = "2025-12-30T05:36:21.533Z"
 
 [taxonomies]
 tags = [ "AI", "Cloudflare", "Livestream", "VTuber", "SudaYoruka" ]
@@ -69,7 +69,7 @@ banner = "preview.png"
 
 ## 讓 AI 來寫程式碼
 
-這個網站是使用我流的 **SDD（Specification-Driven Development）規格驅動開發**，整個開發流程外包給 AI 來執行。
+這個網站是使用我流的 **SDD（Spec-Driven Development）規格驅動開發**，整個開發流程外包給 AI 來執行。
 
 我在本地準備好了開發需要的所有知識脈絡，包含 Tera 和 Zola 的撰寫指引。我準備了 `AGENTS.md` 作為開發憲章，然後使用 GitHub 的 Issue 和 PR 系統做任務管理。
 
