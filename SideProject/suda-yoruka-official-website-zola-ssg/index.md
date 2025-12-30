@@ -25,15 +25,15 @@ banner = "preview.png"
 
 ## 為什麼要做官方網站
 
-製作官網其實是我個人的想法。在安排夜花的復出計劃時，原本並不包含這個專案。身為{{ ch(body="前") }}網頁工程師，我本來就很喜歡做網站。擁有個人網站的 VTuber 並不多，{{cr(body="因為開發成本高")}}，除非像我這樣自己動手，才有可能實現。
+製作官網其實是我個人的想法。在安排夜花的復出計劃時，原本並不包含這個專案。身為{{ ch(body="前") }}網頁工程師，我本來就很喜歡做網站。{{cr(body="由於開發成本高")}}，擁有個人網站的 VTuber 並不多，除非像我這樣自己動手才較有可能實現。
 
-我的專業是網頁後端及系統整合，{{cr(body="這種以前端和美術為主的網站並非我的強項")}}。原本計劃委託網頁公司製作，但詢價後因預算不足，最終決定自己來。也因此，我們得到了一個「還過得去」的成品，它更像是我的個人專案。
+我的專業是網頁後端及系統整合，{{cr(body="這種以前端和美術為主的網站並非我的強項")}}。原本計劃是委託網頁公司製作，但詢價後因預算不足，最終決定自己來。也因此，我們得到了一個「還過得去」的成品。它更像是我的 Side Project。
 
 ## 技術選型：為什麼選擇 Zola
 
-我採用了一個尋常網頁公司絕對不會使用的框架：[**Zola**](https://www.getzola.org/)。Zola 使用相對小眾的 [Tera](https://keats.github.io/tera/docs/) 模版語言搭配 [Sass](https://sass-lang.com/) 建構靜態網頁。它是 SSG （Static Site Generator） 靜態網頁生成系統。Zola 的設計適合製作一篇一篇內容的網頁，這正好符合我們官網的需求。比起「官方網站」，我的需求更接近「官方部落格」的型態。
+我採用了一個尋常網頁公司絕對不會使用的框架：[**Zola**](https://www.getzola.org/)。Zola 是 SSG （Static Site Generator） 靜態網頁生成器，就像你可能聽過的 Hugo 或 Hexo。它使用相對小眾的 [Tera](https://keats.github.io/tera/docs/) 模版語言搭配 [Sass](https://sass-lang.com/) 建構靜態網頁。它沒有 JavaScript 相關的系統設計，僅適合以純粹展示內容為主的站點。Zola 的設計適合製作一篇一篇內容的網頁，這正好符合我們官網的需求。比起「官方網站」，我的需求更接近「官方部落格」的型態。
 
-還有就是，我喜歡 Zola 😆
+還有就是 Zola 是 Rust，我喜歡 Rust 😆
 
 <figure>
 {{ image(url="9.png", alt="Markdown 文章", full=true) }}
@@ -42,7 +42,7 @@ banner = "preview.png"
 
 更重要的是，{{cg(body="Zola 允許使用 Markdown 撰寫內容")}}。
 
-這意味著未來的編輯者 —— 大家最愛的{{ color(body="夜花花", color="#e34565ff") }} —— 不需要懂 HTML 和 CSS 就能發佈文章。
+這意味著未來的編輯者 —— 大家最愛的{{ color(body="花花", color="#e34565ff") }} —— 不需要懂 HTML 和 CSS 就能發佈文章。
 
 {% chat(speaker="jim") %}
 妳什麼時候要來學怎麼發文
@@ -56,7 +56,7 @@ banner = "preview.png"
 
 ## 版型遷移：從 Panini 到 Tera
 
-版型我在 themeforest 上挑了很久，最後選定 [FriendKit](https://cssninja.io/product/friendkit) 這個社群網站版型，打造出像社群平台的官方網站。這個版型其實很豐富，一個標準社群網站該有的頁面它全都有設計，但我們只用到了其中幾頁。
+我在 themeforest 上挑了很久，最後選定 [FriendKit](https://cssninja.io/product/friendkit) 這個社群網站版型，打造出像社群平台的官方網站。這個版型其實很豐富，一個標準社群網站該有的頁面它全都有設計，但我們只用到了其中幾頁。
 
 原始的 HTML 版型使用 [Panini](https://github.com/foundation/panini) 模版系統，說實話這是我第一次知道它。這並不是我要的，在實作時我把它改成了 Tera 模版。至於 Sass 基本上是直接遷移過來，然後砍掉多餘的部份。
 
@@ -69,7 +69,7 @@ banner = "preview.png"
 
 ## 讓 AI 來寫程式碼
 
-這個網站是使用我流的 **SDD（Specification-Driven Development）規格驅動開發**，{{cg(body="整個開發流程外包給 AI 來執行")}}。
+這個網站是使用我流的 **SDD（Specification-Driven Development）規格驅動開發**，整個開發流程外包給 AI 來執行。
 
 我在本地準備好了開發需要的所有知識脈絡，包含 Tera 和 Zola 的撰寫指引。我準備了 `AGENTS.md` 作為開發憲章，然後使用 GitHub 的 Issue 和 PR 系統做任務管理。
 
@@ -78,7 +78,7 @@ banner = "preview.png"
 <figure>
 {{ image(url="7.png", alt="AGENTS.md 截圖", full=true) }}
 {{ image(url="8.png", alt="AGENTS.md 截圖", full=true) }}
-<figcaption>AGENTS.md 截圖</figcaption>
+<figcaption>非常長的 AGENTS.md 截圖</figcaption>
 </figure>
 
 <figure>
@@ -88,8 +88,8 @@ banner = "preview.png"
 </figure>
 
 <figure>
-{{ image(url="4.png", alt="其中一個詳盡的 Issue 截圖", full=true) }}
-<figcaption>其中一個詳盡的 Issue 截圖</figcaption>
+{{ image(url="4.png", alt="詳盡的 Issue 截圖", full=true) }}
+<figcaption>詳盡的 Issue 截圖</figcaption>
 </figure>
 
 <figure>
@@ -115,15 +115,18 @@ banner = "preview.png"
 
 事實上，別說外行人，我想很多工程師都不一定能駕馭這種開發流程。SDD 和 Context Engineering 脈絡工程可算是 2025 年最前沿的開發方法論。用這個方法，我只用了三週的業餘時間就完成了九成的程式碼開發。
 
-若你對 SDD 有興趣，可以參考我的另一篇文章，這裡有更詳細的講解： [規格驅動開發 (Spec-Driven Development) 與 AI 協作全流程實戰](https://聆.tw/AI/sdd-ai-copilot-codex-devops-workflow/)
+> 若你對 SDD 有興趣，可以參考我的另一篇文章，這裡有更詳細的講解
+>
+> ---
+> [規格驅動開發 (Spec-Driven Development) 與 AI 協作全流程實戰 - 琳聽智者漫談](https://聆.tw/AI/sdd-ai-copilot-codex-devops-workflow/)
 
 ## 讓 AI 替 VTuber 寫文章
 
-在網站差不多完成後，我寫了一個「用 {{ color(body="須多夜花", color="#e34565ff") }} 人格來寫作」的 GitHub Copilot Instruction 指示詞。這個 prompt 主要著重在產出正確的 Markdown 格式，再加上一點點的角色扮演元素。你可以想像是[設計角色扮演 LLM Prompt 的實務心得](@/AI/design-roleplay-llm-prompts/index.md)與部落格寫作指引的結合體，但不包含夜花本人的個性參考素材。
+在網站差不多完成後，我寫了一個「用 {{ color(body="須多夜花", color="#e34565ff") }} 人格來寫作」的 GitHub Copilot Instruction 指示詞。這個 prompt 主要著重在產出正確的 Markdown 格式，再加上一點點的角色扮演元素。你可以想像是[角色扮演 LLM Prompt](@/AI/design-roleplay-llm-prompts/index.md)與[部落格寫作指引](https://github.com/jim60105/blog/blob/master/.github/instructions/quill-sage.instructions.md)的結合體，但不包含夜花本人的個性參考素材。
 
 像是官網上的這篇[「我回來了！這次，我不會再消失」](https://sudayoruka.com/posts/2025-12-21-intro/)介紹文，初始文案是夜花自己寫的，我再用上述的指示詞擴寫為最終文字。
 
-偷偷爆料，最後那一句{{ color(body="「請多指教，我所愛的人們」", color="#e34565ff") }}是夜花寫給我的，去調侃她她會害羞喔 🤫
+偷偷爆料，最後那一句{{ color(body="「請多指教，我所愛的人們」", color="#e34565ff") }}是原本花花寫的，去調侃她她會害羞喔 🤫
 
 ## 部署流程：GitHub Actions 與 Cloudflare Pages
 
@@ -133,13 +136,39 @@ banner = "preview.png"
 
 由於這是靜態網頁，為了讓影片清單保持更新，{{cg(body="CD Pipeline 每天都會定期執行一次")}}。
 
-## SEO 與 AI 時代的網站價值
+<pre class="mermaid">
+flowchart LR
+    subgraph Triggers
+        A[🔄 Push to master]
+        B[⏰ 每日排程]
+        C[🖱️ 手動觸發]
+    end
 
-這個網站特別注重 SEO，我把畢生所學的網站調校技能都用上了。
+    subgraph "GitHub Actions"
+        D[📥 Checkout]
+        E[🦀 安裝 Zola]
+        F[🐍 安裝 uv]
+        G[📺 取得 YouTube 影片]
+        H[🔊 取得 Sound Buttons]
+        I[🔨 Zola Build]
+    end
 
-有人認為，在這個時代大家都透過 AI 總結直接獲取資訊，因此 SEO 已經不重要了。但事實上，{{cg(body="只有在搜尋結果中成功出現，才有機會讓 AI 決定閱讀內文")}}，而後我們提供的「知識」才能流入 AI 的脈絡，呈現在使用者面前。
+    J[☁️ Cloudflare Workers]
 
-我希望當使用者問 ChatGPT「{{ color(body="須多夜花", color="#e34565ff") }}是誰？」的時候，他們能得到正確資訊——或者說，是我想要他們看到的資訊。這就是特別為她製作網頁的價值所在。
+    A & B & C --> D
+    D --> E --> F
+    F --> G & H
+    G & H --> I
+    I --> J
+</pre>
+
+## SEO 與 AI 搜尋引擎優化
+
+SEO（Search Engine Optimization，搜尋引擎優化）在 2025 年仍然很重要。
+
+有人認為，在這個時代大家都透過 AI 總結直接獲取資訊，因此 SEO 已經不重要了，但這是錯誤的。事實上，**{{cg(body="只有「成功在搜尋結果中出現」，並「讓 AI 決定要閱讀內文」，而後「我們提供的『知識』才能進入 AI 的脈絡，呈現在使用者面前。」")}}**
+
+我希望當使用者問 ChatGPT「{{ color(body="須多夜花", color="#e34565ff") }}是誰？」的時候，他們能得到正確資訊 —— 或者說，得到我想要他們看到的資訊。這就是特別為夜花製作網頁的價值所在。
 
 {% chat(speaker="user") %}
 須多夜花是誰？
@@ -149,11 +178,18 @@ banner = "preview.png"
 須多夜花（Suda Yoruka）是來自「盟龍世界」的清楚偶像台灣 VTuber，官網介紹她以歌回、遊戲實況與聊天直播為主，且於 2025 年 12 月 21 日在官網公告正式恢復 VTuber 活動並轉為個人勢體制。
 {% end %}
 
+> 延伸閱讀
+>
+> ---
+> [給 AI 🤖 的假新聞：深入解析網頁提示詞注入 - 琳的備忘手札](@/AI/fake-news-for-ai-an-in-depth-analysis-of-web-prompt-injection/index.md)
+
 ## 閉源與版權
 
 我特地建了一個 [GitHub 組織](https://github.com/Suda-Yoruka)用來存放夜花的專案。
 
-我自稱開源狂熱者，我真的很想將網站原始碼開源給各位參考。{{cr(body="可惜因為版型的授權限制，我無法這麼做。")}}相對的，我在這篇文章中放了不少截圖供讀者參考。
+我自稱開源狂熱者，我是真的很想將網站原始碼開源給各位參考，{{cr(body="可惜因為版型採用 Envato License 授權條款，我無法這麼做")}}。相對的，我在這篇文章中放了不少截圖供讀者參考。
+
+以下展示我的網站資料夾結構，讓讀者一窺此專案的設計。
 
 <details><summary>網站資料夾結構</summary>
 
@@ -272,6 +308,13 @@ banner = "preview.png"
 
 網站已經上線運作中，歡迎造訪 [{{ color(body="須多夜花官方網站", color="#e34565ff") }}](https://SudaYoruka.com)看看成品！網站上有她的自我介紹、最新活動公告、影片展示，還有來自其他 VTuber 朋友們的祝福留言牆。
 
-如果你對這個專案有任何問題，或者單純想聊聊天，歡迎加入[夜花的 Discord 社群](https://discord.gg/bVJq88QeVa)來找我。我是裡面的管理員，看到訊息會回覆的。
+如果你對這個專案有任何問題，或者單純想聊聊天，歡迎加入[夜花的 Discord 社群](https://discord.gg/bVJq88QeVa)來找我。我是裡面的管理員，看到訊息都會回覆的。
 
 最後如果你還不認識夜花，不妨去她的 [YouTube 頻道](https://www.youtube.com/@sudayoruka/)聽聽她唱歌吧。
+
+{{ youtube(id="K4Saywm1QKg")}}
+
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+</script>
