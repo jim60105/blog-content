@@ -313,8 +313,3 @@ SEO（Search Engine Optimization，搜尋引擎優化）在 2025 年仍然很重
 最後如果你還不認識夜花，不妨去她的 [YouTube 頻道](https://www.youtube.com/@sudayoruka/)聽聽她唱歌吧。
 
 {{ youtube(id="K4Saywm1QKg")}}
-
-<script type="module">
-  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
-  mermaid.initialize({ startOnLoad: true, theme: 'dark' });
-</script>

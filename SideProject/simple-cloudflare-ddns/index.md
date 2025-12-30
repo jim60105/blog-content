@@ -322,8 +322,3 @@ DDNS 的原理和實作都不複雜，核心就是「偵測 IP」加上「呼叫
 {% chat(speaker="jim") %}
 如果你也在經營 Home Lab 或自架服務，希望這個工具能幫上忙 😉
 {% end %}
-
-<script type="module">
-  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
-  mermaid.initialize({ startOnLoad: true, theme: 'dark' });
-</script>

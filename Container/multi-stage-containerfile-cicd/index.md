@@ -628,10 +628,5 @@ buildah bud --layers --target report --tag my-app:report .
 這個方案並非萬靈丹，它需要團隊對容器技術有一定的理解。但投入學習成本後，你會發現它帶來的一致性遠超預期。從此你的 CI/CD 不再綁定特定平台，而是真正可移植、可重現的建構流程。
 {% end %}
 
-<script type="module">
-  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
-  mermaid.initialize({ startOnLoad: true, theme: 'dark' });
-</script>
-
 [^2]: [RUN --mount | Dockerfile reference | Docker Docs](https://docs.docker.com/reference/dockerfile/#run---mount)
 [^3]: [\[RFE\] Add support for `--link` in `COPY_ADD` · Issue #4325 · containers/buildah](https://github.com/containers/buildah/issues/4325#issuecomment-3251167324)
