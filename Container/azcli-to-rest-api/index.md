@@ -2,7 +2,7 @@
 title = "從 azure-cli 到 REST API：我的 Azure Blob Storage 上傳優化之旅"
 description = "在這篇文章中，我要分享在 Recorder.moe 專案中，如何從使用肥大的 azure-cli 轉變到使用簡潔的 REST API 來上傳影片到 Azure Blob Storage。這是一個關於優化 Dockerfile 和 Azure Blob Storage上傳流程的實戰故事。"
 date = 2024-01-11T10:12:00.018Z
-updated = 2024-01-11T13:08:17.995Z
+updated = "2026-01-01T15:52:33.135Z"
 draft = false
 aliases = [ "/2024/01/azcli-to-rest-api.html" ]
 
@@ -47,15 +47,3 @@ card = "preview.png"
 
 註:  
 我有看到[這個 issue](https://github.com/Azure/azure-cli/issues/23366#issuecomment-1801206118)，但是不知道為什麼我實際拉下來的 image 仍是 1 GB 大。
-
----
-
-本文改寫自我的嘟文
-
-{{mastodon(id="111732530470295993")}}
-
-<style>
-    iframe.mastodon-embed {
-        width: 100%;
-    }
-</style>

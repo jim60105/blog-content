@@ -2,7 +2,7 @@
 title = "[Docker 專案] 一行指令運行 Stable Diffusion WebUI 和 Kohya's GUI"
 description = "這篇文章介紹如何運用 Docker 容器化啟動 Stable Diffusion WebUI 和 kohya_ss 兩個 AI 繪圖工具。經過最佳化的 Dockerfile 成功地減小了映像尺寸大小，同時，文章中提供了使用指南和建置步驟，並說明如何將現有的設定遷移到 Docker 環境中。"
 date = 2024-03-11T15:35:00.026Z
-updated = 2024-09-07T20:30:18.239Z
+updated = "2026-01-01T15:57:23.219Z"
 draft = false
 aliases = [ "/2024/03/docker-stable-diffusion-webui-kohyas-gui.html" ]
 
@@ -53,24 +53,17 @@ Python Developer 裝這麼多版本不累嗎😅
 
 <!-- more -->
 
-文章開始以前先讓我展示一下<span class="success">我的「最佳化」到底好在哪裡</span>。  
-講技術估計讀者不想聽，我們就簡單看個 **映像容量** 就好:
-
-{{mastodon(id="111950889726976110")}}
-
 > 更新 2024/04/26:
 >
 > ---
 > 我最終將 kohya-ss-gui 縮減到了 <span class="success">10.3GB</span>，並且幫 `bmaltais` 建了 [docker build CI](https://github.com/bmaltais/kohya%5Fss/blob/master/.github/workflows/docker%5Fpublish.yml)  
 > 它現在會自動建置映像並推送至 [ghcr.io/bmaltais/kohya-ss-gui](https://github.com/bmaltais/kohya%5Fss/pkgs/container/kohya-ss-gui)
 
-{{mastodon(id="112075659835894219")}}
-
 Stable Diffusion WebUI 的對照組[是它](https://github.com/AbdBarho/stable-diffusion-webui-docker)。  
 前人寫得很不錯，是很棒的參考🙏
 
 想了解技術的人推薦把我的 Dockerfile 拿來讀一次，相信能讓你有所收獲。  
-也歡迎在底下 (Mastodon) 留言找我，我樂意向你解釋每一行為何這樣子設計。
+也歡迎在底下留言找我，我樂意向你解釋每一行為何這樣子設計。
 
 ## 🏁 簡介 Stable Diffusion WebUI 和 Kohya's GUI
 
@@ -197,9 +190,3 @@ docker compose up -d --build
 >
 > * [\[Docker\] Linux主機之Docker安裝和 ReverseProxy 建置](/Container/linux-docker-setup-reverse-proxy)
 > * [琳的備忘手札: AI翻譯解鎖——日文網路小說無障礙閱讀體驗](/AI/unlocking-ai-translation-barrier-free-reading-experience-of-japanese-web-novels)
-
-<style>
-   iframe.mastodon-embed{
-      width: 80%;
-   }
-</style>

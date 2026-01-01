@@ -2,7 +2,7 @@
 title = "如何在 OBS Studio 錄製和匯入透明背景影片"
 description = "想在 OBS Studio 中使用透明背景影片嗎？本文深入探討如何在 OBS 中錄製和匯入帶有 Alpha 通道的影片。從基本概念到實際操作，一步步揭開這個有趣技術的神秘面紗。你將學到 Alpha 通道的原理、OBS Studio 的錄製設定，以及如何輕鬆匯入透明背景影片。"
 date = "2024-12-22T16:00:03.816Z"
-updated = "2024-12-22T16:00:04.169Z"
+updated = "2026-01-01T15:59:38.011Z"
 
 [taxonomies]
 tags = [ "Livestream" ]
@@ -172,7 +172,7 @@ INPUT="in.mov" OUTPUT="out.webm" CRF=45 EFFORT="good" bash -c 'ffmpeg -y -i "$IN
 
 至於能不能直接用 libvpx-vp9 錄影呢？說實話，我也不知道。我試過在 OBS 中使用 libvpx-vp9，結果每次按下錄影鍵，OBS 就像是遇到了什麼可怕的事情一樣立刻崩潰。
 
-不過，鑑於我是在比較冷門的 [Fedora Toolbox](https://github.com/jim60105/toolbx?tab=readme-ov-file#video-toolbox) 中運行 OBS Studio，這個問題可能只是我個人環境的特殊情況。如果你有不同的經驗，或是成功使用 libvpx-vp9 直接錄製的話，歡迎在下方的 Mastodon 留言告訴我。我很樂意聽到你的經驗分享！
+不過，鑑於我是在比較冷門的 [Fedora Toolbox](https://github.com/jim60105/toolbx?tab=readme-ov-file#video-toolbox) 中運行 OBS Studio，這個問題可能只是我個人環境的特殊情況。如果你有不同的經驗，或是成功使用 libvpx-vp9 直接錄製的話，歡迎在下方留言告訴我。我很樂意聽到你的經驗分享！
 
 ## 參考資料
 

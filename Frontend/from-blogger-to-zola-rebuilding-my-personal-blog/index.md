@@ -61,6 +61,10 @@ Duckquill 的整體設計簡潔而不失特色。它散發著一種「技術宅�
 
 ![comment](comment.png)
 
+> [!NOTE]  
+> 2026/01/01 更新：  
+> 我已將留言系統從 Mastodon 換成了 Misskey。
+
 ### 開源精神
 
 ![MIT](MIT.png)
