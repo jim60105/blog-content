@@ -15,7 +15,7 @@ banner = "preview.png"
 withAI = "使用 GitHub Copilot 搭配 Claude Opus 4.5 寫作"
 
   [extra.comments]
-  id = "115724135349399371"
+  id = "agzco1nbx37i00vg"
 
   [extra.preview]
   withAI = true

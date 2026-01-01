@@ -15,7 +15,7 @@ iscn = "iscn://likecoin-chain/0TcWBncBjI36FAfqcjQnRpSnzVYMEJy56YD7fOCq--M/1"
 card = "preview.png"
 
   [extra.comments]
-  id = "109532306623570043"
+  id = "agzbrz8bx37i00ua"
 +++
 ## 前言
 

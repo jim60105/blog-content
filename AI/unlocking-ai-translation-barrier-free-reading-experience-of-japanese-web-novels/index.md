@@ -20,7 +20,7 @@ iscn = "iscn://likecoin-chain/eSjhLqDYXgHdvTrcgWw-XkLtgCjso_PJJmZ3v768Ao0/1"
 hot = true
 
   [extra.comments]
-  id = "110440637831102537"
+  id = "agzbncncx37i00u7"
 
   [extra.preview]
   description = "圖片出處 arthub.ai"

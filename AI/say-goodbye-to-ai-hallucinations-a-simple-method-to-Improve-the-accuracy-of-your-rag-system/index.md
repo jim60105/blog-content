@@ -19,7 +19,7 @@ featured = true
 withAI = "本篇文章透過「[筆韻智匠 Quill Sage🖋️✨](https://www.coze.com/s/Zs8k6GASu/)」和 Claude 3.5 Sonnet 聯合創作"
 
   [extra.comments]
-  id = "113057619098316466"
+  id = "agzbkrq3x37i00u5"
 
   [extra.preview]
   url = "https://civitai.com/images/27051549"

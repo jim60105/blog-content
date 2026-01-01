@@ -19,7 +19,7 @@ archive = "我已經全面改用另一套工具——[「筆韻智匠 Quill Sage
 withAI = "本篇文章和 Claude 聯合創作"
 
   [extra.comments]
-  id = "110193869467649564"
+  id = "agzbplknx37i00u9"
 +++
 ## 前言
 

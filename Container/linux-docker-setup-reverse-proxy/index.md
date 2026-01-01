@@ -15,7 +15,7 @@ card = "preview.png"
 iscn = "iscn://likecoin-chain/_zmSdL8lQdrPnP5LurJlWdK6WsCzRksqbRzk-UJKr4c/1"
 
   [extra.comments]
-  id = "113300757885315845"
+  id = "agzc71lxx37i00ux"
 
   [extra.preview]
   description = '<a href="https://webapplicationconsultant.com/scalability/nginx-reverse-proxy-for-scalability/">圖源</a>'

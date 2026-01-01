@@ -15,7 +15,7 @@ banner = "preview.webp"
 iscn = "iscn://likecoin-chain/YBFzpFI86kKaDC4aYgU5t9hd1nLmqDvHVhS5h5W-VaA/1"
 
   [extra.comments]
-  id = "113760486776375260"
+  id = "agzbh0u0x37i00tz"
 
   [extra.preview]
   withAI = true

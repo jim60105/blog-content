@@ -19,7 +19,7 @@ card = "preview.png"
   url = "https://gemini.google.com/share/387cea83adfc"
 
   [extra.comments]
-  id = "115793538379004669"
+  id = "agzcibetx37i00v8"
 +++
 
 {% chat(speaker="user") %}

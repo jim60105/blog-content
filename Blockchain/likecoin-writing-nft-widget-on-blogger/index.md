@@ -18,7 +18,7 @@ iscn = "iscn://likecoin-chain/iQ5NQdeCLXQ66evbflzBGgc908rbt0xlfH15cQLdlSQ/3"
 trigger = "本站已於 2024 年年底由 Blogger 遷離。雖然本文內容依然有效，但此頁的渲染不再使用相同的程式碼產生。"
 
   [extra.comments]
-  id = "109512278874620729"
+  id = "agzc0vdzx37i00ul"
 +++
 ## 前言
 

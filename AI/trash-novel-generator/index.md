@@ -17,7 +17,7 @@ withAI = "本篇文章透過「[筆韻智匠 Quill Sage🖋️✨](https://www.c
 hot = true
 
   [extra.comments]
-  id = "113146735399825887"
+  id = "agzbm5llx37i00u6"
 
   [extra.preview]
   withAI = true

@@ -28,9 +28,6 @@ banner = "preview.png"
 iscn = "iscn://likecoin-chain/QsE_540EtpD7_wYMBmvkJWAid2Sj5wBZym2z0y2RH10/1"
 featured = true
 archive = "本專案已於 2023/5/14 停止服務並全額退費，現在是一套供個人架設的錄影系統。"
-
-  [extra.comments]
-  id = "110193851499270279"
 +++
 
 {% alert(important=true) %}

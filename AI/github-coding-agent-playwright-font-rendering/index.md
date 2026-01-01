@@ -18,7 +18,7 @@ withAI = "使用 GitHub Copilot 搭配 Claude Opus 4.5 寫作"
   description = "Gemini 3 Nano Banana Pro 一次就產出了這張圖!"
 
   [extra.comments]
-  id = "115655159961134116"
+  id = "agzbhzkkx37i00u0"
 +++
 
 最近我頻繁使用 GitHub Copilot Coding Agent 進行 Side project 開發工作。在處理前端專案時，我注意到 Playwright 截圖中的中文字全部變成方塊。直覺反應是網路被擋住了，於是我試著先關閉 Coding Agent 的防火牆設定，結果問題依舊存在。

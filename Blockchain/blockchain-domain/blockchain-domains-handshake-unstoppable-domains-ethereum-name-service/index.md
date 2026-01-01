@@ -18,7 +18,7 @@ iscn = "iscn://likecoin-chain/5ziIrlJOYm_goQSS2ITXSEPQ9lIZ8U3owXdieu543RU/2"
 featured = true
 
   [extra.comments]
-  id = "109420959355542822"
+  id = "agzbtia6x37i00ud"
 +++
 ## 前言
 

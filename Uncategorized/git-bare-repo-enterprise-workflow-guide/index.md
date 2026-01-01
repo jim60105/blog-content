@@ -16,7 +16,7 @@ featured = true
   description = "Made with Gemini 2.5 Flash Image (Nano Banana)"
 
   [extra.comments]
-  id = "115524629015951412"
+  id = "agzctzcex37i00vs"
 
 [taxonomies]
 tags = [ "DevOps", "Git" ]

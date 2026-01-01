@@ -18,7 +18,7 @@ iscn = "iscn://likecoin-chain/rz7P_N3CtgK0Cj1FzHqIcl1nwhxE4cabkLAArLgFplc/1"
   url = "https://civitai.com/images/54269254"
 
   [extra.comments]
-  id = "113902916679881262"
+  id = "agzbfqs4x37i00ty"
 +++
 ## ChatGPT 🤖 幫我產生一份英文教材
 

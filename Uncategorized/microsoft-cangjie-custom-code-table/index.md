@@ -20,7 +20,7 @@ iscn = "iscn://likecoin-chain/f7u28sHqkwKf3SxY-5Nszts-TFy2dtUjrRqr0hreryA/1"
   description = "Made with ChatGPT GPT5"
 
   [extra.comments]
-  id = "115204015483763994"
+  id = "agzcvwwsx37i00vw"
 +++
 
 我日常使用的是[自由大新倉頡碼表](https://github.com/jim60105/Newcj_rime)，搭配 [RIME 中州韻輸入法](https://rime.im/)，是較小眾的輸入法。

@@ -13,7 +13,7 @@ iscn = "iscn://likecoin-chain/LJx_mG7rlrm4mxdFaZI76qVzYqWPERhCAA8NdHFbC_o/1"
 withAI = "本篇文章透過「[筆韻智匠 Quill Sage🖋️✨](https://www.coze.com/s/Zs8k6GASu/)」和 Claude 3.5 Sonnet 聯合創作"
 
   [extra.comments]
-  id = "113694165566370607"
+  id = "agzc2ihjx37i00un"
 +++
 ## 前言
 

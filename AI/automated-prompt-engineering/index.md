@@ -17,7 +17,7 @@ featured = true
 withAI = "本篇文章透過「[筆韻智匠 Quill Sage🖋️✨](https://www.coze.com/s/Zs8k6GASu/)」和 Claude 3.5 Sonnet 聯合創作"
 
   [extra.comments]
-  id = "113187155039935632"
+  id = "agz6en4ex37i00ml"
 +++
 ## 前言：創造 AI 助手的 AI 助手
 

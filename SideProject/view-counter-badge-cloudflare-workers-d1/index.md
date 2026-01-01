@@ -15,7 +15,7 @@ banner = "preview.png"
 iscn = "iscn://likecoin-chain/QtqpvBsnP3QM8w-GOALiQOHdgZzkY52bd1vg73Gj3D4/2"
 
   [extra.comments]
-  id = "111355087211175088"
+  id = "agzcm7aax37i00ve"
 
   [extra.preview]
   description = "Image Creator from Microsoft Bing DALL•E 3"

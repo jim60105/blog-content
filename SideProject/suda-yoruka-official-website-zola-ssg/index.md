@@ -13,7 +13,7 @@ withAI = "本文使用 GitHub Copilot Claude Opus 4.5 協助撰寫"
 banner = "preview.png"
 
   [extra.comments]
-  id = "115804145402826896"
+  id = "agzcjaxmx37i00v9"
 +++
 
 > {{ color(body="須多夜花", color="#e34565ff") }}官方網站  
