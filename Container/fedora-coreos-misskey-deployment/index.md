@@ -356,7 +356,14 @@ systemd timer 會每天自動執行，並且套用保留策略，舊的備份會
 3. 把 DNS 指向新 IP
 4. 完成
 
-系統初始化時會自動從 S3 拉取最新備份並還原，幾分鐘後服務就上線了。VM 也不再是寵物，而是牲畜。
+系統初始化時會自動從 S3 拉取最新備份並還原，幾分鐘後服務就上線了。
+
+VM 再也不是寵物，而是牲畜。
+
+<figure>
+{{ image(url="./pets vs cattle.png", alt="Pets vs Cattle", no_hover=true) }}
+<figcaption>Made with Nano Banana Pro by Gemini 3</figcaption>
+</figure>
 
 ---
 
