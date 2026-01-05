@@ -1,0 +1,1311 @@
+# =============================================================================
+# Fedora CoreOS Butane Configuration for Misskey Instance
+# =============================================================================
+#
+# This is a Butane configuration file for deploying Misskey (ActivityPub-based
+# decentralized social networking platform) on Fedora CoreOS using rootless
+# Podman containers with Quadlet.
+#
+# USAGE:
+#   Generate Ignition config with:
+#   podman run --interactive --rm --security-opt label=disable \
+#     --volume "${PWD}":/pwd --workdir /pwd \
+#     quay.io/coreos/butane:release --pretty --strict \
+#     misskey-fcos-template.bu > misskey-fcos.ign
+#
+# IMPORTANT: Before using this template:
+#   1. Replace all placeholders marked with <PLACEHOLDER_NAME> with actual values
+#   2. Generate secure passwords and keys using recommended tools
+#   3. Add your SSH public key(s) for authentication
+#
+# COMPONENTS DEPLOYED:
+#   - Misskey Web Application
+#   - PostgreSQL Database
+#   - Redis Cache
+#   - Meilisearch Full-text Search Engine
+#   - Traefik Reverse Proxy with Let's Encrypt SSL
+#   - Restic Backup to S3-compatible Storage
+#
+# SECURITY NOTES:
+#   - All containers run as rootless Podman under the 'core' user
+#   - SSH is moved to port 22222 for security through obscurity
+#   - Password authentication is disabled; SSH key-only access
+#   - Traefik handles SSL termination with Cloudflare DNS challenge
+#
+# =============================================================================
+
+variant: fcos
+version: 1.6.0
+
+# =============================================================================
+# USER CONFIGURATION
+# =============================================================================
+# Defines the primary user account for managing the Misskey instance.
+# Using 'core' which is the default Fedora CoreOS user, configured for
+# SSH key-based authentication only (no password).
+# =============================================================================
+passwd:
+  users:
+    - name: core
+      # SSH public key(s) for authentication
+      # You can add multiple keys for different machines/users
+      # Generate a new key pair with: ssh-keygen -t ed25519 -C "your-email@example.com"
+      # Example format: "ssh-ed25519 AAAAC3NzaC1... user@hostname"
+      ssh_authorized_keys:
+        - "<YOUR_SSH_PUBLIC_KEY>"
+        # Add additional keys below if needed:
+        # - "ssh-ed25519 AAAAC3NzaC1... another-user@hostname"
+      groups:
+        - wheel   # Allows sudo access
+        - sudo    # Alternative sudo group
+        - docker  # Docker/Podman access (for compatibility)
+      shell: /bin/bash
+
+# =============================================================================
+# STORAGE CONFIGURATION
+# =============================================================================
+# Configures disk partitions, filesystems, directories, symlinks, and files
+# needed for the Misskey deployment.
+# =============================================================================
+storage:
+  # ---------------------------------------------------------------------------
+  # DISK PARTITIONS
+  # ---------------------------------------------------------------------------
+  # Configure additional disks attached to the server.
+  # This example uses a secondary disk for swap space.
+  # Adjust the device path according to your server's disk configuration.
+  # ---------------------------------------------------------------------------
+  disks:
+    - device: /dev/disk/by-path/pci-0000:00:05.0-scsi-0:0:0:1
+      # WARNING: wipe_table=true will DESTROY all data on this disk!
+      wipe_table: true
+      partitions:
+        - number: 1
+          label: swap
+          # size_mib: 0 means use the entire remaining disk space
+          # Adjust based on your RAM size; typically 1-2x RAM for servers
+          size_mib: 0
+
+  # ---------------------------------------------------------------------------
+  # FILESYSTEMS
+  # ---------------------------------------------------------------------------
+  # Format and mount the swap partition defined above
+  # ---------------------------------------------------------------------------
+  filesystems:
+    - device: /dev/disk/by-partlabel/swap
+      format: swap
+      wipe_filesystem: true
+      # with_mount_unit: true automatically creates a systemd mount unit
+      with_mount_unit: true
+
+  # ---------------------------------------------------------------------------
+  # DIRECTORIES
+  # ---------------------------------------------------------------------------
+  # Create all required directories with proper ownership.
+  # On FCOS, /var is persistent across updates while / is read-only.
+  # User home directories are under /var/home/ instead of /home/.
+  # ---------------------------------------------------------------------------
+  directories:
+    # Misskey data directories
+    - path: /var/misskey
+      mode: 0755
+      user:
+        name: core
+      group:
+        name: core
+    # Uploaded files storage (federated media, attachments, etc.)
+    - path: /var/misskey/files
+      mode: 0755
+      user:
+        name: core
+      group:
+        name: core
+    # Redis data persistence
+    - path: /var/misskey/redis
+      mode: 0755
+      user:
+        name: core
+      group:
+        name: core
+    # PostgreSQL database storage
+    - path: /var/misskey/db
+      mode: 0755
+      user:
+        name: core
+      group:
+        name: core
+    # Meilisearch index data
+    - path: /var/misskey/meili_data
+      mode: 0755
+      user:
+        name: core
+      group:
+        name: core
+    # Misskey configuration files
+    - path: /var/misskey/config
+      mode: 0755
+      user:
+        name: core
+      group:
+        name: core
+
+    # Traefik reverse proxy directories
+    - path: /var/traefik
+      mode: 0755
+      user:
+        name: core
+      group:
+        name: core
+    # Traefik configuration files
+    - path: /var/traefik/config
+      mode: 0755
+      user:
+        name: core
+      group:
+        name: core
+    # ACME/Let's Encrypt certificate storage
+    - path: /var/traefik/acme
+      mode: 0755
+      user:
+        name: core
+      group:
+        name: core
+
+    # User systemd directory structure for Podman Quadlet files
+    # Quadlet allows defining containers as systemd units
+    - path: /var/home/core/.config
+      mode: 0755
+      user:
+        name: core
+      group:
+        name: core
+    - path: /var/home/core/.config/containers
+      mode: 0755
+      user:
+        name: core
+      group:
+        name: core
+    # Quadlet container/network definitions go here
+    - path: /var/home/core/.config/containers/systemd
+      mode: 0755
+      user:
+        name: core
+      group:
+        name: core
+
+    # User systemd unit files directory
+    - path: /var/home/core/.config/systemd
+      mode: 0755
+      user:
+        name: core
+      group:
+        name: core
+    - path: /var/home/core/.config/systemd/user
+      mode: 0755
+      user:
+        name: core
+      group:
+        name: core
+
+    # Directories for auto-enabling user systemd services
+    # Creating symlinks in these directories enables services automatically
+    - path: /var/home/core/.config/systemd/user/default.target.wants
+      mode: 0755
+      user:
+        name: core
+      group:
+        name: core
+    - path: /var/home/core/.config/systemd/user/timers.target.wants
+      mode: 0755
+      user:
+        name: core
+      group:
+        name: core
+
+    # Backup scripts and configuration directory
+    - path: /var/misskey/backup
+      mode: 0755
+      user:
+        name: core
+      group:
+        name: core
+
+  # ---------------------------------------------------------------------------
+  # SYMBOLIC LINKS
+  # ---------------------------------------------------------------------------
+  # Used to auto-start user services
+  # ---------------------------------------------------------------------------
+  links:
+    # Auto-enable restic-init.service for automatic backup initialization/restore
+    - path: /var/home/core/.config/systemd/user/default.target.wants/restic-init.service
+      target: /var/home/core/.config/systemd/user/restic-init.service
+      user:
+        name: core
+      group:
+        name: core
+
+    # Auto-enable misskey-backup.timer for scheduled database backups
+    - path: /var/home/core/.config/systemd/user/timers.target.wants/misskey-backup.timer
+      target: /var/home/core/.config/systemd/user/misskey-backup.timer
+      user:
+        name: core
+      group:
+        name: core
+
+  # ---------------------------------------------------------------------------
+  # CONFIGURATION FILES
+  # ---------------------------------------------------------------------------
+  files:
+    # -------------------------------------------------------------------------
+    # SYSTEMD LINGERING CONFIGURATION
+    # -------------------------------------------------------------------------
+    # Enable lingering for 'core' user
+    # Lingering allows user services to start at boot without requiring login.
+    # This is essential for running containers as rootless Podman.
+    # Note: Using a regular file instead of symlink to avoid SELinux denials
+    # when systemd-logind reads this file.
+    - path: /var/lib/systemd/linger/core
+      mode: 0644
+      contents:
+        inline: ""
+
+    # -------------------------------------------------------------------------
+    # SYSTEM CONFIGURATION
+    # -------------------------------------------------------------------------
+
+    # Allow unprivileged users to bind to ports < 1024
+    # Required for rootless Traefik to listen on ports 80 and 443
+    - path: /etc/sysctl.d/99-unprivileged-ports.conf
+      mode: 0644
+      contents:
+        inline: |
+          # Allow unprivileged users to bind to privileged ports (for rootless Traefik)
+          # Default is 1024; setting to 0 allows binding to any port
+          net.ipv4.ip_unprivileged_port_start=0
+
+    # -------------------------------------------------------------------------
+    # SSH CONFIGURATION
+    # -------------------------------------------------------------------------
+    # Security hardening: Change SSH port and disable password authentication
+
+    # Change SSH port from default 22 to 22222
+    # This provides security through obscurity and reduces automated attacks
+    - path: /etc/ssh/sshd_config.d/10-custom-port.conf
+      mode: 0644
+      contents:
+        inline: |
+          # Change SSH port from default 22 to 22222
+          # Remember to use: ssh -p 22222 core@your-server
+          Port 22222
+
+    # Disable SSH password authentication for security
+    # Only SSH key-based authentication is allowed
+    - path: /etc/ssh/sshd_config.d/20-disable-passwords.conf
+      mode: 0644
+      contents:
+        inline: |
+          # Disable SSH password authentication - SSH keys only
+          # This significantly improves security against brute-force attacks
+          PasswordAuthentication no
+
+    # -------------------------------------------------------------------------
+    # SHELL CONFIGURATION
+    # -------------------------------------------------------------------------
+
+    # Set vim as the default text editor
+    - path: /etc/profile.d/zz-default-editor.sh
+      overwrite: true
+      contents:
+        inline: |
+          export EDITOR=vim
+
+    # -------------------------------------------------------------------------
+    # DIGITALOCEAN DROPLET AGENT (Optional)
+    # -------------------------------------------------------------------------
+    # Remove this section if not deploying to DigitalOcean
+
+    # DigitalOcean Droplet Agent yum repository
+    # Provides metrics, monitoring, and console access from DO dashboard
+    - path: /etc/yum.repos.d/droplet-agent.repo
+      mode: 0644
+      contents:
+        inline: |
+          [droplet-agent]
+          name=DigitalOcean Droplet Agent
+          baseurl=https://repos-droplet.digitalocean.com/yum/droplet-agent/$basearch
+          repo_gpgcheck=0
+          gpgcheck=1
+          enabled=1
+          gpgkey=https://repos-droplet.digitalocean.com/gpg.key
+          sslverify=0
+          sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+          metadata_expire=300
+
+    # -------------------------------------------------------------------------
+    # MISSKEY CONFIGURATION
+    # -------------------------------------------------------------------------
+
+    # Main Misskey configuration file (default.yml)
+    # This file configures the Misskey application itself
+    - path: /var/misskey/config/default.yml
+      mode: 0644
+      user:
+        name: core
+      group:
+        name: core
+      contents:
+        inline: |
+          # =================================================================
+          # Misskey Configuration
+          # =================================================================
+
+          # Final accessible URL seen by users
+          # IMPORTANT: This must match your actual domain with https://
+          # Example: https://misskey.example.com/
+          url: https://<YOUR_DOMAIN>/
+
+          # The port that Misskey server listens on internally
+          # Traefik will proxy requests to this port
+          port: 3000
+
+          # -----------------------------------------------------------------
+          # PostgreSQL Database Configuration
+          # -----------------------------------------------------------------
+          db:
+            host: db
+            port: 5432
+            db: misskey
+            user: misskey
+            # Database password - MUST match POSTGRES_PASSWORD in docker.env
+            # Generate with: openssl rand -base64 32
+            pass: <POSTGRES_PASSWORD>
+
+          dbReplications: false
+
+          # -----------------------------------------------------------------
+          # Redis Cache Configuration
+          # -----------------------------------------------------------------
+          redis:
+            host: redis
+            port: 6379
+
+          # -----------------------------------------------------------------
+          # Full-text Search Configuration (Meilisearch)
+          # -----------------------------------------------------------------
+          fulltextSearch:
+            provider: meilisearch
+
+          meilisearch:
+            host: meilisearch
+            port: 7700
+            # Meilisearch API key - MUST match MEILI_MASTER_KEY in meilisearch.env
+            # IMPORTANT: Must be at least 16 bytes long and valid UTF-8
+            # Generate with: uuidgen or openssl rand -base64 32
+            apiKey: '<MEILISEARCH_MASTER_KEY>'
+            ssl: false
+            index: '<YOUR_DOMAIN_IN_SLUGIFY_FORMAT>'
+            scope: local
+
+          # -----------------------------------------------------------------
+          # ID Generation Method
+          # -----------------------------------------------------------------
+          # 'aidx' is the recommended method for new instances
+          id: 'aidx'
+
+          # -----------------------------------------------------------------
+          # Proxy Bypass Hosts
+          # -----------------------------------------------------------------
+          # External services that should not go through a proxy
+          proxyBypassHosts:
+            - api.deepl.com
+            - api-free.deepl.com
+            - www.recaptcha.net
+            - hcaptcha.com
+            - challenges.cloudflare.com
+
+    # PostgreSQL environment file
+    # Contains database credentials for the PostgreSQL container
+    - path: /var/misskey/config/docker.env
+      mode: 0644
+      user:
+        name: core
+      group:
+        name: core
+      contents:
+        inline: |
+          # PostgreSQL Container Environment Variables
+          # Generate a secure password with: openssl rand -base64 32
+          POSTGRES_PASSWORD=<POSTGRES_PASSWORD>
+          POSTGRES_USER=misskey
+          POSTGRES_DB=misskey
+
+    # Meilisearch environment file
+    # Contains the master key for Meilisearch full-text search
+    - path: /var/misskey/config/meilisearch.env
+      mode: 0644
+      user:
+        name: core
+      group:
+        name: core
+      contents:
+        inline: |
+          # Meilisearch Master Key Configuration
+          #
+          # IMPORTANT REQUIREMENTS:
+          # - Must be at least 16 bytes long (minimum 16 characters)
+          # - Must be composed of valid UTF-8 characters
+          #
+          # RECOMMENDED GENERATION METHODS:
+          # 1. uuidgen                              -> e.g., "550e8400-e29b-41d4-a716-446655440000"
+          # 2. openssl rand -base64 32              -> e.g., "K7gNU3sdo+OL0wNhqoVWhr3g6s1xYv72ol/pe/Unols="
+          # 3. shasum -a 256 /dev/urandom | head -1 -> e.g., "a1b2c3d4e5f6..."
+          # 4. Visit https://randomkeygen.com/      -> Use "CodeIgniter Encryption Keys"
+          #
+          MEILI_MASTER_KEY=<MEILISEARCH_MASTER_KEY>
+
+    # -------------------------------------------------------------------------
+    # TRAEFIK REVERSE PROXY CONFIGURATION
+    # -------------------------------------------------------------------------
+
+    # Traefik static configuration
+    # Defines entry points, certificate resolvers, and providers
+    - path: /var/traefik/config/traefik.yml
+      mode: 0644
+      user:
+        name: core
+      group:
+        name: core
+      contents:
+        inline: |
+          # =================================================================
+          # Traefik Static Configuration
+          # =================================================================
+          # This file configures Traefik's core behavior, entry points,
+          # and certificate management.
+          # =================================================================
+
+          api:
+            # Enable Traefik dashboard (accessible only internally)
+            dashboard: true
+            # Disable insecure API access (no unauthenticated dashboard)
+            insecure: false
+
+          # -----------------------------------------------------------------
+          # Entry Points
+          # -----------------------------------------------------------------
+          # Define the ports Traefik listens on
+          entryPoints:
+            # HTTP entry point (port 80)
+            web:
+              address: ":80"
+              http:
+                redirections:
+                  # Automatically redirect all HTTP traffic to HTTPS
+                  entryPoint:
+                    to: websecure
+                    scheme: https
+
+            # HTTPS entry point (port 443)
+            websecure:
+              address: ":443"
+              http:
+                tls:
+                  # Use Cloudflare DNS challenge for SSL certificates
+                  certResolver: cloudflare
+
+          # -----------------------------------------------------------------
+          # Configuration Providers
+          # -----------------------------------------------------------------
+          providers:
+            # Use file-based dynamic configuration
+            file:
+              filename: /etc/traefik/dynamic.yml
+              # Automatically reload when file changes
+              watch: true
+
+          # -----------------------------------------------------------------
+          # Certificate Resolvers (Let's Encrypt)
+          # -----------------------------------------------------------------
+          certificatesResolvers:
+            cloudflare:
+              acme:
+                # Email for Let's Encrypt registration and expiry notifications
+                email: <YOUR_EMAIL>
+                # Path to store ACME certificates
+                storage: /acme/acme.json
+                # Use Cloudflare DNS challenge (supports wildcard certs)
+                dnsChallenge:
+                  provider: cloudflare
+                  # DNS resolvers to verify DNS propagation
+                  resolvers:
+                    - "1.1.1.1:53"
+                    - "8.8.8.8:53"
+
+          # -----------------------------------------------------------------
+          # Logging
+          # -----------------------------------------------------------------
+          log:
+            # Log levels: DEBUG, INFO, WARN, ERROR
+            level: INFO
+
+    # Traefik dynamic configuration
+    # Defines routers and services for routing traffic to Misskey
+    - path: /var/traefik/config/dynamic.yml
+      mode: 0644
+      user:
+        name: core
+      group:
+        name: core
+      contents:
+        inline: |
+          # =================================================================
+          # Traefik Dynamic Configuration
+          # =================================================================
+          # This file defines how traffic is routed to backend services.
+          # Changes to this file are automatically reloaded by Traefik.
+          # =================================================================
+
+          http:
+            # ---------------------------------------------------------------
+            # Routers
+            # ---------------------------------------------------------------
+            # Define rules for matching incoming requests
+            routers:
+              misskey:
+                # Match requests to your domain
+                # For IDN domains, use the punycode format (e.g., xn--ior.tw)
+                rule: "Host(`<YOUR_DOMAIN>`)"
+                service: misskey
+                entryPoints:
+                  - websecure
+                tls:
+                  certResolver: cloudflare
+
+            # ---------------------------------------------------------------
+            # Services
+            # ---------------------------------------------------------------
+            # Define backend services to forward traffic to
+            services:
+              misskey:
+                loadBalancer:
+                  servers:
+                    # Forward to Misskey container on internal network
+                    # 'web' is the container name defined in Quadlet
+                    - url: "http://web:3000"
+
+    # Cloudflare API credentials for DNS challenge
+    # Required for Traefik to automatically obtain SSL certificates
+    - path: /var/traefik/config/cloudflare.env
+      # Restrictive permissions - only owner can read
+      mode: 0600
+      user:
+        name: core
+      group:
+        name: core
+      contents:
+        inline: |
+          # =================================================================
+          # Cloudflare API Credentials for ACME DNS Challenge
+          # =================================================================
+          # Traefik uses these credentials to create DNS TXT records
+          # for Let's Encrypt certificate validation.
+          #
+          # CREATE API TOKEN:
+          # 1. Go to https://dash.cloudflare.com/profile/api-tokens
+          # 2. Click "Create Token"
+          # 3. Use "Edit zone DNS" template or create custom:
+          #    - Zone:Zone:Read (required to find zone ID)
+          #    - Zone:DNS:Edit (required to create TXT records)
+          # 4. Limit to specific zones for security
+          #
+          # NEVER commit this file with real credentials to git!
+          # =================================================================
+          CF_DNS_API_TOKEN=<CLOUDFLARE_API_TOKEN>
+          # Optional: Use separate tokens for zone read and DNS edit
+          # CF_ZONE_API_TOKEN=<CLOUDFLARE_ZONE_API_TOKEN>
+
+    # Initialize empty ACME certificate storage
+    # Traefik will populate this file with obtained certificates
+    - path: /var/traefik/acme/acme.json
+      # IMPORTANT: Must be 0600 for Traefik to work correctly
+      mode: 0600
+      user:
+        name: core
+      group:
+        name: core
+      contents:
+        inline: "{}"
+
+    # -------------------------------------------------------------------------
+    # BACKUP CONFIGURATION (Restic + S3)
+    # -------------------------------------------------------------------------
+
+    # Restic backup environment file with S3 credentials
+    - path: /var/misskey/backup/restic.env
+      # Restrictive permissions for sensitive credentials
+      mode: 0600
+      user:
+        name: core
+      group:
+        name: core
+      contents:
+        inline: |
+          # =================================================================
+          # Restic Backup Configuration
+          # =================================================================
+          # Configure S3-compatible storage for backups.
+          # Supports AWS S3, Cloudflare R2, MinIO, Backblaze B2, etc.
+          #
+          # SETUP STEPS:
+          # 1. Create an S3 bucket for backups
+          # 2. Create API credentials with read/write access
+          # 3. Fill in the values below
+          #
+          # SECURITY NOTE: Keep this file secure and never commit to git!
+          # =================================================================
+
+          # S3 repository URL
+          # Format: s3:https://ENDPOINT/BUCKET-NAME
+          # AWS S3:         s3:https://s3.amazonaws.com/bucket-name
+          # Cloudflare R2:  s3:https://ACCOUNT_ID.r2.cloudflarestorage.com/bucket-name
+          # MinIO:          s3:https://minio.example.com/bucket-name
+          RESTIC_REPOSITORY=s3:https://<S3_ENDPOINT>/<S3_BUCKET_NAME>
+
+          # Restic repository password (used to encrypt backups)
+          # Generate with: openssl rand -base64 32
+          # IMPORTANT: Store this password safely - you need it to restore!
+          RESTIC_PASSWORD=<RESTIC_PASSWORD>
+
+          # S3 API credentials
+          # For Cloudflare R2: Create API token with R2 read/write permissions
+          # For AWS S3: Create IAM user with S3 bucket access
+          AWS_ACCESS_KEY_ID=<S3_ACCESS_KEY_ID>
+          AWS_SECRET_ACCESS_KEY=<S3_SECRET_ACCESS_KEY>
+
+          # Optional: Specify AWS region (required for some S3 providers)
+          # AWS_DEFAULT_REGION=us-east-1
+
+    # PostgreSQL backup script using pg_dumpall piped to Restic
+    - path: /var/misskey/backup/backup.sh
+      mode: 0755
+      user:
+        name: core
+      group:
+        name: core
+      contents:
+        inline: |
+          #!/bin/bash
+          # =================================================================
+          # Misskey PostgreSQL Backup Script
+          # =================================================================
+          # This script performs a full PostgreSQL backup and uploads it
+          # to S3 using Restic. It also handles retention policy pruning.
+          #
+          # FEATURES:
+          # - Hot backup (no database downtime)
+          # - Streaming backup (low disk usage)
+          # - Encrypted and deduplicated storage
+          # - Automatic retention management
+          #
+          # USAGE:
+          # - Runs automatically via systemd timer (misskey-backup.timer)
+          # - Can be run manually: /var/misskey/backup/backup.sh
+          # =================================================================
+          set -euo pipefail
+
+          # Load Restic environment variables
+          source /var/misskey/backup/restic.env
+
+          # Generate timestamp for backup identification
+          TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+          echo "[${TIMESTAMP}] Starting PostgreSQL backup..."
+
+          # Run pg_dumpall inside the PostgreSQL container and pipe directly to Restic
+          # pg_dumpall performs a consistent backup without stopping the database
+          # This creates a logical backup that can be restored on any PostgreSQL version
+          podman exec db pg_dumpall -U misskey | \
+            podman run --rm -i \
+              --env-file /var/misskey/backup/restic.env \
+              docker.io/restic/restic:latest \
+              backup --stdin --stdin-filename "misskey-db.sql" \
+              --tag misskey --tag postgresql --tag daily
+
+          echo "[$(date -u +"%Y-%m-%dT%H:%M:%SZ")] Backup completed successfully!"
+
+          # Prune old backups according to retention policy
+          # This saves storage costs while maintaining backup history
+          echo "Pruning old backups..."
+          podman run --rm \
+            --env-file /var/misskey/backup/restic.env \
+            docker.io/restic/restic:latest \
+            forget --prune \
+            --keep-daily 7 \
+            --keep-weekly 4 \
+            --keep-monthly 6 \
+            --tag misskey
+
+          echo "[$(date -u +"%Y-%m-%dT%H:%M:%SZ")] Backup and pruning completed!"
+
+    # Restic repository initialization and restore script
+    - path: /var/misskey/backup/init-restic.sh
+      mode: 0755
+      user:
+        name: core
+      group:
+        name: core
+      contents:
+        inline: |
+          #!/bin/bash
+          # =================================================================
+          # Restic Repository Initialization and Restore Script
+          # =================================================================
+          # This script runs once on first boot to:
+          # 1. Check if a Restic repository exists
+          # 2. If yes and contains backups: restore the latest backup
+          # 3. If yes but empty: ready for new backups
+          # 4. If no: initialize a new repository
+          #
+          # This enables zero-downtime server migration - just deploy the
+          # same configuration to a new server and it will automatically
+          # restore the database from the previous backup!
+          #
+          # USAGE:
+          # - Runs automatically on first boot via restic-init.service
+          # - Manual run: /var/misskey/backup/init-restic.sh
+          # =================================================================
+          set -euo pipefail
+
+          # Load Restic environment variables
+          source /var/misskey/backup/restic.env
+
+          echo "Checking if Restic repository exists on S3..."
+
+          # Check if repository already exists by trying to list snapshots
+          if podman run --rm \
+            --env-file /var/misskey/backup/restic.env \
+            docker.io/restic/restic:latest \
+            snapshots --tag misskey --json 2>/dev/null | grep -q '"id"'; then
+
+            echo "Restic repository exists and contains Misskey backups!"
+            echo "Attempting to restore from the latest backup..."
+
+            # Wait for PostgreSQL to be ready
+            echo "Waiting for PostgreSQL to be ready..."
+            RETRIES=30
+            until podman exec db pg_isready -U misskey -d misskey >/dev/null 2>&1; do
+              RETRIES=$((RETRIES - 1))
+              if [ $RETRIES -le 0 ]; then
+                echo "ERROR: PostgreSQL is not ready after waiting. Skipping restore."
+                exit 1
+              fi
+              echo "Waiting for PostgreSQL... ($RETRIES retries left)"
+              sleep 5
+            done
+            echo "PostgreSQL is ready!"
+
+            # Find the SQL file in the latest snapshot
+            echo "Finding backup file in snapshot..."
+            BACKUP_FILE=$(podman run --rm \
+              --env-file /var/misskey/backup/restic.env \
+              docker.io/restic/restic:latest \
+              ls latest --tag misskey 2>/dev/null | grep '\.sql$' | head -1)
+
+            if [ -z "$BACKUP_FILE" ]; then
+              echo "ERROR: No SQL backup file found in snapshot. Skipping restore."
+              exit 1
+            fi
+
+            echo "Found backup file: $BACKUP_FILE"
+
+            # Restore the latest snapshot using 'restic dump'
+            echo "Restoring database from latest backup..."
+            podman run --rm \
+              --env-file /var/misskey/backup/restic.env \
+              docker.io/restic/restic:latest \
+              dump latest --tag misskey "$BACKUP_FILE" | \
+              podman exec -i db psql -U misskey -d postgres
+
+            echo "Database restored successfully from backup!"
+
+          elif podman run --rm \
+            --env-file /var/misskey/backup/restic.env \
+            docker.io/restic/restic:latest \
+            snapshots >/dev/null 2>&1; then
+
+            echo "Restic repository exists but has no Misskey backups."
+            echo "Nothing to restore. Ready for new backups."
+
+          else
+            echo "Restic repository does not exist. Initializing..."
+            podman run --rm \
+              --env-file /var/misskey/backup/restic.env \
+              docker.io/restic/restic:latest \
+              init
+            echo "Restic repository initialized successfully!"
+          fi
+
+    # -------------------------------------------------------------------------
+    # PODMAN QUADLET CONTAINER DEFINITIONS
+    # -------------------------------------------------------------------------
+    # Quadlet is a tool for running Podman containers as systemd services.
+    # These files define container configurations that systemd manages.
+    # -------------------------------------------------------------------------
+
+    # Misskey internal network for container communication
+    - path: /var/home/core/.config/containers/systemd/misskey.network
+      mode: 0644
+      user:
+        name: core
+      group:
+        name: core
+      contents:
+        inline: |
+          # =================================================================
+          # Misskey Container Network
+          # =================================================================
+          # This network allows containers to communicate with each other
+          # using their container names as hostnames (e.g., 'db', 'redis').
+          # =================================================================
+          [Unit]
+          Description=Misskey internal network
+
+          [Network]
+          NetworkName=misskey-network
+          Driver=bridge
+          # Internal=false allows containers to access the internet
+          Internal=false
+
+    # Traefik reverse proxy container
+    - path: /var/home/core/.config/containers/systemd/traefik.container
+      mode: 0644
+      user:
+        name: core
+      group:
+        name: core
+      contents:
+        inline: |
+          # =================================================================
+          # Traefik Reverse Proxy Container
+          # =================================================================
+          # Traefik handles:
+          # - SSL/TLS termination with Let's Encrypt certificates
+          # - HTTP to HTTPS redirection
+          # - Routing requests to the Misskey container
+          # =================================================================
+          [Unit]
+          Description=Traefik Reverse Proxy with Let's Encrypt
+          Wants=network-online.target
+          After=network-online.target
+
+          [Container]
+          ContainerName=traefik
+          Image=docker.io/traefik:v3.2
+          Network=misskey.network
+          # Expose HTTP and HTTPS ports to the host
+          PublishPort=80:80
+          PublishPort=443:443
+          # Mount Traefik configuration files (read-only)
+          Volume=/var/traefik/config/traefik.yml:/etc/traefik/traefik.yml:ro,Z
+          Volume=/var/traefik/config/dynamic.yml:/etc/traefik/dynamic.yml:ro,Z
+          # Mount ACME storage for SSL certificates
+          Volume=/var/traefik/acme:/acme:Z
+          # Load Cloudflare API credentials for DNS challenge
+          EnvironmentFile=/var/traefik/config/cloudflare.env
+
+          [Service]
+          Restart=always
+          TimeoutStartSec=300
+
+          [Install]
+          WantedBy=default.target
+
+    # Redis cache container
+    - path: /var/home/core/.config/containers/systemd/misskey-redis.container
+      mode: 0644
+      user:
+        name: core
+      group:
+        name: core
+      contents:
+        inline: |
+          # =================================================================
+          # Redis Cache Container
+          # =================================================================
+          # Redis provides in-memory caching for Misskey, significantly
+          # improving performance for session management, rate limiting,
+          # and various application caches.
+          # =================================================================
+          [Unit]
+          Description=Misskey Redis Cache
+          Wants=network-online.target
+          After=network-online.target
+
+          [Container]
+          ContainerName=redis
+          Image=docker.io/redis:7-alpine
+          Network=misskey.network
+          # Persist Redis data (optional but recommended)
+          Volume=/var/misskey/redis:/data:Z
+          # Health check to verify Redis is responding
+          HealthCmd=redis-cli ping
+          HealthInterval=5s
+          HealthRetries=20
+
+          [Service]
+          Restart=always
+          TimeoutStartSec=300
+
+          [Install]
+          WantedBy=default.target
+
+    # PostgreSQL database container
+    - path: /var/home/core/.config/containers/systemd/misskey-db.container
+      mode: 0644
+      user:
+        name: core
+      group:
+        name: core
+      contents:
+        inline: |
+          # =================================================================
+          # PostgreSQL Database Container
+          # =================================================================
+          # PostgreSQL is the primary database for Misskey, storing all
+          # user data, posts, relationships, and application state.
+          # =================================================================
+          [Unit]
+          Description=Misskey PostgreSQL Database
+          Wants=network-online.target
+          After=network-online.target
+
+          [Container]
+          ContainerName=db
+          Image=docker.io/postgres:18-alpine
+          Network=misskey.network
+          # Load database credentials from environment file
+          EnvironmentFile=/var/misskey/config/docker.env
+          # Persist database data
+          Volume=/var/misskey/db:/var/lib/postgresql:Z
+          # Health check to verify PostgreSQL is accepting connections
+          HealthCmd=pg_isready -U misskey -d misskey
+          HealthInterval=5s
+          HealthRetries=20
+
+          [Service]
+          Restart=always
+          TimeoutStartSec=300
+
+          [Install]
+          WantedBy=default.target
+
+    # Meilisearch full-text search container
+    - path: /var/home/core/.config/containers/systemd/misskey-meilisearch.container
+      mode: 0644
+      user:
+        name: core
+      group:
+        name: core
+      contents:
+        inline: |
+          # =================================================================
+          # Meilisearch Full-text Search Container
+          # =================================================================
+          # Meilisearch provides fast, typo-tolerant full-text search for
+          # posts and user content. This is optional but greatly improves
+          # the search experience.
+          # =================================================================
+          [Unit]
+          Description=Misskey Meilisearch Fulltext Search
+          Wants=network-online.target
+          After=network-online.target
+
+          [Container]
+          ContainerName=meilisearch
+          Image=docker.io/getmeili/meilisearch:v1.3.4
+          Network=misskey.network
+          # Disable analytics telemetry
+          Environment=MEILI_NO_ANALYTICS=true
+          # Run in production mode (requires master key)
+          Environment=MEILI_ENV=production
+          # Load master key from environment file
+          EnvironmentFile=/var/misskey/config/meilisearch.env
+          # Persist search index data
+          Volume=/var/misskey/meili_data:/meili_data:Z
+
+          [Service]
+          Restart=always
+          TimeoutStartSec=300
+
+          [Install]
+          WantedBy=default.target
+
+    # Misskey web application container
+    - path: /var/home/core/.config/containers/systemd/misskey-web.container
+      mode: 0644
+      user:
+        name: core
+      group:
+        name: core
+      contents:
+        inline: |
+          # =================================================================
+          # Misskey Web Application Container
+          # =================================================================
+          # The main Misskey application container running the ActivityPub-
+          # compatible social networking platform.
+          # =================================================================
+          [Unit]
+          Description=Misskey Web Application
+          Wants=network-online.target
+          After=network-online.target
+          # Start after all dependencies are ready
+          After=misskey-db.service
+          After=misskey-redis.service
+          After=misskey-meilisearch.service
+          After=traefik.service
+          # Wait for database restore to complete before starting
+          After=restic-init.service
+          # Hard dependencies - won't start without these
+          Requires=misskey-db.service
+          Requires=misskey-redis.service
+
+          [Container]
+          ContainerName=web
+          Image=docker.io/misskey/misskey:latest
+          Network=misskey.network
+          # No PublishPort - Traefik handles external traffic
+          # Mount uploaded files storage
+          Volume=/var/misskey/files:/misskey/files:Z
+          # Mount Misskey configuration (read-only)
+          Volume=/var/misskey/config/default.yml:/misskey/.config/default.yml:ro,Z
+
+          [Service]
+          Restart=always
+          # Allow longer startup time for database migrations
+          TimeoutStartSec=900
+
+          [Install]
+          WantedBy=default.target
+
+    # -------------------------------------------------------------------------
+    # USER SYSTEMD SERVICES AND TIMERS
+    # -------------------------------------------------------------------------
+
+    # Backup service (triggered by timer)
+    - path: /var/home/core/.config/systemd/user/misskey-backup.service
+      mode: 0644
+      user:
+        name: core
+      group:
+        name: core
+      contents:
+        inline: |
+          # =================================================================
+          # Misskey Database Backup Service
+          # =================================================================
+          # Triggered by misskey-backup.timer to perform daily backups
+          # =================================================================
+          [Unit]
+          Description=Misskey PostgreSQL Backup to S3 via Restic
+          Wants=network-online.target
+          After=network-online.target
+          After=misskey-db.service
+          Requires=misskey-db.service
+
+          [Service]
+          Type=oneshot
+          ExecStart=/var/misskey/backup/backup.sh
+          # Allow up to 1 hour for large database backups
+          TimeoutStartSec=3600
+          # Set HOME for proper podman operation
+          Environment=HOME=/var/home/core
+
+          [Install]
+          WantedBy=default.target
+
+    # Backup timer (runs daily at UTC 20:00)
+    - path: /var/home/core/.config/systemd/user/misskey-backup.timer
+      mode: 0644
+      user:
+        name: core
+      group:
+        name: core
+      contents:
+        inline: |
+          # =================================================================
+          # Misskey Database Backup Timer
+          # =================================================================
+          # Triggers misskey-backup.service daily at 20:00 UTC
+          # =================================================================
+          [Unit]
+          Description=Daily Misskey PostgreSQL Backup Timer
+
+          [Timer]
+          # Run daily at 20:00 UTC (adjust to your preferred time)
+          OnCalendar=*-*-* 20:00:00 UTC
+          # Add random delay up to 5 minutes to prevent thundering herd
+          RandomizedDelaySec=300
+          # Run missed backups if system was offline at scheduled time
+          Persistent=true
+
+          [Install]
+          WantedBy=timers.target
+
+    # Restic initialization service (runs once on first boot)
+    - path: /var/home/core/.config/systemd/user/restic-init.service
+      mode: 0644
+      user:
+        name: core
+      group:
+        name: core
+      contents:
+        inline: |
+          # =================================================================
+          # Restic Repository Initialization Service
+          # =================================================================
+          # Runs once on first boot to initialize or restore from backup
+          # =================================================================
+          [Unit]
+          Description=Initialize Restic Backup Repository and Restore if Available
+          Wants=network-online.target
+          After=network-online.target
+          # Must run after PostgreSQL for potential restore
+          After=misskey-db.service
+          Requires=misskey-db.service
+          # Run before Misskey to ensure DB is restored first
+          Before=misskey-web.service
+          # Only run if not already initialized
+          ConditionPathExists=!/var/misskey/backup/.restic-initialized
+
+          [Service]
+          Type=oneshot
+          RemainAfterExit=yes
+          ExecStart=/var/misskey/backup/init-restic.sh
+          # Create marker file after successful initialization
+          ExecStartPost=/usr/bin/touch /var/misskey/backup/.restic-initialized
+          Environment=HOME=/var/home/core
+          # Allow up to 1 hour for large database restores
+          TimeoutStartSec=3600
+
+          [Install]
+          WantedBy=default.target
+
+# =============================================================================
+# SYSTEMD UNITS (System-level)
+# =============================================================================
+# These are system-level services that run as root.
+# =============================================================================
+systemd:
+  units:
+    # -------------------------------------------------------------------------
+    # RPM-OSTREE PACKAGE LAYERING
+    # -------------------------------------------------------------------------
+    # Fedora CoreOS uses rpm-ostree for atomic package management.
+    # These services install additional packages as layers on top of the base OS.
+    # -------------------------------------------------------------------------
+
+    # Install vim and policycoreutils-python-utils (for semanage)
+    - name: rpm-ostree-install-vim.service
+      enabled: true
+      contents: |
+        [Unit]
+        Description=Layer vim and policycoreutils-python-utils with rpm-ostree
+        Wants=network-online.target
+        After=network-online.target
+        # Run before zincati to avoid conflicting rpm-ostree transactions
+        # Zincati is the FCOS auto-update service
+        Before=zincati.service
+        # Only run once (stamp file prevents re-running)
+        ConditionPathExists=!/var/lib/%N.stamp
+
+        [Service]
+        Type=oneshot
+        RemainAfterExit=yes
+        # --allow-inactive ignores already-installed packages
+        ExecStart=/usr/bin/rpm-ostree install -y --allow-inactive vim policycoreutils-python-utils
+        ExecStart=/bin/touch /var/lib/%N.stamp
+        # Reboot to apply the layered packages
+        ExecStart=/bin/systemctl --no-block reboot
+
+        [Install]
+        WantedBy=multi-user.target
+
+    # Configure SELinux for custom SSH port
+    - name: selinux-ssh-port.service
+      enabled: true
+      contents: |
+        [Unit]
+        Description=Configure SELinux for custom SSH port 22222
+        Wants=network-online.target
+        After=network-online.target
+        # Must run after policycoreutils is installed
+        After=rpm-ostree-install-vim.service
+        # Only run if semanage is available
+        ConditionPathExists=/usr/sbin/semanage
+        ConditionPathExists=!/var/lib/%N.stamp
+
+        [Service]
+        Type=oneshot
+        RemainAfterExit=yes
+        # Add port 22222 to ssh_port_t SELinux type
+        ExecStart=/usr/sbin/semanage port -a -t ssh_port_t -p tcp 22222
+        ExecStart=/bin/touch /var/lib/%N.stamp
+        # Restart sshd to apply the new port
+        ExecStart=/bin/systemctl restart sshd.service
+
+        [Install]
+        WantedBy=multi-user.target
+
+    # -------------------------------------------------------------------------
+    # DIGITALOCEAN DROPLET AGENT (Optional)
+    # -------------------------------------------------------------------------
+    # Remove these two units if not deploying to DigitalOcean
+    # -------------------------------------------------------------------------
+
+    # Install DigitalOcean Droplet Agent
+    - name: rpm-ostree-install-droplet-agent.service
+      enabled: true
+      contents: |
+        [Unit]
+        Description=Layer DigitalOcean Droplet Agent with rpm-ostree
+        Wants=network-online.target
+        After=network-online.target
+        # Run after vim to avoid conflicting transactions
+        After=rpm-ostree-install-vim.service
+        Before=zincati.service
+        ConditionPathExists=!/var/lib/%N.stamp
+
+        [Service]
+        Type=oneshot
+        RemainAfterExit=yes
+        ExecStart=/usr/bin/rpm-ostree install -y --allow-inactive droplet-agent
+        ExecStart=/bin/touch /var/lib/%N.stamp
+        ExecStart=/bin/systemctl --no-block reboot
+
+        [Install]
+        WantedBy=multi-user.target
+
+    # Override droplet-agent service for custom SSH port
+    - name: droplet-agent.service
+      enabled: true
+      contents: |
+        [Unit]
+        Description=The DigitalOcean Droplet Agent
+        After=network-online.target
+        Wants=network-online.target
+
+        [Service]
+        User=root
+        Environment=TERM=xterm-256color
+        # Use custom SSH port instead of default 22
+        ExecStart=/opt/digitalocean/bin/droplet-agent --sshd_port 22222
+        Restart=always
+        RestartSec=10
+        TimeoutStopSec=90
+        KillMode=process
+        OOMScoreAdjust=-900
+        SyslogIdentifier=DropletAgent
+
+        [Install]
+        WantedBy=multi-user.target
