@@ -7,7 +7,13 @@ draft = false
 aliases = [ "/2020/11/linux-docker-setup-revese-proxy.html" ]
 
 [taxonomies]
-tags = [ "Docker", "Container", "Linux" ]
+tags = [
+  "Container",
+  "Digital Ocean",
+  "Docker",
+  "Linux",
+  "System Admin"
+]
 licenses = [ "GFDL 1.3" ]
 
 [extra]

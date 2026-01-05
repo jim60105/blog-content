@@ -26,6 +26,9 @@ card = "preview.png"
   withAI = true
   description = "Made with Nano Banana Pro by Gemini 3"
   url = "https://gemini.google.com/share/276fce756a05"
+
+  [extra.comments]
+  id = "ah4uiy1zgwnf00ef"
 +++
 
 這篇文章要分享的是我架設 [Misskey](https://misskey-hub.net/tw/) 伺服器的經驗。我選擇了一條跟大多數人不太一樣的路：用 [Fedora CoreOS](https://docs.fedoraproject.org/en-US/fedora-coreos/) 搭配 [Ignition](https://coreos.github.io/ignition/) 設定檔來部署，而不是傳統的 Docker Compose 加上 Ubuntu。

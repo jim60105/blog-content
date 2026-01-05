@@ -6,7 +6,7 @@ updated = "2025-12-27T20:06:19.282Z"
 aliases = [ "/Cloudflare/simple-cloudflare-ddns/" ]
 
 [taxonomies]
-tags = [ "Cloudflare", "Container", "Linux", "System Admin" ]
+tags = [ "Cloudflare", "Container", "Linux", "System Admin", "DNS" ]
 licenses = [ "GFDL 1.3" ]
 
 [extra]
