@@ -52,13 +52,13 @@ passwd:
       # Generate a new key pair with: ssh-keygen -t ed25519 -C "your-email@example.com"
       # Example format: "ssh-ed25519 AAAAC3NzaC1... user@hostname"
       ssh_authorized_keys:
-        - "<YOUR_SSH_PUBLIC_KEY>"
+        - '<YOUR_SSH_PUBLIC_KEY>'
         # Add additional keys below if needed:
         # - "ssh-ed25519 AAAAC3NzaC1... another-user@hostname"
       groups:
-        - wheel   # Allows sudo access
-        - sudo    # Alternative sudo group
-        - docker  # Docker/Podman access (for compatibility)
+        - wheel # Allows sudo access
+        - sudo # Alternative sudo group
+        - docker # Docker/Podman access (for compatibility)
       shell: /bin/bash
 
 # =============================================================================
@@ -252,6 +252,14 @@ storage:
       group:
         name: core
 
+    # Auto-enable meilisearch-reindex.service for Meilisearch index rebuild after restore
+    - path: /var/home/core/.config/systemd/user/default.target.wants/meilisearch-reindex.service
+      target: /var/home/core/.config/systemd/user/meilisearch-reindex.service
+      user:
+        name: core
+      group:
+        name: core
+
   # ---------------------------------------------------------------------------
   # CONFIGURATION FILES
   # ---------------------------------------------------------------------------
@@ -267,7 +275,7 @@ storage:
     - path: /var/lib/systemd/linger/core
       mode: 0644
       contents:
-        inline: ""
+        inline: ''
 
     # -------------------------------------------------------------------------
     # SYSTEM CONFIGURATION
@@ -634,7 +642,7 @@ storage:
       group:
         name: core
       contents:
-        inline: "{}"
+        inline: '{}'
 
     # -------------------------------------------------------------------------
     # BACKUP CONFIGURATION (Restic + S3)
@@ -843,6 +851,181 @@ storage:
               docker.io/restic/restic:latest \
               init
             echo "Restic repository initialized successfully!"
+          fi
+
+    # -------------------------------------------------------------------------
+    # MEILISEARCH INDEX REBUILD SCRIPT
+    # -------------------------------------------------------------------------
+    # This script rebuilds Meilisearch index for old posts after database
+    # restore. Without this, posts created before the restore won't be
+    # searchable until they are re-indexed.
+    # -------------------------------------------------------------------------
+
+    - path: /var/misskey/backup/rebuild-meilisearch-index.sh
+      mode: 0755
+      user:
+        name: core
+      group:
+        name: core
+      contents:
+        inline: |
+          #!/bin/bash
+          set -euo pipefail
+
+          # =================================================================
+          # Meilisearch Index Rebuild Script for Misskey
+          # =================================================================
+          # This script extracts notes from PostgreSQL and indexes them in
+          # Meilisearch. Run this after restoring a database backup to make
+          # old posts searchable.
+          #
+          # NOTE: Since Meilisearch runs in a container and is only accessible
+          # via the Podman network, this script uses podman to run curl commands
+          # through a container connected to the misskey-network.
+          #
+          # Reference: https://radiumproduction.blog.shinobi.jp/Entry/1132/
+          #
+          # CONFIGURATION:
+          # - Adjust LIMIT based on your instance's total note count
+          # - INDEX_NAME format: <slugified-domain>---notes (Misskey 13.12.2+)
+          # =================================================================
+
+          # Configuration - Replace placeholders with actual values
+          DB_NAME="misskey"
+          DB_USER="misskey"
+          # Use container name as host (accessible within Podman network)
+          MEILISEARCH_HOST="meilisearch"
+          MEILISEARCH_PORT="7700"
+          # Meilisearch master key - MUST match MEILI_MASTER_KEY in meilisearch.env
+          MEILISEARCH_KEY="<MEILISEARCH_MASTER_KEY>"
+          # Index name format: <slugified-domain>---notes (Misskey 13.12.2+)
+          # Example: for domain "misskey.example.com", use "misskey-example-com---notes"
+          INDEX_NAME="<YOUR_DOMAIN_IN_SLUGIFY_FORMAT>---notes"
+          # Number of notes to index (adjust based on your instance size)
+          # Set this to a number larger than your total note count
+          LIMIT=500000
+          # Container image for running curl commands on the network
+          CURL_IMAGE="docker.io/curlimages/curl:latest"
+          # Podman network name
+          NETWORK_NAME="misskey-network"
+
+          TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+          echo "[${TIMESTAMP}] Starting Meilisearch index rebuild..."
+
+          # Wait for Meilisearch to be ready (using container on the network)
+          echo "Waiting for Meilisearch to be ready..."
+          RETRIES=30
+          until podman run --rm --network "${NETWORK_NAME}" "${CURL_IMAGE}" \
+            -sf "http://${MEILISEARCH_HOST}:${MEILISEARCH_PORT}/health" >/dev/null 2>&1; do
+            RETRIES=$((RETRIES - 1))
+            if [ $RETRIES -le 0 ]; then
+              echo "ERROR: Meilisearch is not ready after waiting. Skipping index rebuild."
+              exit 1
+            fi
+            echo "Waiting for Meilisearch... ($RETRIES retries left)"
+            sleep 5
+          done
+          echo "Meilisearch is ready!"
+
+          # Wait for PostgreSQL to be ready
+          echo "Waiting for PostgreSQL to be ready..."
+          RETRIES=30
+          until podman exec db pg_isready -U "${DB_USER}" -d "${DB_NAME}" >/dev/null 2>&1; do
+            RETRIES=$((RETRIES - 1))
+            if [ $RETRIES -le 0 ]; then
+              echo "ERROR: PostgreSQL is not ready after waiting. Skipping index rebuild."
+              exit 1
+            fi
+            echo "Waiting for PostgreSQL... ($RETRIES retries left)"
+            sleep 5
+          done
+          echo "PostgreSQL is ready!"
+
+          # Create temporary directory for processing
+          # Make it world-readable so the curl container (runs as non-root) can access files
+          TMPDIR=$(mktemp -d)
+          chmod 755 "${TMPDIR}"
+          trap "rm -rf ${TMPDIR}" EXIT
+
+          echo "Extracting notes from PostgreSQL..."
+
+          # Extract notes as JSON from PostgreSQL
+          # Only public and home visibility notes are indexed
+          # NOTE: The 'note' table no longer has a 'createdAt' column (removed in Misskey migration).
+          # The timestamp is derived from the note ID using AIDX format.
+          # Column names in PostgreSQL are lowercase (userId -> "userId" maps to userId column)
+          podman exec db psql -U "${DB_USER}" -d "${DB_NAME}" -t -A -c "
+            SELECT json_agg(row_to_json(t))::text
+            FROM (
+              SELECT id, \"userId\", \"userHost\", \"channelId\", cw, text, tags
+              FROM note
+              WHERE visibility IN ('home', 'public')
+                AND (text IS NOT NULL OR cw IS NOT NULL)
+              LIMIT ${LIMIT}
+            ) t
+          " > "${TMPDIR}/notes_raw.json"
+
+          # Check if we got any notes
+          if [ ! -s "${TMPDIR}/notes_raw.json" ] || grep -q '^$' "${TMPDIR}/notes_raw.json"; then
+            echo "No notes found in database. Skipping index rebuild."
+            exit 0
+          fi
+
+          echo "Processing JSON data..."
+
+          # Transform note ID to createdAt timestamp for Meilisearch
+          # Misskey uses AIDX format: first 8 chars are base36 encoded milliseconds since 2000-01-01
+          # TIME2000 = 946684800000 (Unix timestamp of 2000-01-01 00:00:00 UTC in milliseconds)
+          # Formula: parseInt(id.slice(0, 8), 36) + 946684800000
+          #
+          # jq explanation:
+          # - .id[:8] extracts first 8 characters of the ID
+          # - explode converts string to array of codepoints
+          # - For each char: if 0-9 (48-57) subtract 48, if a-z (97-122) subtract 87
+          # - Reduce with base 36 multiplication to get the timestamp offset
+          # - Add TIME2000 (946684800000) to get Unix timestamp in milliseconds
+          jq 'def parse_base36:
+            explode | reduce .[] as $c (0;
+              . * 36 + (if $c >= 48 and $c <= 57 then $c - 48
+                        elif $c >= 97 and $c <= 122 then $c - 87
+                        else 0 end)
+            );
+            map(. + {createdAt: ((.id[:8] | parse_base36) + 946684800000)})' \
+            "${TMPDIR}/notes_raw.json" > "${TMPDIR}/notes.json"
+
+          # Make the JSON file world-readable for the curl container
+          chmod 644 "${TMPDIR}/notes.json"
+
+          NOTE_COUNT=$(jq 'length' "${TMPDIR}/notes.json")
+          echo "Found ${NOTE_COUNT} notes to index."
+
+          echo "Sending notes to Meilisearch..."
+
+          # Post notes to Meilisearch index using curl container on the network
+          # Mount the temp directory to access the JSON file
+          podman run --rm \
+            --network "${NETWORK_NAME}" \
+            -v "${TMPDIR}:${TMPDIR}:ro,Z" \
+            "${CURL_IMAGE}" \
+            -s -w "\n%{http_code}" \
+            -X POST "http://${MEILISEARCH_HOST}:${MEILISEARCH_PORT}/indexes/${INDEX_NAME}/documents?primaryKey=id" \
+            --data-binary @"${TMPDIR}/notes.json" \
+            -H 'Content-Type: application/json' \
+            -H "Authorization: Bearer ${MEILISEARCH_KEY}" \
+            > "${TMPDIR}/response_with_code.txt"
+
+          # Extract HTTP status code (last line) and response body
+          HTTP_STATUS=$(tail -1 "${TMPDIR}/response_with_code.txt")
+          head -n -1 "${TMPDIR}/response_with_code.txt" > "${TMPDIR}/response.json"
+
+          if [ "$HTTP_STATUS" -ge 200 ] && [ "$HTTP_STATUS" -lt 300 ]; then
+            TASK_UID=$(jq -r '.taskUid' "${TMPDIR}/response.json")
+            echo "Index task queued successfully! Task UID: ${TASK_UID}"
+            echo "[$(date -u +"%Y-%m-%dT%H:%M:%SZ")] Meilisearch index rebuild completed!"
+          else
+            echo "ERROR: Failed to index notes. HTTP status: ${HTTP_STATUS}"
+            cat "${TMPDIR}/response.json"
+            exit 1
           fi
 
     # -------------------------------------------------------------------------
@@ -1066,6 +1249,8 @@ storage:
           After=traefik.service
           # Wait for database restore to complete before starting
           After=restic-init.service
+          # Wait for Meilisearch index rebuild to complete after restore
+          After=meilisearch-reindex.service
           # Hard dependencies - won't start without these
           Requires=misskey-db.service
           Requires=misskey-redis.service
@@ -1186,6 +1371,58 @@ storage:
           ExecStartPost=/usr/bin/touch /var/misskey/backup/.restic-initialized
           Environment=HOME=/var/home/core
           # Allow up to 1 hour for large database restores
+          TimeoutStartSec=3600
+
+          [Install]
+          WantedBy=default.target
+
+    # -------------------------------------------------------------------------
+    # Meilisearch Index Rebuild Service
+    # -------------------------------------------------------------------------
+    # This service rebuilds the Meilisearch search index after a database
+    # restore. It runs after restic-init.service and before misskey-web starts.
+    # -------------------------------------------------------------------------
+
+    - path: /var/home/core/.config/systemd/user/meilisearch-reindex.service
+      mode: 0644
+      user:
+        name: core
+      group:
+        name: core
+      contents:
+        inline: |
+          # =================================================================
+          # Meilisearch Index Rebuild Service
+          # =================================================================
+          # Rebuilds search index for old posts after database restore.
+          # Without this, restored posts won't be searchable until Misskey
+          # naturally re-indexes them (which may never happen for old posts).
+          # =================================================================
+          [Unit]
+          Description=Rebuild Meilisearch Index for Old Posts After Database Restore
+          Wants=network-online.target
+          After=network-online.target
+          # Must run after database restore is complete
+          After=restic-init.service
+          # Must run after Meilisearch is started
+          After=misskey-meilisearch.service
+          Requires=misskey-meilisearch.service
+          Requires=misskey-db.service
+          # Run before Misskey web starts
+          Before=misskey-web.service
+          # Only run if restic-init has completed (indicates a restore may have happened)
+          ConditionPathExists=/var/misskey/backup/.restic-initialized
+          # Only run once after restore
+          ConditionPathExists=!/var/misskey/backup/.meilisearch-reindexed
+
+          [Service]
+          Type=oneshot
+          RemainAfterExit=yes
+          ExecStart=/var/misskey/backup/rebuild-meilisearch-index.sh
+          # Create marker file after successful reindex
+          ExecStartPost=/usr/bin/touch /var/misskey/backup/.meilisearch-reindexed
+          Environment=HOME=/var/home/core
+          # Allow up to 1 hour for large index rebuilds
           TimeoutStartSec=3600
 
           [Install]

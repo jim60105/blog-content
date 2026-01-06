@@ -350,6 +350,10 @@ systemd timer 會每天自動執行，並且套用保留策略，舊的備份會
 我在設定檔裡寫了一個 `restic-init.service`，它會在 **初次開機時** 檢查 S3 上有沒有既有的備份。如果有，它會 {{ cg(body="自動還原最新的備份") }}。
 {% end %}
 
+資料庫還原後還有個問題：{{ cr(body="Meilisearch 的搜尋索引不會自動重建") }}。這代表還原前發布的文章會消失在搜尋結果中。
+
+為了解決這個問題，我寫了 `rebuild-meilisearch-index.sh` 腳本。它會在資料庫還原後、Misskey 啟動前執行一次，{{ cg(body="自動從 PostgreSQL 提取所有文章並重建 Meilisearch 索引") }}。
+
 這代表什麼？代表 **災難復原變成一鍵部署**。
 
 假設哪天主機掛了，我只需要：
