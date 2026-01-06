@@ -377,6 +377,21 @@ storage:
           port: 3000
 
           # -----------------------------------------------------------------
+          # Proxy Trust Settings
+          # -----------------------------------------------------------------
+          # When Misskey is behind a reverse proxy (like Traefik) or CDN
+          # (like Cloudflare), you must configure trustProxy to get the
+          # real client IP from X-Forwarded-For headers.
+          #
+          # Options:
+          # - true: Trust all proxies (recommended when behind Cloudflare)
+          # - false: Do not trust any proxies
+          # - IP/CIDR array: Trust specific proxy IPs
+          #
+          # Reference: https://fastify.dev/docs/latest/Reference/Server/#trustproxy
+          trustProxy: true
+
+          # -----------------------------------------------------------------
           # PostgreSQL Database Configuration
           # -----------------------------------------------------------------
           db:
@@ -512,6 +527,10 @@ storage:
                   entryPoint:
                     to: websecure
                     scheme: https
+              # Trust X-Forwarded-* headers from upstream proxies (e.g., Cloudflare)
+              # This is required to pass the real client IP to backend services
+              forwardedHeaders:
+                insecure: true
 
             # HTTPS entry point (port 443)
             websecure:
@@ -520,6 +539,10 @@ storage:
                 tls:
                   # Use Cloudflare DNS challenge for SSL certificates
                   certResolver: cloudflare
+              # Trust X-Forwarded-* headers from upstream proxies (e.g., Cloudflare)
+              # This is required to pass the real client IP to backend services
+              forwardedHeaders:
+                insecure: true
 
           # -----------------------------------------------------------------
           # Configuration Providers
