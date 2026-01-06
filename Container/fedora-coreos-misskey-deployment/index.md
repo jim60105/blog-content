@@ -1,7 +1,7 @@
 +++
 title = "使用 Fedora CoreOS 在雲端部署 Misskey 聯邦宇宙節點"
 description = "用 Fedora CoreOS 和 Ignition 在 DigitalOcean 部署 Misskey，一份 YAML 定義整台伺服器。涵蓋 Rootless Podman、Traefik SSL、S3 備份還原，實現災難復原一鍵部署。"
-updated = "2026-01-05T10:29:11.427Z"
+updated = "2026-01-06T06:23:25.269Z"
 date = "2026-01-05T10:29:11.875Z"
 
 [taxonomies]
@@ -31,7 +31,7 @@ card = "preview.png"
   id = "ah4uiy1zgwnf00ef"
 +++
 
-這篇文章要分享的是我架設 [Misskey](https://misskey-hub.net/tw/) 伺服器的經驗。我選擇了一條跟大多數人不太一樣的路：用 [Fedora CoreOS](https://docs.fedoraproject.org/en-US/fedora-coreos/) 搭配 [Ignition](https://coreos.github.io/ignition/) 設定檔來部署，而不是傳統的 Docker Compose 加上 Ubuntu。
+這篇文章要分享的是我架設 [Misskey](https://misskey-hub.net/tw/) 伺服器的經驗。我選擇了一條跟大多數人不太一樣的路：用 [Fedora CoreOS](https://docs.fedoraproject.org/en-US/fedora-coreos/) 搭配 [Ignition](https://coreos.github.io/ignition/) 設定檔來部署，而不是常見的 Docker Compose 加上 Ubuntu。
 
 為什麼要這麼做？那是因為我想實現一個理想：{{ cg(body="透過設定檔一鍵重建整台伺服器") }}。
 
