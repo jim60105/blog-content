@@ -2,7 +2,6 @@
 title = "[個人專案] OBS Weather Widget - 可愛風 OBS 天氣小工具"
 description = "一個適用於 OBS Studio 瀏覽器來源的可愛風格天氣小工具，顯示明日天氣預報並支援多個地點輪播。專案使用純靜態網頁技術打造，搭配 Open-Meteo 免費 API 取得天氣資料，具備使用者友善的設定頁面與即時預覽功能。採 AGPL-3.0 開源授權，自由軟體，無廣告。"
 date = "2026-01-11T12:18:52.075Z"
-draft = true
 updated = "2026-01-11T12:18:51.781Z"
 
 [taxonomies]
