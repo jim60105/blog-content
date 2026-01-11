@@ -10,6 +10,9 @@ licenses = [ "GFDL 1.3" ]
 
 [extra]
 card = "preview.png"
+
+  [extra.comments]
+  id = "ahdgzwaup3ek008j"
 +++
 <iframe src="https://weather.obs.xn--jgy.tw/widget?locations=%5B%7B%22name%22%3A%22%E5%8F%B0%E5%8C%97%22%2C%22lat%22%3A25.0531%2C%22lon%22%3A121.5264%7D%2C%7B%22name%22%3A%22%E5%8F%B0%E4%B8%AD%22%2C%22lat%22%3A24.1469%2C%22lon%22%3A120.6839%7D%2C%7B%22name%22%3A%22%E5%8F%B0%E5%8D%97%22%2C%22lat%22%3A22.9908%2C%22lon%22%3A120.2133%7D%5D&interval=3000&unit=celsius" title="OBS Weather Widget Preview" width="500" height="300" style="border:none; overflow:hidden;" loading="lazy" referrerpolicy="no-referrer-when-downgrade" style="width: 500px" ></iframe>
 
