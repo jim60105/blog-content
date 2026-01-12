@@ -2,7 +2,7 @@
 title = "[個人專案] OBS Weather Widget - 可愛風 OBS 天氣小工具"
 description = "一個適用於 OBS Studio 瀏覽器來源的可愛風格天氣小工具，顯示明日天氣預報並支援多個地點輪播。專案使用純靜態網頁技術打造，搭配 Open-Meteo 免費 API 取得天氣資料，具備使用者友善的設定頁面與即時預覽功能。採 AGPL-3.0 開源授權，自由軟體，無廣告。"
 date = "2026-01-11T12:18:52.075Z"
-updated = "2026-01-11T12:18:51.781Z"
+updated = "2026-01-12T10:21:36.510Z"
 
 [taxonomies]
 tags = [ "Cloudflare", "JavaScript", "Livestream", "VTuber" ]
@@ -42,8 +42,9 @@ card = "preview.png"
 可是...可是你們不覺得很酷嗎！...可是很酷誒！
 
 你想你想你想你想你想，在看主播的時候旁邊還可以有一個天氣預報，而且主播常常都開台到晚上十二點，你就可以看明天的天氣耶，不覺得很酷嗎？
+{% end %}
 
-...不酷嗎？ {% end %}
+{% chat(speaker="阿奈 𝒜𝒩𝒶𝒾 ", avatar="anainai.webp", color="rgb(233 161 177)") %} ...不酷嗎？ {% end %}
 
 {% chat(speaker="jim") %} 太酷了吧 {% end %}
 
@@ -123,12 +124,12 @@ Gemini 3 幫我產生了可愛風格的天氣圖示和小工具設計。在裁�
 
 ### 天氣資料來源
 
-本專案使用 [Open-Meteo](https://open-meteo.com/) 的 API：
+本專案使用以下 API：
 
-| API      | Endpoint                                         | 用途             |
-| -------- | ------------------------------------------------ | ---------------- |
-| 天氣預報 | `https://api.open-meteo.com/v1/forecast`         | 取得每日天氣資料 |
-| 地理編碼 | `https://geocoding-api.open-meteo.com/v1/search` | 將地名轉換為座標 |
+| API      | Endpoint                                     | 用途             |
+| -------- | -------------------------------------------- | ---------------- |
+| 天氣預報 | `https://api.open-meteo.com/v1/forecast`     | 取得每日天氣資料 |
+| 地理編碼 | `https://nominatim.openstreetmap.org/search` | 將地名轉換為座標 |
 
 ### WMO 天氣代碼
 
