@@ -2,7 +2,7 @@
 title = "[個人專案] OBS Weather Widget - 可愛風 OBS 天氣小工具"
 description = "一個適用於 OBS Studio 瀏覽器來源的可愛風格天氣小工具，顯示明日天氣預報並支援多個地點輪播。專案使用純靜態網頁技術打造，搭配 Open-Meteo 免費 API 取得天氣資料，具備使用者友善的設定頁面與即時預覽功能。採 AGPL-3.0 開源授權，自由軟體，無廣告。"
 date = "2026-01-11T12:18:52.075Z"
-updated = "2026-01-12T10:21:36.510Z"
+updated = "2026-01-14T07:31:02.535Z"
 
 [taxonomies]
 tags = [ "Cloudflare", "JavaScript", "Livestream", "VTuber" ]
@@ -10,6 +10,7 @@ licenses = [ "GFDL 1.3" ]
 
 [extra]
 card = "preview.png"
+hot = true
 
   [extra.comments]
   id = "ahdgzwaup3ek008j"
@@ -164,3 +165,12 @@ OBS 和使用者慣用的瀏覧器是兩個獨立的環境。透過 URL 參數�
 本專案採用 **[AGPL-3.0](https://github.com/jim60105/obs-weather-widget/blob/master/LICENSE)** 授權開源。程式碼完整公開在 GitHub 上，歡迎自由使用、修改與分享。
 
 若讀者對專案有任何建議或發現問題，歡迎到 [GitHub](https://github.com/jim60105/obs-weather-widget) 提出 Issue，或由以下 Fediverse 回覆我。
+
+> [!TIP]
+>
+> 延伸閱讀
+>
+> - [打造 VTuber 須多夜花官方網站：Zola SSG 與 AI 協作開發實錄](@/SideProject/suda-yoruka-official-website-zola-ssg/index.md)
+> - [\[個人專案\] SoundButtons - 聲音按鈕](@/SideProject/soundbuttons/index.md)
+> - [\[個人專案\] Unfair Spin Wheel - 不公平轉盤](@/SideProject/unfair-spin-wheel/index.md)
+> - [影片下載轉檔筆記 (Youtube、Twitch、TwitCasting、Twitter Spaces 音訊空間、fc2 live、ffmpeg、yt-dlp)](@/Livestream/youtube-download-ytdlp-ffmpeg/index.md)
