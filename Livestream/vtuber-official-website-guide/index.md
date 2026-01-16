@@ -17,6 +17,9 @@ banner = "preview.png"
   withAI = true
   url = "https://gemini.google.com/share/253c4099d23b"
   description = "Made with Nano Banana Pro by Gemini 3"
+
+  [extra.comments]
+  id = "ahkjgtdip3ek00je"
 +++
 
 之前在 [打造 VTuber 須多夜花官方網站](@/SideProject/suda-yoruka-official-website-zola-ssg/index.md) 一文中，我分享了為 VTuber 製作官網的技術開發經驗。那篇文章的讀者設定是開發人員，內容偏向技術實作。這次我想換個角度，寫給沒有資訊背景的一般人，特別是正在考慮投資製作官方網站的 VTuber 和內容創作者。
