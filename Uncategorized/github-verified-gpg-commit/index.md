@@ -105,7 +105,7 @@ gpg --allow-secret-key-import --import ./mygpgkey_sec.gpg
    Linux: `~\.gnupg\`
 2. 在此路徑中建立 gpg-agent.conf 檔案，並寫入以下設定 (這是一年)  
 
-    ```config
+    ```
     default-cache-ttl 34560000
     max-cache-ttl 34560000
     ```

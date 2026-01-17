@@ -225,7 +225,7 @@ sudo vim /etc/modprobe.d/blacklist.conf
 
 在 blacklist.conf 裡面加上
 
-```config
+```
 blacklist i2c_piix4
 ```
 
