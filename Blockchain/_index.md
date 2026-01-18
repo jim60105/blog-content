@@ -1,6 +1,8 @@
 +++
 title = "Blockchain"
 
+description = "區塊鏈技術應用與實作，包含區塊鏈網域名稱申請與設定、LikeCoin Writing NFT 發行與 Blogger 嵌入小工具、ISCN 存證頁面歸檔等主題。"
+
 # A draft section is only loaded if the `--drafts` flag is passed to `zola build`, `zola serve` or `zola check`.
 draft = false
 

@@ -1,6 +1,8 @@
 +++
 title = "Livestream"
 
+description = "直播技術與影音處理工具，包含 YouTube 直播自動監控與下載、備份下載工具、Fortigate 穿透 YouTube、VTuber 粉絲生活、Shaka Packager 使用、網路空間影片串流、TwitCasting Cookie 取得、YouTube-DL 自動錄製直播、yt-dlp 與 ffmpeg 使用等主題。"
+
 # A draft section is only loaded if the `--drafts` flag is passed to `zola build`, `zola serve` or `zola check`.
 draft = false
 

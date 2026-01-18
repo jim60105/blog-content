@@ -1,6 +1,8 @@
 +++
 title = "Cloudflare"
 
+description = "Cloudflare 平台服務開發與部署，包含 Cloudflare Pages 靜態網站託管、Cloudflare Workers 無伺服器函式開發、Wrangler CLI 與 GitHub Actions 自動化部署、DDoS 防護實戰經驗、MinIO StatObject 權限設定等主題。"
+
 # A draft section is only loaded if the `--drafts` flag is passed to `zola build`, `zola serve` or `zola check`.
 draft = false
 

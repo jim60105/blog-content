@@ -1,6 +1,8 @@
 +++
 title = "AI"
 
+description = "人工智慧相關技術文章，包含 AI 提示工程實務、大型語言模型應用開發、AI 輔助內容創作工具、RAG 系統準確度優化、自動化提示工程、角色扮演提示設計、網頁提示注入攻擊分析、Microsoft Prompty 管理等主題。"
+
 # A draft section is only loaded if the `--drafts` flag is passed to `zola build`, `zola serve` or `zola check`.
 draft = false
 

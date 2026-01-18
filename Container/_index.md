@@ -1,6 +1,8 @@
 +++
 title = "Container"
 
+description = "容器化技術與 DevOps 實作，包含 Docker 環境變數傳遞、ArgoCD ConfigMap 設定、Azure CLI 轉換 REST API、Podman GPU 設定、Stable Diffusion WebUI 與 Kohya's GUI 容器化、Fedora CoreOS 與 Misskey 部署、RHEL8 離線安裝 Docker、反向代理設定、多階段 Containerfile 與 CI/CD、Nextcloud、OpenCart 等主題。"
+
 # A draft section is only loaded if the `--drafts` flag is passed to `zola build`, `zola serve` or `zola check`.
 draft = false
 

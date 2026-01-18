@@ -1,6 +1,8 @@
 +++
 title = "SideProject"
 
+description = "個人開發專案與實驗作品，包含 Chrome 擴充套件（YouTube Clip Playlist）、注音轉換工具、C++ 編譯、OBS 天氣小工具、錄音機 Moe、Cloudflare DDNS、音效按鈕板、UserScript、WiFi AP 設定、瀏覽量徽章、YouTube Timeline Builder 等多元化專案。"
+
 # A draft section is only loaded if the `--drafts` flag is passed to `zola build`, `zola serve` or `zola check`.
 draft = false
 
