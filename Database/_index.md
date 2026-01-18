@@ -1,7 +1,7 @@
 +++
 title = "Database"
 
-description = "資料庫技術與雲端服務應用，包含使用 Google Spreadsheets 作為簡易資料庫的實作技巧與應用場景等主題。"
+description = "雲端試算表作為資料庫的應用與資料存取技巧。"
 
 # A draft section is only loaded if the `--drafts` flag is passed to `zola build`, `zola serve` or `zola check`.
 draft = false

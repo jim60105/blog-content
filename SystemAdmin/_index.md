@@ -1,7 +1,7 @@
 +++
 title = "SystemAdmin"
 
-description = "系統管理與 IT 基礎設施建置，包含 Banana Pi M3 交叉編譯、多重開機 USB 製作與開機選單修改、Bash 變數與萬用字元正確語法、Fedora Kinoite 介紹、家用網路拓撲重新設計、TeamViewer VPN、VMware 執行實體系統、Windows 7 自動登入設定、WSL 等主題。"
+description = "Linux 系統管理、多重開機設定、網路拓撲設計與虛擬化技術。"
 
 # A draft section is only loaded if the `--drafts` flag is passed to `zola build`, `zola serve` or `zola check`.
 draft = false

@@ -1,7 +1,7 @@
 +++
 title = "Unboxing"
 
-description = "硬體產品開箱與評測，包含單板電腦（Banana Pi M3）、鍵盤（Niz Atom68、iRocks 鍵帽）、手機、VR 頭戴裝置（小宅 Z5）、公仔模型（Nendoroid、女王之刃）、顯示器（ASUS PB533）、冷錢包（Tangem）、其他周邊硬體等開箱分享。"
+description = "3C 硬體產品開箱、評測與使用心得分享。"
 
 # A draft section is only loaded if the `--drafts` flag is passed to `zola build`, `zola serve` or `zola check`.
 draft = false

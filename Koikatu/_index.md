@@ -1,7 +1,7 @@
 +++
 title = "Koikatu"
 
-description = "Koikatu 遊戲插件開發與使用，包含個人開發的各式插件、BepInEx 安裝與偵錯指南、BEP4/BEP5 插件開發教學、工作室功能擴充、角色編輯器增強、PNG 截圖尺寸修改、存檔壓縮、透明背景等豐富的遊戲 Mod 開發主題。"
+description = "Koikatu 遊戲 Mod 開發、BepInEx 插件系統與工作室功能擴充。"
 
 # A draft section is only loaded if the `--drafts` flag is passed to `zola build`, `zola serve` or `zola check`.
 draft = false

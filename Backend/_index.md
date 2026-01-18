@@ -1,7 +1,7 @@
 +++
 title = "Backend"
 
-description = "後端開發技術與框架實作，包含 C# .NET 6 FileStream 檔案鎖定處理技巧、Angular 2 與 ASP.NET Web API 整合 Google OAuth2 OIDC 授權碼流程、Serilog 在 .NET Core 單一檔案部署的配置等主題。"
+description = "後端服務開發、身份驗證與 .NET 框架應用實務。"
 
 # A draft section is only loaded if the `--drafts` flag is passed to `zola build`, `zola serve` or `zola check`.
 draft = false

@@ -1,7 +1,7 @@
 +++
 title = "Mobile"
 
-description = "行動裝置應用開發與使用，包含 Android APP 開發（PM2.5 AirBox LASS、VR 應用）、手機音訊透過藍牙串流至電腦、VPN 翻牆存取 Google Play 等主題。"
+description = "Android 應用開發、行動裝置功能整合與 VR 應用。"
 
 # A draft section is only loaded if the `--drafts` flag is passed to `zola build`, `zola serve` or `zola check`.
 draft = false

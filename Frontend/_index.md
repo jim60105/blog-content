@@ -1,7 +1,7 @@
 +++
 title = "Frontend"
 
-description = "前端開發與網站建置經驗，包含 Azure Blob Storage 206 Partial Content 實作、從 Blogger 遷移至 Zola 重建個人部落格、瀏覽器媒體自動播放政策、VSCode 偵錯 Web 專案瀏覽器自動啟動、YouTube iframe 嵌入影片問題排解等主題。"
+description = "前端開發技術、靜態網站產生器與瀏覽器功能實作。"
 
 # A draft section is only loaded if the `--drafts` flag is passed to `zola build`, `zola serve` or `zola check`.
 draft = false
