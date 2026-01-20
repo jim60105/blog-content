@@ -13,6 +13,7 @@ licenses = [ "GFDL 1.3" ]
 [extra]
 iscn = "iscn://likecoin-chain/0TcWBncBjI36FAfqcjQnRpSnzVYMEJy56YD7fOCq--M/1"
 card = "preview.png"
+archive = "由於 [「化讚為賞」功能退役，無新機制取代](https://docs.3ook.com/zh-TW/articles/13285264-likecoin-v3-%E6%9C%89%E4%BB%80%E9%BA%BC%E5%8A%9F%E8%83%BD) 此文小工具已失效"
 
   [extra.comments]
   id = "agzbrz8bx37i00ua"
