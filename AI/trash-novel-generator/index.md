@@ -2,7 +2,7 @@
 title = "如何用 AI 寫小說？ —— 揭開「垃圾小說產生器」的創意魔法！✨📚"
 description = "探索如何利用 AI 創造優質垃圾小說！本文介紹「垃圾小說產生器」Coze 助手的功能、使用方法及驚人創意，讓你輕鬆生成獨特故事。立即體驗 AI 文學的魅力，開啟你的創作之旅！"
 date = 2024-09-15T20:41:00.041Z
-updated = "2026-01-01T15:52:00.492Z"
+updated = "2026-01-20T14:15:32.162Z"
 draft = false
 aliases = [ "/2024/09/ai-trash-novel-generator.html" ]
 
@@ -15,6 +15,7 @@ banner = "banner.png"
 iscn = "iscn://likecoin-chain/CZQlYkJAHJ8aJ6F-1V6YnLlaBze4qZDKD_lGtdPjKNo/1"
 withAI = "本篇文章透過「[筆韻智匠 Quill Sage🖋️✨](https://www.coze.com/s/Zs8k6GASu/)」和 Claude 3.5 Sonnet 聯合創作"
 hot = true
+archive = "由於 [Coze 下架 Asynchronous operation 功能](https://www.coze.com/open/docs/guides/announcement_decommissioning)，本助手已無法正常運作。"
 
   [extra.comments]
   id = "agzbm5llx37i00u6"

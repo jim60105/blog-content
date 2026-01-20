@@ -2,7 +2,7 @@
 title = "科技人的寫作革命：我如何用 AI 撰寫部落格 —— 「筆韻智匠 Quill Sage 🖋️✨」"
 description = "在上個月，我的部落格多了一個秘密武器 —— 筆韻智匠 Quill Sage。這個 Coze AI 寫作助手不僅為我節省了大量時間，更重要的是，它幫助我以更精準、更流暢的方式表達我的想法。這篇文章闡述我的 AI 協作理念，並且示範它如何實際改善我的寫作流程。"
 date = 2024-09-17T19:17:00.016Z
-updated = 2024-09-20T05:57:46.326Z
+updated = "2026-01-20T14:21:55.728Z"
 draft = false
 aliases = [ "/2024/09/ai-quill-sage.html" ]
 
@@ -14,6 +14,7 @@ licenses = [ "GFDL 1.3" ]
 banner = "cover.png"
 iscn = "iscn://likecoin-chain/rkWkfxsXyWuM5BDzf1V_nsFob7Bldl-gFUeqQke1uNc/1"
 withAI = "本篇文章透過「[筆韻智匠 Quill Sage🖋️✨](https://www.coze.com/s/Zs8k6GASu/)」和 Claude 3.5 Sonnet 聯合創作"
+archive = "由於 [Coze 下架 Asynchronous operation 功能](https://www.coze.com/open/docs/guides/announcement_decommissioning)，本助手已無法正常運作。"
 
   [extra.comments]
   id = "agzbjfj1x37i00u4"

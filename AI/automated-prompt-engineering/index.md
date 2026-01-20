@@ -2,7 +2,7 @@
 title = "讓 AI 為你優化 AI：我的自動化提示詞工程神器 ——「Automated Prompt Engineering」"
 description = "探索 Automated Prompt Engineering 自動化提示詞工程助手。本文深入介紹這個工具如何運用 AI 來優化 AI，大幅提升提示詞品質和效率。了解其核心功能、使用方法和最佳實踐，掌握如何利用自動化技術來優化你的 AI 應用。無論你是 AI 開發新手還是經驗豐富的工程師都能有所收獲"
 date = 2024-09-22T18:52:00.011Z
-updated = 2024-09-23T13:12:39.573Z
+updated = "2026-01-20T14:23:42.896Z"
 draft = false
 aliases = [ "/2024/09/ai-automated-prompt-engineering.html" ]
 
@@ -15,6 +15,7 @@ banner = "preview.png"
 iscn = "iscn://likecoin-chain/KiZc2G9UmmW17_mYPhEh_CnnS_odvEiojeUuxxumqOc/1"
 featured = true
 withAI = "本篇文章透過「[筆韻智匠 Quill Sage🖋️✨](https://www.coze.com/s/Zs8k6GASu/)」和 Claude 3.5 Sonnet 聯合創作"
+archive = "由於 [Coze 下架 Asynchronous operation 功能](https://www.coze.com/open/docs/guides/announcement_decommissioning)，本助手已無法正常運作。"
 
   [extra.comments]
   id = "agz6en4ex37i00ml"

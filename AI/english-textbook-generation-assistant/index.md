@@ -2,7 +2,7 @@
 title = "從一小時到一分鐘：重塑父親的 AI 英文教材產製工作流 —— 「AI 英文教材產生助手」"
 description = "見證 AI 工作流如何將一小時的英文教材製作時間縮短為一鍵生成！本文完整揭露筆者如何在 Coze 平台上實作自動化教材產製工作流，並分享實際應用成效與技術實現細節。"
 date = "2025-01-27T23:14:42.442Z"
-updated = "2025-01-27T23:14:43.178Z"
+updated = "2026-01-20T14:22:50.775Z"
 
 [taxonomies]
 licenses = [ "GFDL 1.3" ]
@@ -12,6 +12,7 @@ tags = [ "AI" ]
 banner = "preview.png"
 withAI = "本篇文章透過「[筆韻智匠 Quill Sage🖋️✨](https://www.coze.com/s/Zs8k6GASu/)」和 Claude 3.5 Sonnet 聯合創作"
 iscn = "iscn://likecoin-chain/rz7P_N3CtgK0Cj1FzHqIcl1nwhxE4cabkLAArLgFplc/1"
+archive = "由於 [Coze 下架 Asynchronous operation 功能](https://www.coze.com/open/docs/guides/announcement_decommissioning)，本助手已無法正常運作。"
 
   [extra.preview]
   withAI = true

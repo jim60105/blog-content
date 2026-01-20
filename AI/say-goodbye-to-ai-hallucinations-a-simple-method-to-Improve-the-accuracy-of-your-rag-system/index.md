@@ -2,7 +2,7 @@
 title = "告別 AI 幻覺：一個簡單方法提升你的 RAG 系統精準度——「摘要索引與全文參考方法」"
 description = "這篇文章探討「摘要索引與全文參考方法」在 RAG 技術中改善「檢索結果不夠精準」和「Chunk 大小限制」兩個痛點，分析其優勢及實際案例。"
 date = 2024-08-31T14:04:00.015Z
-updated = 2024-09-11T10:15:21.869Z
+updated = "2026-01-20T14:21:19.948Z"
 draft = false
 aliases = [
   "/2024/08/say-goodbye-to-ai-hallucinations-a-simple-method-to-Improve-the-accuracy-of-your-rag-system.html"
@@ -17,6 +17,7 @@ banner = "preview.png"
 iscn = "iscn://likecoin-chain/glaRLMBBdqLeNQDKZFhhfLHA0aeZxUDYqpWwHs79_vc/2"
 featured = true
 withAI = "本篇文章透過「[筆韻智匠 Quill Sage🖋️✨](https://www.coze.com/s/Zs8k6GASu/)」和 Claude 3.5 Sonnet 聯合創作"
+archive = "由於 [Coze 下架 Asynchronous operation 功能](https://www.coze.com/open/docs/guides/announcement_decommissioning)，本文的助手範例已無法正常運作。"
 
   [extra.comments]
   id = "agzbkrq3x37i00u5"
