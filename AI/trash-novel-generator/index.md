@@ -7,7 +7,7 @@ draft = false
 aliases = [ "/2024/09/ai-trash-novel-generator.html" ]
 
 [taxonomies]
-tags = [ "AI", "Novel" ]
+tags = [ "AI", "Novel", "Coze" ]
 licenses = [ "GFDL 1.3" ]
 
 [extra]

@@ -7,7 +7,7 @@ draft = false
 aliases = [ "/2024/09/ai-automated-prompt-engineering.html" ]
 
 [taxonomies]
-tags = [ "AI" ]
+tags = [ "AI", "Coze" ]
 licenses = [ "GFDL 1.3" ]
 
 [extra]

@@ -6,7 +6,7 @@ updated = "2026-01-20T14:22:50.775Z"
 
 [taxonomies]
 licenses = [ "GFDL 1.3" ]
-tags = [ "AI" ]
+tags = [ "AI", "Coze" ]
 
 [extra]
 banner = "preview.png"

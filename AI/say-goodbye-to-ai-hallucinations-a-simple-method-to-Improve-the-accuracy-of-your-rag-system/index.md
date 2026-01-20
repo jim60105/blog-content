@@ -9,7 +9,7 @@ aliases = [
 ]
 
 [taxonomies]
-tags = [ "AI" ]
+tags = [ "AI", "Coze" ]
 licenses = [ "All Rights Reserved" ]
 
 [extra]

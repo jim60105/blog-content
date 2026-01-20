@@ -5,7 +5,7 @@ date = "2025-01-27T02:43:00.155Z"
 updated = "2026-01-01T15:56:54.343Z"
 
 [taxonomies]
-tags = [ "AI" ]
+tags = [ "AI", "Coze" ]
 licenses = [ "GFDL 1.3" ]
 
 [extra]
