@@ -2,7 +2,7 @@
 title = "影片下載轉檔筆記 (Youtube、Twitch、TwitCasting、Twitter Spaces 音訊空間、fc2 live、ffmpeg、yt-dlp)"
 description = "本文記述 Youtube 、 Twitch 、 TwitCasting 、 Twitter Spaces 音訊空間、fc2 live，下載和轉檔的常用工具和指令。yt-dlp和ffmpeg的常用指令介紹。 "
 date = 2021-12-31T18:15:00.151Z
-updated = "2026-01-26T09:42:35.073Z"
+updated = "2026-01-26T10:32:25.161Z"
 draft = false
 aliases = [ "/2022/01/youtube-download-ytdlp-ffmpeg.html" ]
 
@@ -20,16 +20,6 @@ hot = true
 
 本文記述下載 Youtube 、 Twitch 、 TwitCasting 、 Twitter Spaces 音訊空間，和影片轉檔的幾個常用工具和指令
 
-> 延伸閱讀
->
-> ---
-> 關於 **監控、自動下載** 請見這篇  
-> [\[Docker\] 直播監控、自動影片下載筆記 ( Youtube 、 Twitch 、 TwitCasting 、 Twitter Spaces 音訊空間)](@/Livestream/auto-monitor-youtube-download/index.md)
->
-> ---
-> 你可能也想看  
-> [讓軟體工程師告訴你，我如何讓我的 V 豚 DD 生活更加舒適](@/Livestream/my-vtuber-dd-life/index.md)
-
 <!-- more -->
 
 ## 下載: yt-dlp
@@ -40,9 +30,25 @@ hot = true
 | 下載點 | <https://github.com/yt-dlp/yt-dlp/releases/latest> |
 | Docker | <https://github.com/jim60105/docker-yt-dlp> |
 
-> yt-dlp 依賴於 ffmpeg 執行，請同時[安裝 ffmpeg](#ffmpeg)
+yt-dlp 分家自 youtube-dl，它涵蓋 youtube-dl 的所有功能，並且有著更多的功能，更多的 patch，更活躍的開發社群。 除了 Youtube 外它也支援很多其它影片站，包括 niconico、twitch、twitcasting、twitter、facebook，[這裡是完整清單](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md)。此處是完整的[說明書](https://github.com/yt-dlp/yt-dlp)、[輸出檔名說明](https://github.com/yt-dlp/yt-dlp#output-template)、[格式指定說明](https://github.com/yt-dlp/yt-dlp#format-selection)。
 
-yt-dlp 分家自 youtube-dl，它涵蓋 youtube-dl 的所有功能，並且有著更多的功能，更多的 patch，更活躍的開發社群。 除了 Youtube 外它也支援很多其它影片站，包括 niconico、twitch、twitcasting、twitter、facebook，[這裡是完整清單](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md)。 此處是完整的[說明書](https://github.com/yt-dlp/yt-dlp)、[輸出檔名說明](https://github.com/yt-dlp/yt-dlp#output-template)、[格式指定說明](https://github.com/yt-dlp/yt-dlp#format-selection)。
+### 安裝依賴項目
+
+{% alert(important=true) %}
+若使用 yt-dlp 來處理 YouTube 下載，請安裝以下依賴以確保功能運作
+{% end %}
+
+- [ffmpeg](https://ffmpeg.org): 本文後面也有介紹的轉檔工具
+- [PO Token Provider](https://github.com/jim60105/bgutil-ytdlp-pot-provider-rs):  
+  來源證明（Proof of Origin）權杖是一個參數，YouTube 要求某些用戶端在發送請求時必須附帶此參數。若未提供，請求可能會返回 HTTP 403 錯誤，或導致帳號或 IP 位址被封鎖。約從 2025 年底開始發現，YouTube 幾乎在所有情況都要求提供 PO 權杖。
+
+  PO Token Provider 是一個外部程式，yt-dlp 會呼叫它來取得 PO 權杖。簡而言之，它會讓 yt-dlp 看起來更像是合法的 YouTube 用戶端。[詳細說明](https://github.com/yt-dlp/yt-dlp/wiki/PO-Token-Guide)
+
+  順帶一提，連結的 Rust 版 PO Token Provider 是我寫的 😎
+- External JavaScript runtime: [Deno](https://deno.com/), [Node](https://nodejs.org/zh-tw), [QuickJS](https://bellard.org/quickjs/), [Bun](https://bun.com/)  
+  自 2025.11.12 版本之來， yt-dlp 開始使用 JavaScript 來處理 YouTube 的某些加密和驗證機制。這需要一個外部的 JavaScript 執行環境來運行這些腳本。目前支援的 JavaScript 執行環境包括 Deno、Node.js、QuickJS 和 Bun。[相關公告](https://github.com/yt-dlp/yt-dlp/issues/15012)
+
+  我推薦 [Deno](https://deno.com/)。
 
 ### 列出所有影片格式
 
@@ -82,13 +88,13 @@ yt-dlp -f 137+251 [url]
 <details open="">
 <summary>取得 cookies file 的方法</summary>
 
-* 安裝瀏覧器擴充功能，以匯出 Netscape HTTP Cookie File
-  * Chrome: [Get cookies.txt LOCALLY](https://chrome.google.com/webstore/detail/get-cookiestxt-locally/cclelndahbckbenkjhflpdbgdldlbecc)
-  * Firefox: [cookies.txt](https://addons.mozilla.org/zh-TW/firefox/addon/cookies-txt/)
-* {{cr(body="開啟無痕視窗！")}} 原因見[此 issue](https://github.com/yt-dlp/yt-dlp/issues/8227#issuecomment-1793513579)
-* 瀏覧至 [Youtube 網頁](https://www.youtube.com/)，登入你的帳號
-* 以擴充功能匯出 <mark>youtube.com</mark> 網域的所有 cookie
-* 將匯出之 cookie 檔案重命名為 `cookies.txt`
+- 安裝瀏覧器擴充功能，以匯出 Netscape HTTP Cookie File
+  - Chrome: [Get cookies.txt LOCALLY](https://chrome.google.com/webstore/detail/get-cookiestxt-locally/cclelndahbckbenkjhflpdbgdldlbecc)
+  - Firefox: [cookies.txt](https://addons.mozilla.org/zh-TW/firefox/addon/cookies-txt/)
+- {{cr(body="開啟無痕視窗！")}} 原因見[此 issue](https://github.com/yt-dlp/yt-dlp/issues/8227#issuecomment-1793513579)
+- 瀏覧至 [Youtube 網頁](https://www.youtube.com/)，登入你的帳號
+- 以擴充功能匯出 <mark>youtube.com</mark> 網域的所有 cookie
+- 將匯出之 cookie 檔案重命名為 `cookies.txt`
 
 {% alert(caution=true) %}
 此 cookies file 包含了你的 Youtube 登入授權  
@@ -101,12 +107,13 @@ yt-dlp -f 137+251 [url]
 yt-dlp --cookies "cookies.txt" [url]
 ```
 
-### 帶入**瀏覧器中的** cookie 下載，以下載需要登入才能瀏覧的影片
+### 直接使用瀏覧器中的 cookie，以下載需要登入才能瀏覧的影片
 
 {% alert(warning=true) %}
-此功能目前故障中，[詳請](https://github.com/yt-dlp/yt-dlp/issues/10927)
+此功能自 2024 年故障到現在，詳請見此: <https://github.com/yt-dlp/yt-dlp/issues/10927>
 {% end %}
 
+<details><summary>說明</summary>
 yt-dlp 也能直接從你的瀏覧器扒出 cookie，以使用相關網站的登入狀態。  
 支援的瀏覧器: brave， chrome， chromium， edge， firefox， opera， safari， vivaldi
 
@@ -117,6 +124,8 @@ yt-dlp 也能直接從你的瀏覧器扒出 cookie，以使用相關網站的登
 ```bash
 yt-dlp --cookies-from-browser chrome [url]
 ```
+
+</details>
 
 ### 在影片檔嵌入描述和影片縮圖
 
@@ -206,7 +215,7 @@ yt-dlp --live-from-start [url]
 ## 下載: ytarchive
 
 {% alert(caution=true) %}
-ytarchive 已死，作者說的:  
+ytarchive 已死，作者說的：  
 <https://github.com/Kethsar/ytarchive/issues/272#issuecomment-3761037556>
 {% end %}
 
@@ -254,6 +263,11 @@ ytarchive -w -o "%(upload_date)s %(title)s (%(id)s)" [url] best
 
 ## 下載: Youtube Segment Downloader (Youtube 片段下載器)
 
+{% alert(note=true) %}
+這是我寫的。  
+此工具自 2025 年 8 月起停止維護，原因是我個人不用 Windows 了。
+{% end %}
+
 [![Youtube Segment Downloader](YoutubeSegmentDownloader.png)](YoutubeSegmentDownloader.png)
 
 | | |
@@ -261,8 +275,7 @@ ytarchive -w -o "%(upload_date)s %(title)s (%(id)s)" [url] best
 | GitHub | <https://github.com/jim60105/YoutubeSegmentDownloader> |
 
 Youtube 片段下載器，指定秒數而不用下載整部影片  
-適合任何需要從 Youtube 下載影片段的人  
-{{ch(body="這是我寫的")}}
+適合任何需要從 Youtube 下載影片段的人
 
 ## 下載: Streamlink
 
@@ -289,7 +302,7 @@ streamlink --twitch-disable-ads [url] "best"
 | Docker | <https://github.com/jim60105/docker-twitcasting-recorder> |
 
 **這是 twitcasting 專用串流錄影工具**  
-~~錄 twitcasting 這事我試了能我找到的所有工具，而這是唯一一個能運作的~~ ← 這是兩年前的經驗，現在 yt-dlp 能正常運行
+~~錄 twitcasting 這事我試了能我找到的所有工具，而這是唯一一個能運作的~~ ← 這是 2022 年之前的經驗，現在 yt-dlp 能正常運行
 
 {% alert(note=true) %}
 {{cr(body="這是錄串流專用的")}}，如果是下載既有影片請用 yt-dlp
@@ -433,8 +446,8 @@ ffmpeg -i in.mp4 -map 0 -map -0:2 -c copy out.mp4
 
 > 更多有關 negative mapping 的範例請見
 >
-> * [How to remove one track from video file using ffmpeg? - Stack Overflow](https://stackoverflow.com/a/38162168)
-> * [ffmpeg Documentation](https://ffmpeg.org/ffmpeg.html#Advanced-options)
+> - [How to remove one track from video file using ffmpeg? - Stack Overflow](https://stackoverflow.com/a/38162168)
+> - [ffmpeg Documentation](https://ffmpeg.org/ffmpeg.html#Advanced-options)
 
 ### mp4 faststart {#mp4-faststart}
 
@@ -471,8 +484,8 @@ ffmpeg -i in.mkv -c copy -cues_to_front yes out.mkv
 
 > 詳細說明請見
 >
-> * [Seeking - FFmpeg wiki](https://trac.ffmpeg.org/wiki/Seeking#Cuttingsmallsections)
-> * [ffmpeg Documentation](https://ffmpeg.org/ffmpeg.html#toc-Main-options)
+> - [Seeking - FFmpeg wiki](https://trac.ffmpeg.org/wiki/Seeking#Cuttingsmallsections)
+> - [ffmpeg Documentation](https://ffmpeg.org/ffmpeg.html#toc-Main-options)
 
 {% alert(important=true) %}
 未重新編碼時，會因為關鍵幀位置導致起始畫面凍結，以及影片長度不準確  
@@ -495,8 +508,8 @@ ffmpeg -i in.mp4 -ss 00:01:00 -to 00:02:00 -c copy out.mp4
 
 ### 轉檔為 Youtube 的建議格式
 
-> * [上傳影片時建議使用的編碼設定 - YouTube 說明](https://support.google.com/youtube/answer/1722171?hl=zh-Hant)
-> * [Encode\_YouTube - FFmpeg](https://trac.ffmpeg.org/wiki/Encode/YouTube)
+> - [上傳影片時建議使用的編碼設定 - YouTube 說明](https://support.google.com/youtube/answer/1722171?hl=zh-Hant)
+> - [Encode\_YouTube - FFmpeg](https://trac.ffmpeg.org/wiki/Encode/YouTube)
 
 影片重編碼
 
@@ -512,8 +525,8 @@ ffmpeg -i in.mkv -c:v libx264 -preset slow -crf 18 -c:a aac -b:a 192k -pix_fmt y
 
 ### 把多個影片一個接一個的合併在一起
 
-> * [h.264 - How to concatenate two MP4 files using FFmpeg - Stack Overflow](https://stackoverflow.com/a/11175851/8706033)
-> * [Concatenate - FFmpeg](https://trac.ffmpeg.org/wiki/Concatenate)
+> - [h.264 - How to concatenate two MP4 files using FFmpeg - Stack Overflow](https://stackoverflow.com/a/11175851/8706033)
+> - [Concatenate - FFmpeg](https://trac.ffmpeg.org/wiki/Concatenate)
 
 有三種選擇，**如果不確定要使用哪種方法，請嘗試使用 concat demuxer。**
 
@@ -562,5 +575,6 @@ mkclean in.mkv out.mkv
 >
 > ---
 >
-> * [雲端硬碟影片檔串流播放之研究手札 (OneDrive 、 Google Drive 、 MEGA)](@/Livestream/streaming-video-files-in-network-space/index.md)
-> * [\[Docker\] 直播監控、自動影片下載筆記 ( Youtube 、 Twitch 、 TwitCasting 、 Twitter Spaces 音訊空間)](@/Livestream/auto-monitor-youtube-download/index.md)
+> - [雲端硬碟影片檔串流播放之研究手札 (OneDrive 、 Google Drive 、 MEGA)](@/Livestream/streaming-video-files-in-network-space/index.md)
+> - [\[Docker\] 直播監控、自動影片下載筆記 ( Youtube 、 Twitch 、 TwitCasting 、 Twitter Spaces 音訊空間)](@/Livestream/auto-monitor-youtube-download/index.md)
+> - [讓軟體工程師告訴你，我如何讓我的 V 豚 DD 生活更加舒適](@/Livestream/my-vtuber-dd-life/index.md)
