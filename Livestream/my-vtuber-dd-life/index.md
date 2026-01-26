@@ -4,7 +4,7 @@ description = """
 我大約從2020年中開始接觸 Vtuber ，然後就這樣陷入坑裡直到現在。
 這篇文章會介紹我如何透過一些小工具豐富我的DD生活。"""
 date = 2022-12-27T19:56:00.079Z
-updated = 2024-03-31T16:16:21.346Z
+updated = "2026-01-26T09:17:13.200Z"
 draft = false
 aliases = [ "/2022/12/my-vtuber-dd-life.html" ]
 
@@ -156,7 +156,7 @@ Youtube 上缺功能? 自己寫就好啦！
 
 不建議長期啟動它，會造成直播逐漸脫離最新進度，在要用時再開啟就好。
 
-直播主常常會鎖時間軸不讓你往回拉，以備在發生事故時能降低風險，但其實**鎖時間軸並不是安全性操作**。防君子不防小人，修改前端就能破解的東西毫無安全性可言，**而且還有能[從直播起始錄影](https://github.com/Kethsar/ytarchive)的工具喔！**
+直播主常常會鎖時間軸不讓你往回拉，以備在發生事故時能降低風險，但其實**鎖時間軸並不是安全性操作**。防君子不防小人，修改前端就能破解的東西毫無安全性可言，**而且還有能[從直播起始錄影](@/Livestream/youtube-download-ytdlp-ffmpeg/index.md#live-from-start)的工具喔！**
 
 {% alert(caution=true) %}
 如果有 Vtuber 看見了請記住 —— 萬一不幸出事故，請你{{cr(body="立刻")}}把直播切掉，並且到 Youtube 後台{{cr(body="刪檔")}}。從出事到刪檔的空窗時間 = 影片備份時間，完全不存在鎖了回放很安全這回事。
@@ -254,12 +254,6 @@ Holodex 可以做到複雜的版面設定，而且還能做音訊管理。
 >
 > ---
 > [琳的備忘手札: 影片下載轉檔筆記 (Youtube 、 Twitch 、 TwitCasting 、 Twitter Spaces 音訊空間 、 ffmpeg、yt-dlp)](@/Livestream/youtube-download-ytdlp-ffmpeg/index.md)
-
-| | |
-| ------- | ---------------------------------------------------------------------------------- |
-| 存檔下載| [Youtube Segment Downloader](https://github.com/jim60105/YoutubeSegmentDownloader) |
-| 直播中從頭下載 | [ytarchive](https://github.com/Kethsar/ytarchive)|
-| 其它| [yt-dlp](https://github.com/yt-dlp/yt-dlp) |
 
 ## 監控下載工具
 

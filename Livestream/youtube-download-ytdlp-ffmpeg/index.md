@@ -2,7 +2,7 @@
 title = "影片下載轉檔筆記 (Youtube、Twitch、TwitCasting、Twitter Spaces 音訊空間、fc2 live、ffmpeg、yt-dlp)"
 description = "本文記述 Youtube 、 Twitch 、 TwitCasting 、 Twitter Spaces 音訊空間、fc2 live，下載和轉檔的常用工具和指令。yt-dlp和ffmpeg的常用指令介紹。 "
 date = 2021-12-31T18:15:00.151Z
-updated = 2023-12-23T18:45:04.951Z
+updated = "2026-01-26T09:42:35.073Z"
 draft = false
 aliases = [ "/2022/01/youtube-download-ytdlp-ffmpeg.html" ]
 
@@ -38,6 +38,7 @@ hot = true
 | --- | --- |
 | GitHub | <https://github.com/yt-dlp/yt-dlp> |
 | 下載點 | <https://github.com/yt-dlp/yt-dlp/releases/latest> |
+| Docker | <https://github.com/jim60105/docker-yt-dlp> |
 
 > yt-dlp 依賴於 ffmpeg 執行，請同時[安裝 ffmpeg](#ffmpeg)
 
@@ -175,13 +176,17 @@ yt-dlp --youtube-skip-dash-manifest [url]
 yt-dlp --prefer-free-formats [url]
 ```
 
-### 直播由起始下載
+### 直播由起始下載 {#live-from-start}
 
-對，就是和 ytarchive 一樣的功能。
+從該直播的起始點下載，而不是從現時點開始下載。無視直播主是否啟用 DVR 功能。(DVR 功能不是安全性功能！)
 
-> 不知道 yt-dlp 哪裡沒處理好，約 1/5 的機率它不會合併影片或是殘留碎片檔案。  
-> 別用這個，用下一小節介紹的 ytarchive。  
-> <https://github.com/yt-dlp/yt-dlp/issues/2137>
+但不知道 yt-dlp 哪裡沒處理好，約 1/5 的機率它不會合併影片或是殘留碎片檔案。  
+<https://github.com/yt-dlp/yt-dlp/issues/2137>
+
+{% alert(caution=true) %}
+`--live-from-start` 和 `cookies.txt` 同時使用時會出現 403 錯誤：  
+<https://github.com/yt-dlp/yt-dlp/issues/15274>
+{% end %}
 
 ```bash
 yt-dlp --live-from-start [url]
@@ -200,6 +205,13 @@ yt-dlp --live-from-start [url]
 
 ## 下載: ytarchive
 
+{% alert(caution=true) %}
+ytarchive 已死，作者說的:  
+<https://github.com/Kethsar/ytarchive/issues/272#issuecomment-3761037556>
+{% end %}
+
+<details><summary>ytarchive 介紹</summary>
+
 | | |
 | --- | --- |
 | GitHub | <https://github.com/Kethsar/ytarchive> |
@@ -207,10 +219,6 @@ yt-dlp --live-from-start [url]
 | Docker | <https://github.com/jim60105/docker-ytarchive> |
 
 如果直播已開始，且你預測直播在結束後會直接砍檔，ytarchive 就能派上用場了！ yt-dlp 在錄直播時是從現時點開始錄，你會失去已過去的直播部份，而 **ytarchive 是由直播的開頭起始下載。**
-
-> yt-dlp 在 2021/12/25 實作了 --live-from-start ，基本上完全取代了 ytarchive 的功能。  
-> 但不知道 yt-dlp 哪裡沒處理好，約 1/5 的機率它不會合併影片或是殘留碎片檔案。  
-> 這讓 ytarchive 留下了一條生路，ytarchive 表現非常穩定
 
 ### 下載直播
 
@@ -241,6 +249,8 @@ ytarchive -w --add-metadata -t [url] best
 ```bash
 ytarchive -w -o "%(upload_date)s %(title)s (%(id)s)" [url] best
 ```
+
+</details>
 
 ## 下載: Youtube Segment Downloader (Youtube 片段下載器)
 
