@@ -35,17 +35,17 @@ hot = true
 
 <iframe class="youtube-embed" src="https://www.youtube.com/embed/TUx0XUa4Smw?si=bAbZiG-jSWB3psjh&amp;clip=Ugkxj-LnOl22BIRSc8Eo9BDHUfFZx6VTSOqW&amp;clipt=EKaPkAMYhuSTAw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
-{% chat(speaker="阿奈 𝒜𝒩𝒶𝒾 ", avatar="anainai.webp", color="rgb(233 161 177)") %} 我想要一個天氣的啊，天氣的很酷誒，你不覺得嗎 {% end %}
+{% chat(speaker="anainai") %} 我想要一個天氣的啊，天氣的很酷誒，你不覺得嗎 {% end %}
 
 {% chat(speaker="jim") %} 天氣的到底誰會需要 {% end %}
 
-{% chat(speaker="阿奈 𝒜𝒩𝒶𝒾 ", avatar="anainai.webp", color="rgb(233 161 177)") %}
+{% chat(speaker="anainai") %}
 可是...可是你們不覺得很酷嗎！...可是很酷誒！
 
 你想你想你想你想你想，在看主播的時候旁邊還可以有一個天氣預報，而且主播常常都開台到晚上十二點，你就可以看明天的天氣耶，不覺得很酷嗎？
 {% end %}
 
-{% chat(speaker="阿奈 𝒜𝒩𝒶𝒾 ", avatar="anainai.webp", color="rgb(233 161 177)") %} ...不酷嗎？ {% end %}
+{% chat(speaker="anainai") %} ...不酷嗎？ {% end %}
 
 {% chat(speaker="jim") %} 太酷了吧 {% end %}
 
